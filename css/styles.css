@@ -1,0 +1,12 @@
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.image-container{
+  width:clamp(200px, 25%, 600px);
+}
+
+.highlight{
+  font-weight: bold;
+}
