@@ -1060,8 +1060,9 @@ function createCMExp() {
 
 function main() {
   const cmexpCalibration = createCMCalibration();
-  //const cmexpDiv = createCMExp();
+  const cmexpDiv = createCMExp();
   d3.select("#anim-cmexp-calibration").node().append(cmexpCalibration);
+  d3.select("#anim-cmexp").node().append(cmexpDiv);
 
   MathJax.typeset();
 }
