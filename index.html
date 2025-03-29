@@ -33,6 +33,8 @@
     <script type="module" src="js/anim-cmf.js"></script>
     <script type="module" src="js/anim-tristimulus.js"></script>
     <script type="module" src="js/anim-cmf2graph3d.js"></script>
+    <script type="module" src="js/anim-from3dTo2d.js"></script>
+    <script type="module" src="js/anim-rgb2xyz.js"></script>
   </head>
   <body>
     <h1>Chromaticity Diagram</h1>
@@ -810,5 +812,190 @@
       chromaticity.
     </p>
     <div id="isochromatic-line-animation"></div>
+    <p>
+      Since you can increase the luminance indefinitely, there is actually no
+      boundaries to be able to represent the Human Visual Gamut. The cone shape
+      envelope we see is only a representation of equal-energy colors. However,
+      the chromaticity of the Human Visual has boundaries. You'll better
+      visualize those boundaries in the next section but we can already
+      understand that because of those defined boundaries, we use the
+      chromaticity diagram as a representation of the Human Visual Gamut.
+    </p>
+    <p>
+      So we could say that the 3d volume is one sample of the Human Visual Gamut
+      in a 3D space where each axis represent the amount of a primary light
+      composing a color. Remember that the data I used are from the CIE. The
+      actual primaries used for this representation are the Red at 700nm, Green
+      at 546.1nm and Blue at 435.8nm. And the sum of one unit of each primary
+      will match the reference white E. Those primaries and reference white
+      defined the 3D color space called the
+      <span class="highlight">CIE 1931 RGB color space</span> (which is still
+      neither the sRgb nor AdobeRGB color space!)
+    </p>
+    <h3>Color Matching Experiment Summary</h3>
+    <p>
+      Here is a quick recap on the different step of the color matching
+      experiment. By asking humans to match the spectral colors, we ended up by
+      being able to represent the colors by three tristimulus values in a 3D in
+      a color space called the CIE1931 RGB color space.
+    </p>
+    <div class="image-container">
+      <img
+        src="images/cmexp-summary.png"
+        alt="Color Matching Experiment Summary"
+      />
+    </div>
+    <ol></ol>
+    <li>
+      <b>Calibration</b>: this step allows to define what is a
+      <i>unit of primary</i> in term of a real measure of power to match the
+      <span class="highlight">Reference White</span> .
+    </li>
+    <li>
+      <b>Test Light Matching</b>: this step allows to find the
+      <span class="highlight"></span>chromaticity coefficients which are
+      computed from the amount of primaries required to match the test light at
+      different wavelength.
+    </li>
+    <li>
+      <b>Creation of the Color Matching Function (CMF)</b>: Introduction of the
+      concept of <span class="highlight">Luminance</span> which leads to the
+      notion of <span class="highlight">Luminance Coefficients</span> and
+      <span class="highlight">photopic curve \(V(\lambda)\)</span>. With the
+      chromaticity, they allows to compute the
+      <span class="highlight">Color Matching Functions (CMF)</span>. They
+      represent the amount of primary required to match a spectral color of 1
+      Watt.
+    </li>
+    <li>
+      <b
+        >Definition of a color by its
+        <span class="highlight">tristimulus values</span></b
+      >: triplet of value representing the amount of primaries needed to create
+      a color of a specific SPD. They can be computed from the CMF and the SPD
+      of a color. This triplet is a mathematical representation of a color.
+      Therefore we can now represent them in a 3D space, which is the first
+      color space called the CIE1931 RGB color space.
+    </li>
+
+    <p>
+      The next question is: how is the CIE1931 color space related to the
+      horseshoe-shape chromaticity diagram? It is a 2d graph, not a 3d and the
+      axis are x and y, not R, G nor B!
+    </p>
+
+    <h2>The Chromaticity Diagram (finally)</h2>
+    <p>
+      So far we've been able to understand that a color can be represented by
+      its chromaticity coefficients and its luminance, and all the color a human
+      can perceive are represented in a 3D volume with 3 axes R, G and B. Now
+      it's good to recall the relationship between the different concepts
+      through their mathematical notation.
+    </p>
+    <ul>
+      <li>\(r, g, b\) : chromaticity coefficients</li>
+      <li>\(\bar{r},\bar{g},\bar{b}\) : Color Matching Functions</li>
+      <li>\(R, G, B\) : tristimulus values of a color</li>
+      <li>\(\mathcal{R},\mathcal{G},\mathcal{B}\) : unit of Primary</li>
+    </ul>
+    <p>
+      A color C represented by its SPD \(\Phi(\lambda)\) is fully matched in
+      term of chromaticity and luminance using the tristimulus values:
+    </p>
+    <div class="block-equation">
+      $$ C \triangleq R\mathcal{R}\hat{+}G\mathcal{G}\hat{+}B\mathcal{B} $$
+    </div>
+    where each tristimulus value are
+    <div class="block-equation">
+      $$ R=\int{\Phi(\lambda)\bar{r}(\lambda)d\lambda} \\
+      G=\int{\Phi(\lambda)\bar{g}(\lambda)d\lambda} \\
+      B=\int{\Phi(\lambda)\bar{b}(\lambda)d\lambda} $$
+    </div>
+    <p>
+      And from these tristimulus values, we can deduce the chromaticity
+      coefficients because they are the relative amount primaries needed to
+      produce a certain amount of this color C. In addition, they are defined
+      such that their sum = 1.
+    </p>
+    <div class="block-equation">
+      $$ r = \frac{R}{R+G+B} \\ g = \frac{G}{R+G+B} \\ b = 1-r-g $$
+    </div>
+    <p>
+      If we represent the chromaticity coefficients in the RGB space, those
+      points $r, g, b$ lies on the plane R+G+B =1, which is equivalent to
+      project all the 3D visual gamut points onto this plane, along their line
+      of constant chromaticity. By omitting b which can be found using r and g,
+      you could visualize this plane in a 2D graph rg. This animation shows you
+      the different projections. To make it the animation clearer, only the
+      spectral colors are shown.
+    </p>
+    <div id="anim-RgbFrom3dTo2d"></div>
+    <p>
+      And there you have it, the chromaticity diagram. But it's still different
+      than the one in the introduction! Be patient, we are almost there. This
+      chromaticity diagram is expressed in the rg-plane while the one we are
+      looking for is in the xy-plane. However, the xy-chromaticity diagram is
+      actually the same this rg-chromaticity diagram but coming from a other
+      color space created by CIE, the CIE1931 XYZ color space, which is a simple
+      linear transformation of the CIE1931 RGB color space. Why not use the
+      CIE1931 RGB? Because CIE wanted a standard color space where the colors
+      could be expressed only with positive values. On top of that, they wanted
+      one of the dimensions to represent the luminance.
+    </p>
+    <h3>From CIE1931 RGB to CIE1931 XYZ</h3>
+    <p>
+      Remembering a bit of linear algebra, you know that to transform the
+      coordinates of a point into another coordinate system, you need a
+      transformation matrix that maps the axis of one of the system to the other
+      one. Mathematically, the tristimulus values (R, G, B) in the RGB space
+      defined by the three axis $(\mathcal{R}, \mathcal{G}, \mathcal{B})$ (the
+      primaries) system can be expressed in the coordinate system defined by
+      three other axis\(\mathcal{X},\mathcal{Y},\mathcal{Z}\) and have
+      coordinate (X, Y, Z).
+    </p>
+    <div class="block-equation">
+      $$ \begin{bmatrix} X \\ Y \\ Z \end{bmatrix} = M \begin{bmatrix} R \\ G \\
+      B \end{bmatrix} $$
+    </div>
+    with
+    <div class="block-equation">
+      $$ M = \begin{bmatrix} 0.49 & 0.31 & 0.20 \\ 0.17697 & 0.81240 & 0.01063
+      \\ 0.00 & 0.01 & 0.99 \end{bmatrix} $$
+    </div>
+    <p>
+      How did we find this matrix? and how was this new coordinate system X, Y,
+      Z chosen? You'll find all the details <a href="">here</a>
+    </p>
+    <p>
+      The important point is that in this new system, all tristimulus values
+      will be positive and the Y component represents the luminance of the
+      color. In the XYZ space using primaries
+      \(\mathcal{X},\mathcal{Y},\mathcal{Z}\), a color (chromaticity and
+      luminance) of coordinates \((X, Y,Z)\) is now expressed as
+    </p>
+    <div class="block-equation">
+      $$ C \triangleq X\mathcal{X}\hat{+}Y\mathcal{Y}\hat{+}Z\mathcal{Z} $$
+    </div>
+    <p>
+      And again, the chromaticity coefficients are the relative amount of
+      primaries chosen such that their sum = 1.
+    </p>
+    <div class="block-equation">
+      $$ x = \frac{X}{X+Y+Z} \\ y = \frac{Y}{X+Y+Z} \\ z = 1-x-y $$
+    </div>
+    <p>
+      Similarly as we did in the CIE1931 RGB space, we can plot the (X, Y, Z)
+      tristimulus values simply by transforming the tristimulus (R, G, B) thanks
+      to the matrix M.
+    </p>
+    <p>
+      f we project those points along their line of isochromaticity on the plane
+      X+Y+Z=1, we obtain the chromaticity coefficients (x, y, z). Then by
+      omitting z which is dependent of x and y, we obtain on the XY-plane the
+      famous horseshoe shape diagram. If we transfer those coordinates in a 2d
+      graph with x and y label, we finally obtain our
+      <span class="highlight">xy-chromaticity diagram</span>!
+    </p>
+    <div id="anim-cieRGBtoXYZ"></div>
   </body>
 </html>

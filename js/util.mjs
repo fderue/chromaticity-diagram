@@ -296,9 +296,9 @@ export async function cmptLinearRGBfromXYZ() {
   });
 
   const XYZtoRGB_M = [
-    [3.2404542, -1.5371385, -0.4985314],
-    [-0.969266, 1.8760108, 0.041556],
-    [0.0556434, -0.2040259, 1.0572252],
+    [2.3706743, -0.9000405, -0.4706338],
+    [-0.513885, 1.4253036, 0.0885814],
+    [0.0052982, -0.0146949, 1.0093968],
   ];
 
   const LinearRGB = CIE_XYZ_CMFs.map((d) => {
@@ -383,11 +383,10 @@ export function cvtXYZtoRGB({ X, Y, Z }) {
   }
 
   const XYZtoRGB_M = [
-    [3.2404542, -1.5371385, -0.4985314],
-    [-0.969266, 1.8760108, 0.041556],
-    [0.0556434, -0.2040259, 1.0572252],
+    [2.3706743, -0.9000405, -0.4706338],
+    [-0.513885, 1.4253036, 0.0885814],
+    [0.0052982, -0.0146949, 1.0093968],
   ];
-
   const LinRGBVec = math.multiply(XYZtoRGB_M, [X, Y, Z]);
   const displayRGBVec = LinRGBVec.map((v) => correctGamma(v) * 255);
   return { R: displayRGBVec[0], G: displayRGBVec[1], B: displayRGBVec[2] };
@@ -410,14 +409,25 @@ export function cvtXYZtoLinearRGB({ X, Y, Z }) {
   }
 
   const XYZtoRGB_M = [
-    [3.2404542, -1.5371385, -0.4985314],
-    [-0.969266, 1.8760108, 0.041556],
-    [0.0556434, -0.2040259, 1.0572252],
+    [2.3706743, -0.9000405, -0.4706338],
+    [-0.513885, 1.4253036, 0.0885814],
+    [0.0052982, -0.0146949, 1.0093968],
   ];
 
   const LinRGBVec = math.multiply(XYZtoRGB_M, [X, Y, Z]);
 
   return { R: LinRGBVec[0], G: LinRGBVec[1], B: LinRGBVec[2] };
+}
+
+export function cvtLinearRGBtoXYZ({ R, G, B }) {
+  const RGBtoXYZ_M = [
+    [0.4887180,  0.3106803,  0.2006017],
+    [0.1762044,  0.8129847,  0.0108109],
+    [0.0000000,  0.0102048,  0.9897952]
+  ];
+  const XYZ = math.multiply(RGBtoXYZ_M, [R, G, B]);
+
+  return { X: XYZ[0], Y: XYZ[1], Z: XYZ[2] };
 }
 
 export function cvt_xyYtoXYZ({ x, y, Y }) {
@@ -736,7 +746,7 @@ export class Slider {
         sliderRect.width;
       this.thumbText.style.left = `${thumbPosition}px`;
       this.thumbText.textContent = this.sliderInput.value; // Update displayed value
-    }
+    };
     requestAnimationFrame(() => updateThumbText());
     this.sliderInput.addEventListener("input", updateThumbText);
   }
@@ -748,29 +758,28 @@ export class Slider {
   setMax(value) {
     this.sliderInput.max = value;
     this.maxValueText.textContent = value.toFixed(2);
-    this.setValue(value)
+    this.setValue(value);
   }
 
   setMin(value) {
     this.sliderInput.min = value;
     this.minValueText.textContent = value.toFixed(2);
-    this.setValue(value)
+    this.setValue(value);
   }
 
-  setValue(value){
-    if(this.sliderInput.min<=value && value<=this.sliderInput.max){
+  setValue(value) {
+    if (this.sliderInput.min <= value && value <= this.sliderInput.max) {
       this.sliderInput.value = value;
       this.thumbText.textContent = value.toFixed(2);
-      this.sliderInput.dispatchEvent(new Event('input'));
+      this.sliderInput.dispatchEvent(new Event("input"));
     }
   }
 
-  get value(){
+  get value() {
     return this.sliderInput.value;
   }
 
-  setDisable(value){
+  setDisable(value) {
     this.sliderInput.disabled = value;
   }
-
 }
