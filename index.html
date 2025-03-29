@@ -778,5 +778,37 @@
       Gamut.
     </p>
     <div id="interpolate-tristimulus"></div>
+    <p>
+      Note that this envelope of generated color from the spectral colors are
+      colors that would be perceived by a light emitting 1 watt! If you remember
+      the general color matching equation using the tristimulus values
+    </p>
+    <div class="block-equation">
+      $$ C \triangleq R\mathcal{R}\hat{+}G\mathcal{G}\hat{+}B\mathcal{B} $$
+    </div>
+    <p>
+      If the luminance correspond to a light emitting 1 one of power, we can use
+      the CMF as tristimulus values to write
+    </p>
+    <div class="block-equation">
+      $$ C_1 \triangleq
+      \bar{r}\mathcal{R}\hat{+}\bar{g}\mathcal{G}\hat{+}\bar{b}\mathcal{B} $$
+    </div>
+    <p>
+      and for any other luminance $l$, you could simply scale each coefficient
+      with the same factor $s$ to keep the same chromaticity
+    </p>
+    <div class="block-equation">
+      $$ C_l = sC_1 \triangleq
+      s\bar{r}\mathcal{R}+s\bar{g}\mathcal{G}+s\bar{b}\mathcal{B} $$
+    </div>
+    <p>
+      Varying $s$ will vary the luminance of the color but keep the same
+      chromaticity. Graphically, changing the luminance while keeping the
+      chromaticity boils down to moving the tristimulus values on the
+      <span class="highlight">isochromatic line</span>, a line of constant
+      chromaticity.
+    </p>
+    <div id="isochromatic-line-animation"></div>
   </body>
 </html>

@@ -1,6 +1,117 @@
-import d3 from "./d3-loader.js"
+import d3 from "./d3-loader.js";
 import * as util from "./util.mjs";
 const [CMFData, ,] = await util.createCMFs();
+
+class Equation {
+  constructor() {
+    this.tristimulus = { r: 0, g: 0, b: 0 };
+    this.scaleFactor = 1.0;
+    this.equationContainers = this.#createEquationContainers();
+  }
+
+  #createEquationContainers() {
+    const titles = [
+      { key: "colorEqDiv", title: "Selected Color" },
+      { key: "scaledColorEqDiv", title: "Color on the isochromatic line" },
+      { key: "chromCoefDiv", title: "Chromaticity" },
+    ];
+
+    return titles.reduce((containers, { key, title }) => {
+      containers[key] = this.#createEquationElement(title);
+      return containers;
+    }, {});
+  }
+
+  #createEquationElement(title) {
+    const div = document.createElement("div");
+    div.appendChild(document.createElement("h3")).textContent = title;
+    const eqDiv = div.appendChild(document.createElement("div"));
+    div.style.display = "none";
+
+    // Style
+    const commonStyle = {
+      justifyContent: "center",
+      flexDirection: "column",
+      alignItems: "center",
+    };
+    Object.assign(div.style, commonStyle);
+    return { div, eqDiv };
+  }
+
+  render() {
+    // Compute needed variable
+    const scaledTristimulus = {
+      r: this.tristimulus.r * this.scaleFactor,
+      g: this.tristimulus.g * this.scaleFactor,
+      b: this.tristimulus.b * this.scaleFactor,
+    };
+
+    const sumTristimulus =
+      this.tristimulus.r + this.tristimulus.g + this.tristimulus.b;
+
+    const chromCoef = {
+      r: this.tristimulus.r / sumTristimulus,
+      g: this.tristimulus.g / sumTristimulus,
+      b: this.tristimulus.b / sumTristimulus,
+    };
+
+    Object.values(this.equationContainers).forEach(({ div, eqDiv }) => {
+      div.style.display = "flex";
+      eqDiv.style.visibility = "hidden";
+    });
+
+    // Alias
+    const redR = String.raw`\textcolor{red}{${this.tristimulus.r}}`;
+    const greenG = String.raw`\textcolor{green}{${this.tristimulus.g}}`;
+    const blueB = String.raw`\textcolor{blue}{${this.tristimulus.b}}`;
+    const grayS = String.raw`\textcolor{orange}{${this.scaleFactor}}`;
+    const coloredS = String.raw`\textcolor{orange}{s}`;
+
+    const equations = [
+      {
+        container: this.equationContainers.colorEqDiv.eqDiv,
+        content: String.raw`$$ 
+        \begin{array}{}
+        C & \triangleq & R  \mathcal{R}+ G \mathcal{G}+ B \mathcal{B} \\
+          & \triangleq & ${redR} \mathcal{R}+ ${greenG} \mathcal{G}+ ${blueB}\mathcal{B} 
+        \end{array}
+        $$`,
+      },
+      {
+        container: this.equationContainers.scaledColorEqDiv.eqDiv,
+        content: String.raw`$$ 
+      \begin{array}{}
+      C_s &\triangleq& \underbrace{${coloredS}R}_{R_s}\mathcal{R}+ \underbrace{${coloredS}G}_{G_s}\mathcal{G}+ \underbrace{${coloredS}B}_{B_s}\mathcal{B}\\
+          &\triangleq& \underbrace{${grayS}\cdot${redR}}_{${scaledTristimulus.r}}\mathcal{R}+ \underbrace{${grayS}\cdot${greenG}}_{${scaledTristimulus.g}}\mathcal{G}+ \underbrace{${grayS}\cdot${blueB}}_{${scaledTristimulus.b}}\mathcal{B}
+      \end{array}
+      $$`,
+      },
+      {
+        container: this.equationContainers.chromCoefDiv.eqDiv,
+        content: String.raw`$$
+      \begin{array}{}
+      r = \frac{R}{R+G+B} = \frac{R_s}{R_s+G_s+B_s} = ${chromCoef.r} \\
+      g = \frac{G}{R+G+B} = \frac{R_s}{R_s+G_s+B_s} = ${chromCoef.g} \\
+      b = \frac{B}{R+G+B} = \frac{R_s}{R_s+G_s+B_s} = ${chromCoef.b}
+      \end{array}
+      $$
+      `,
+      },
+    ];
+
+    equations.forEach(({ container, content }) => {
+      container.textContent = util.limitDecimal(content);
+    });
+
+    const eqContainers = equations.map((eq) => eq.container);
+
+    MathJax.typesetPromise(eqContainers).then(() => {
+      eqContainers.forEach((container) => {
+        container.style.visibility = "visible";
+      });
+    });
+  }
+}
 
 function lerpPointsBetween(srcPoints, xyzToDisplayRgbFunc, delta = 1.0) {
   // For each points, scan all the others and interpolate in-between
@@ -31,14 +142,18 @@ function lerpPointsBetween(srcPoints, xyzToDisplayRgbFunc, delta = 1.0) {
         const curY = li.y + s * delta * unitV.y;
         const curZ = li.z + s * delta * unitV.z;
         const RGB = xyzToDisplayRgbFunc({ x: curX, y: curY, z: curZ });
-        interpolatedPoints.push({x:curX, y:curY, z:curZ, color:d3.rgb(RGB.R, RGB.G, RGB.B)});
+        interpolatedPoints.push({
+          x: curX,
+          y: curY,
+          z: curZ,
+          color: d3.rgb(RGB.R, RGB.G, RGB.B),
+        });
       }
     }
   }
 
   return interpolatedPoints;
 }
-
 
 function genPointsOnLine(pt1, pt2, nbPoint) {
   const lastIdx = nbPoint - 1;
@@ -81,8 +196,10 @@ function createVolumePointGenerationAnimation() {
   const CMFDataB = util.unzipXY(CMFData[2].values);
 
   const nbSpectralColors = CMFDataR.x.length;
-  const spectralPoints = Array.from({length:nbSpectralColors}, ()=>{return {x:0, y:0, z:0}});
-  for(let i=0; i<nbSpectralColors; ++i){
+  const spectralPoints = Array.from({ length: nbSpectralColors }, () => {
+    return { x: 0, y: 0, z: 0 };
+  });
+  for (let i = 0; i < nbSpectralColors; ++i) {
     spectralPoints[i].x = CMFDataR.y[i];
     spectralPoints[i].y = CMFDataG.y[i];
     spectralPoints[i].z = CMFDataB.y[i];
@@ -91,9 +208,9 @@ function createVolumePointGenerationAnimation() {
   const powerFactor = 1.5; // for color to appear brighter
   const pointColors = Array.from({ length: CMFDataR.x.length }, (_, i) => {
     const RGB = util.cvtLinearRGBtoRGB({
-      R: powerFactor*CMFDataR.y[i],
-      G: powerFactor*CMFDataG.y[i],
-      B: powerFactor*CMFDataB.y[i],
+      R: powerFactor * CMFDataR.y[i],
+      G: powerFactor * CMFDataG.y[i],
+      B: powerFactor * CMFDataB.y[i],
     });
     return `rgba(${RGB.R}, ${RGB.G}, ${RGB.B})`;
   });
@@ -112,7 +229,7 @@ function createVolumePointGenerationAnimation() {
       color: pointColors,
       width: 4,
     },
-    showlegend:true,
+    showlegend: true,
     name: "Spectral colors",
   };
 
@@ -159,21 +276,27 @@ function createVolumePointGenerationAnimation() {
   const lineCurveIdx = 1;
 
   // Add other points invisible by default
-  const volumePoints = lerpPointsBetween(spectralPoints, ({x, y, z})=>util.cvtLinearRGBtoRGB({R:x, G:y, B:z}), 0.01);
-  const [xVolumePoints, yVolumePoints, zVolumePoints, colorVolumePoints] = util.unzipArrayOfObject(volumePoints);
-  const brightenedColors = colorVolumePoints.map((c)=>d3.rgb(powerFactor*c.r, powerFactor*c.g, powerFactor*c.b));
-  const colorVolumePointsAsString = brightenedColors.map((c)=>c.toString());
+  const volumePoints = lerpPointsBetween(
+    spectralPoints,
+    ({ x, y, z }) => util.cvtLinearRGBtoRGB({ R: x, G: y, B: z }),
+    0.01
+  );
+  const [xVolumePoints, yVolumePoints, zVolumePoints, colorVolumePoints] =
+    util.unzipArrayOfObject(volumePoints);
+  const brightenedColors = colorVolumePoints.map((c) =>
+    d3.rgb(powerFactor * c.r, powerFactor * c.g, powerFactor * c.b)
+  );
+  const colorVolumePointsAsString = brightenedColors.map((c) => c.toString());
   const volumePointTrace = {
-    type:"scatter3d",
-    mode:"markers",
-    x:xVolumePoints,
-    y:yVolumePoints,
-    z:zVolumePoints,
-    marker:{color:colorVolumePointsAsString, size:3},
-    name:"Other colors",
-    visible:"legendonly"
-  }
-
+    type: "scatter3d",
+    mode: "markers",
+    x: xVolumePoints,
+    y: yVolumePoints,
+    z: zVolumePoints,
+    marker: { color: colorVolumePointsAsString, size: 3 },
+    name: "Other colors",
+    visible: "legendonly",
+  };
 
   const layout = {
     title: "Tristimulus Values in 3D",
@@ -185,7 +308,11 @@ function createVolumePointGenerationAnimation() {
   };
 
   const div = document.createElement("div");
-  Plotly.newPlot(div, [traceLocus3D, interpolationLine, volumePointTrace], layout);
+  Plotly.newPlot(
+    div,
+    [traceLocus3D, interpolationLine, volumePointTrace],
+    layout
+  );
 
   // When hovering on the line, make the interpolatedPoint appear
   let isUpdating = false;
@@ -247,7 +374,7 @@ function createCMFdiv() {
 
   const cmfData = [traceR, traceG, traceB];
   const layout = {
-    title:"Color Matching Functions",
+    title: "Color Matching Functions",
     hovermode: "x",
     xaxis: { title: "λ" },
   };
@@ -302,15 +429,15 @@ function createSpectralLocus3Ddiv() {
   };
 
   const locus3Ddata = [traceLocus3D, traceMarker];
-  const layout = { 
-    scene:{
-    xaxis: { title: {text: "R"} },
-    yaxis: { title: {text: "G"} },
-    zaxis: { title: {text: "B"} },
+  const layout = {
+    scene: {
+      xaxis: { title: { text: "R" } },
+      yaxis: { title: { text: "G" } },
+      zaxis: { title: { text: "B" } },
     },
     //width:500,
     //height:500
- };
+  };
 
   const div = d3.create("div");
   Plotly.newPlot(div.node(), locus3Ddata, layout);
@@ -346,15 +473,225 @@ function getCMF2volumeRGBAnimation() {
 
     Plotly.restyle(locus3Ddiv.node(), updateInfo, 1);
   }
-  //
-  //function highlightLambdaOn3Dgraph(lambdaToHighlight){
-  //  spectralGamut3Ddiv.highlight(lambdaToHighlight);
-  //}
 
   const div = d3.create("div");
   div.style("display", "flex");
   div.node().appendChild(CMFdiv.node());
   div.node().appendChild(locus3Ddiv.node());
+
+  return div;
+}
+
+function createVisualGamut3dGraph() {
+  const CMFDataR = util.unzipXY(CMFData[0].values);
+  const CMFDataG = util.unzipXY(CMFData[1].values);
+  const CMFDataB = util.unzipXY(CMFData[2].values);
+
+  const nbSpectralColors = CMFDataR.x.length;
+  const spectralPoints = Array.from({ length: nbSpectralColors }, () => {
+    return { x: 0, y: 0, z: 0 };
+  });
+  for (let i = 0; i < nbSpectralColors; ++i) {
+    spectralPoints[i].x = CMFDataR.y[i];
+    spectralPoints[i].y = CMFDataG.y[i];
+    spectralPoints[i].z = CMFDataB.y[i];
+  }
+  const volumePoints = lerpPointsBetween(
+    spectralPoints,
+    ({ x, y, z }) => util.cvtLinearRGBtoRGB({ R: x, G: y, B: z }),
+    0.01
+  );
+  const [xVolumePoints, yVolumePoints, zVolumePoints, colorVolumePoints] =
+    util.unzipArrayOfObject(volumePoints);
+
+  const powerFactor = 1.5;
+  const brightenedColors = colorVolumePoints.map((c) =>
+    d3.rgb(powerFactor * c.r, powerFactor * c.g, powerFactor * c.b)
+  );
+  const colorVolumePointsAsString = brightenedColors.map((c) => c.toString());
+  const volumePointTrace = {
+    type: "scatter3d",
+    mode: "markers",
+    x: xVolumePoints,
+    y: yVolumePoints,
+    z: zVolumePoints,
+    marker: { color: colorVolumePointsAsString, size: 3 },
+    name: "",
+    showlegend:false
+  };
+
+  const layout = {
+    title: "Human Visual Gamut",
+    scene: {
+      xaxis: { title: "R" },
+      yaxis: { title: "G" },
+      zaxis: { title: "B" },
+    },
+  };
+  const graphDiv = document.createElement("div");
+  Plotly.newPlot(graphDiv, [volumePointTrace], layout);
+
+  return graphDiv;
+}
+
+
+function addClickAnimation(visualGamut3dDiv, slider, equation) {
+  slider.div.style.display = "none";
+
+  // Create an invisible trace for the isochromatic line that we will make visible once clicked on a point
+  const isochromLineTrace = {
+    type: "scatter3d",
+    mode: "lines",
+    x: [],
+    y: [],
+    z: [],
+    line: { color: "black" },
+    name: "isochromatic line",
+  };
+  const isoChromLineCurveIndex = visualGamut3dDiv.data.length;
+  Plotly.addTraces(visualGamut3dDiv, isochromLineTrace);
+
+  // Create an invisible trace for the moving point along the isochromatic line
+  const highlightedPointSize = 10;
+  const movingPointTrace = {
+    type: "scatter3d",
+    mode: "markers",
+    x: [],
+    y: [],
+    z: [],
+    showlegend: false,
+  };
+  const movingPointCurveIndex = visualGamut3dDiv.data.length;
+  Plotly.addTraces(visualGamut3dDiv, movingPointTrace);
+
+  let isUpdatingGamut = false;
+  let isUpdatingIsoLine = false;
+  let selectedPoint = null;
+  visualGamut3dDiv.on("plotly_click", function (event) {
+    if (isUpdatingGamut || isUpdatingIsoLine) return;
+    if (event.points[0].curveNumber !== 0) return;
+
+    isUpdatingGamut = true;
+    isUpdatingIsoLine = true;
+
+    // Make all the other points opacity very low to highlight the selected point
+    selectedPoint = event.points[0];
+    const curColor = selectedPoint.data.marker.color[selectedPoint.pointNumber];
+    const allMarkers = selectedPoint.data.marker;
+    const colorsWithLowOpacity = allMarkers.color.map((color) => {
+      return util.addAlphaToRgb(color, 0.4);
+    });
+
+    const markerSizes = new Array(colorsWithLowOpacity.length).fill(3);
+    const curColorFullOpacity = util.addAlphaToRgb(curColor, 1.0);
+    const updatedGamutPoints = {
+      "marker.color":[colorsWithLowOpacity],
+      "marker.size":[markerSizes]
+    }
+    Plotly.restyle(visualGamut3dDiv, updatedGamutPoints, 0).then(
+      () => {
+        isUpdatingGamut = false;
+      }
+    );
+
+    // update isochromatic line
+    const curveIdxToUpdate = [isoChromLineCurveIndex, movingPointCurveIndex];
+    const extensionLineFactor = 0.5;
+    const isoChromLine = {
+      x: [
+        [0.0, selectedPoint.x + selectedPoint.x * extensionLineFactor],
+        [selectedPoint.x],
+      ],
+      y: [
+        [0.0, selectedPoint.y + selectedPoint.y * extensionLineFactor],
+        [selectedPoint.y],
+      ],
+      z: [
+        [0.0, selectedPoint.z + selectedPoint.z * extensionLineFactor],
+        [selectedPoint.z],
+      ],
+    };
+
+
+    Plotly.restyle(visualGamut3dDiv, isoChromLine, curveIdxToUpdate).then(
+      () => {
+        isUpdatingIsoLine = false;
+      }
+    );
+
+    // Update equation tristimulus value
+    equation.tristimulus = {
+      r: selectedPoint.x,
+      g: selectedPoint.y,
+      b: selectedPoint.y,
+    };
+    equation.render();
+
+    // Add a slider that allows to move of the selected point along the isochromatic line
+    slider.div.style.display = "flex";
+    slider.setValue(1.0);
+  });
+
+  let isMovingUpdate = false;
+  function updateMovingPoint() {
+    if(isMovingUpdate) return;
+    isMovingUpdate = true;
+    const newR = slider.value * selectedPoint.x;
+    const newG = slider.value * selectedPoint.y;
+    const newB = slider.value * selectedPoint.z;
+    const displayRGB = util.cvtRGBtoD3rgb(
+      util.cvtLinearRGBtoRGB({ R: newR, G: newG, B: newB })
+    );
+    const movingPointUpdate = {
+      x: [[newR]],
+      y: [[newG]],
+      z: [[newB]],
+      "marker.color": [util.addAlphaToRgb(displayRGB.toString(), 1.0)],
+    };
+    Plotly.restyle(
+      visualGamut3dDiv,
+      movingPointUpdate,
+      movingPointCurveIndex
+    ).then(() => {
+      isMovingUpdate = false;
+    });
+
+    // Update the equation
+    equation.scaleFactor = slider.value;
+    equation.render();
+  }
+  slider.addEventListener("input", updateMovingPoint);
+  // TODO: double click does not work with scatter3d, so I need a button to reset all the animation
+}
+
+
+function createIsochromaticAnimation() {
+  // Create the 3d visual gamut with only the envelop
+  const visualGamut3dGraph = createVisualGamut3dGraph();
+  const slider = new util.Slider({
+    label: `s`,
+    min: 0.0,
+    max: 1.5,
+    step: 0.1,
+    value: 1.0,
+  });
+  const equation = new Equation();
+  addClickAnimation(visualGamut3dGraph, slider, equation);
+
+  const div = document.createElement("div");
+  div.appendChild(visualGamut3dGraph);
+  const secondColumnDiv = document.createElement("div");
+  secondColumnDiv.append(
+    equation.equationContainers.colorEqDiv.div,
+    equation.equationContainers.scaledColorEqDiv.div,
+    slider.div,
+    equation.equationContainers.chromCoefDiv.div
+  );
+  div.appendChild(secondColumnDiv);
+
+  Object.assign(div.style, {
+    display: "flex",
+  });
 
   return div;
 }
@@ -365,6 +702,11 @@ function main() {
 
   const volumePointGenAnim = createVolumePointGenerationAnimation();
   d3.select("#interpolate-tristimulus").node().appendChild(volumePointGenAnim);
+
+  const isochromaticAnimation = createIsochromaticAnimation();
+  d3.select("#isochromatic-line-animation")
+    .node()
+    .appendChild(isochromaticAnimation);
 }
 
 main();
