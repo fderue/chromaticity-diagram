@@ -35,6 +35,7 @@
     <script type="module" src="js/anim-cmf2graph3d.js"></script>
     <script type="module" src="js/anim-from3dTo2d.js"></script>
     <script type="module" src="js/anim-rgb2xyz.js"></script>
+    <script type="module" src="js/anim-chromdiagram.js"></script>
   </head>
   <body>
     <h1>Chromaticity Diagram</h1>
@@ -989,13 +990,91 @@
       to the matrix M.
     </p>
     <p>
-      f we project those points along their line of isochromaticity on the plane
-      X+Y+Z=1, we obtain the chromaticity coefficients (x, y, z). Then by
+      if we project those points along their line of isochromaticity on the
+      plane X+Y+Z=1, we obtain the chromaticity coefficients (x, y, z). Then by
       omitting z which is dependent of x and y, we obtain on the XY-plane the
       famous horseshoe shape diagram. If we transfer those coordinates in a 2d
       graph with x and y label, we finally obtain our
       <span class="highlight">xy-chromaticity diagram</span>!
     </p>
     <div id="anim-cieRGBtoXYZ"></div>
+    <p>
+      Remember I've only projected the spectral colors, this is why the
+      chromaticity diagram seems "empty”. This projection draws the boundaries
+      of the chromaticity diagram and is called the
+      <span class="highlight">spectral locus</span>. If we would have taken more
+      points in the 3d volume we would have had more points and the shape would
+      start to fill in. But we can also work directly on the 2d chromaticity
+      diagram itself. To add more chromaticity we need to generate other colors.
+      As seen previously (when filling the volume between two colors), mixing
+      colors to produce an other color consists in summing up their tristimulus
+      value.
+    </p>
+    <div class="block-equation">
+      $$ \begin{split} C_1 \triangleq X_1\mathcal{X} \hat{+} Y_1\mathcal{Y}
+      \hat{+} Z_1\mathcal{Z}\\ C_2 \triangleq X_2\mathcal{X} \hat{+}
+      Y_2\mathcal{Y} \hat{+} Z_2\mathcal{Z}\\ C_r \triangleq C_1+C_2 \triangleq
+      \underbrace{(X_1+X_2)}_{X_r}\mathcal{X}
+      \hat{+}\underbrace{(Y_1+Y_2)}_{Y_r}\mathcal{Y} \hat{+}
+      \underbrace{(Z_1+Z_2)}_{Z_r}\mathcal{Z}\\ \end{split} $$
+    </div>
+    <p>
+      During this addition, what happens to the chromaticity coefficients. Do
+      they also add up? Let's take the x chromaticity coordinate.
+    </p>
+    <div class="block-equation">
+      $$ \begin{split} x_r &= \frac{X_r}{X_r+Y_r+Z_r}\\ &=
+      \frac{X_1+X_2}{X_1+X_2+Y_1+Y_2+Z_1+Z_2} \end{split} $$
+    </div>
+    Using the chromaticity of C1 and C2,
+    <div class="block-equation">
+      $$ X_1 = x_1(X_1+Y_1+Z_1)\\ X_2 = x_2(X_2+Y_2+Z_2) $$
+    </div>
+    Substituting in (…), and posing \(L_1 = (X_1+Y_1+Z_1)\) and
+    \(L_2=(X_2+Y_2+Z_2)\), we end up with
+    <div class="block-equation">
+      $$ \begin{split} x_r = \frac{X_r}{X_r+Y_r+Z_r} = \frac{L_1x_1 +
+      L_2x_2}{L_1+L_2} \end{split} $$
+    </div>
+    This equation show the relation between the chromaticities. When mixing two
+    colors, the resulting chromaticity is a weighted sum of their respective
+    chromaticity.
+    <p>
+      Now, back to our chromaticity diagram. Remember that it is a projection of
+      the plane X+Y+Z = 1. Therefore, to represent the chromaticity of \(C_r\),
+      we have to constraint \(L_1+L_2 = 1\). We can rewrite equation (…) with
+      this constraint and do the same development for the y-coordinate.
+    </p>
+    <div class="block-equation">
+      $$ \begin{split} x_r = L_1x_1 + (1-L_1)x_2\\ y_r = L_1y_1 + (1-L_1)y_2
+      \end{split} $$
+    </div>
+    <p>
+      According to this equation, if you take two color on the spectral locus
+      and you combine them, the line in between represent the chromaticity of
+      the colors resulting in mixing the spectral colors with different amount.
+      Here an animation illustrating this computation.
+    </p>
+    <p>
+      The chromaticities between minLambda and maxLambda which close the shape
+      is called the line of purple! It's not part of the spectral locus since
+      those colors does not correspond spectral colors. Each point inside this
+      shape has coordinate (x, y) and represent the chromaticity of a colors.
+      Since multiple colors have the same chromaticity, you could arbitraly
+      decide which colors of chormaticity (x, y) you want plot. Usually, we use
+      the color with the maximum luminance possible given by your device.
+    </p>
+    <h3>Playing with chromaticity and luminance</h3>
+    <p>
+      Remember that a color can be characterized by its two attributes: its
+      chromaticity and its luminance. And now you know that the chromaticity is
+      given by the coordinates (x, y) in the chromaticity diagram. And the
+      luminance is the Y component in the XYZ color space. In the animation
+      below, you can create any color by choosing the chromaticity on the
+      diagram and the luminance by changing the Y component. As expected,
+      changing the luminance while keeping the same chromaticity will move you
+      along the isochromatic line represented in the 3D graph.
+    </p>
+    <div id="playing-with-chromaticity-and-luminance"></div>
   </body>
 </html>
