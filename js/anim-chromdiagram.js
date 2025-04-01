@@ -373,7 +373,7 @@ async function main() {
   const chromDiagramDiv = CreateFullChromaticityDiagramXy();
   const humanGamut3d = new Gamut3d();
   changeColorWith_xyY(chromDiagramDiv, humanGamut3d);
-  document.getElementById("playing-with-chromaticity-and-luminance").append(chromDiagramDiv, humanGamut3dDiv);
+  document.getElementById("playing-with-chromaticity-and-luminance").append(chromDiagramDiv, humanGamut3d.div);
 }
 
 main();

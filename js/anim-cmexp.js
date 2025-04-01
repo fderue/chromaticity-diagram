@@ -388,10 +388,10 @@ class Light {
   }
 
   setColor(d3color) {
-    this.rectangle.attr("fill", d3color);  
+    this.rectangle.attr("fill", d3color);
   }
 
-  setSpotLightColor(d3color){
+  setSpotLightColor(d3color) {
     this.spotLight.selectAll("rect").style("fill", d3color);
     this.spotLight.selectAll("path").style("fill", d3color);
   }
@@ -619,23 +619,29 @@ function createChromCoefGraph2d() {
   return chromCoefGraphDiv;
 }
 
-function addCalibButton(div, rDial, gDial, bDial, position={x:0, y:0}) {
-  const calibButton = d3.create("button").text("Calibrate");
-  calibButton
-    .style("position", "absolute")
-    .style("left", `${position.x}px`)
-    .style("top", `${position.y}px`);
-  div.append(calibButton.node());
+function createCalibButton(rDial, gDial, bDial, position = { x: 0, y: 0 }) {
+  const group = d3.create("svg:g");
+  const calibButtonSelection = createSvgButton(100, 20, "Calibrate");
+  calibButtonSelection.attr(
+    "transform",
+    `translate(${position.x}, ${position.y})`
+  );
+  calibButtonSelection
+    .select("rect")
+    .style("fill", "lightgrey")
+    .style("stroke", "black")
+    .style("rx", 2)
+    .style("ry", 2);
 
   const calibText = d3
-    .create("div")
-    .style("position", "absolute")
-    .style("left", `${position.x+10}px`)
-    .style("top", `${position.y+20}px`)
-    .style("visibility", "hidden");
-  div.append(calibText.node());
+    .create("svg:foreignObject")
+    .attr("x", position.x)
+    .attr("y", position.y+20)
+    .attr("width", 100)
+    .attr("height", 100)
+    .style("font-size", "75%");
 
-  calibButton.on("click", () => {
+  calibButtonSelection.on("click", () => {
     const Rc = rDial.value;
     const Gc = gDial.value;
     const Bc = bDial.value;
@@ -648,10 +654,14 @@ function addCalibButton(div, rDial, gDial, bDial, position={x:0, y:0}) {
     \end{align}
     $$`;
 
+    //calibText.text(equation);
     calibText.html(equation);
     MathJax.typeset();
     calibText.style("visibility", "visible");
   });
+
+  group.node().append(calibButtonSelection.node(), calibText.node());
+  return group.node();
 }
 
 function createCMCalibration() {
@@ -660,7 +670,7 @@ function createCMCalibration() {
   const sceneHeight = 400;
   const scene = new Scene(sceneWidth, sceneHeight);
   const sceneCenter = { x: sceneWidth / 2.0, y: sceneHeight / 2.0 };
-  const projectionPos = {x: 0.3*sceneWidth, y:0.5*sceneHeight};
+  const projectionPos = { x: 0.3 * sceneWidth, y: 0.5 * sceneHeight };
 
   // Place the primaries around the center at -45, 0, 45 degrees at distance d
   const distanceFromCenter = 120;
@@ -718,8 +728,8 @@ function createCMCalibration() {
     color: d3.rgb(0, 0, 0),
   });
 
-  const yPosPrimaryDial = 0.5*sceneHeight;
-  const xPosPrimaryDial = 0.6*sceneWidth;
+  const yPosPrimaryDial = 0.5 * sceneHeight;
+  const xPosPrimaryDial = 0.6 * sceneWidth;
   const rDial = new Dial({
     position: { x: 50 + xPosPrimaryDial, y: yPosPrimaryDial },
     color: d3.rgb(255, 0, 0),
@@ -780,6 +790,11 @@ function createCMCalibration() {
     `translate(${projectionPos.x}, ${0.9 * scene.height})`
   );
 
+  const calibButton = createCalibButton(rDial, gDial, bDial, {
+    x: 0.7 * sceneWidth,
+    y: 0.7 * sceneHeight,
+  });
+
   scene.add(rPrimary.getNode());
   scene.add(gPrimary.getNode());
   scene.add(bPrimary.getNode());
@@ -790,9 +805,13 @@ function createCMCalibration() {
   scene.add(gDial.getNode());
   scene.add(bDial.getNode());
   scene.add(eyeAndWallIcons.node());
+  scene.add(calibButton);
 
-  // Add button for calibration
-  addCalibButton(scene.getDiv(), rDial, gDial, bDial, {x:0.7*sceneWidth, y:0.7*sceneHeight});
+  //// Add button for calibration
+  //addCalibButton(scene.getDiv(), rDial, gDial, bDial, {
+  //  x: 0.7 * sceneWidth,
+  //  y: 0.7 * sceneHeight,
+  //});
 
   // Add animation by setting timestamp and fixed values
   //animateCalibration({
