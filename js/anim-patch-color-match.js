@@ -71,7 +71,7 @@ function createMeshSpectralColorCanvas(canvasWidth = 700, canvasHeight = 300) {
 
 function createSinusoidAnimationUsingD3Only(div) {
   const margin = { t: 10, r: 10, b: 10, l: 10 };
-  const width = 640 - margin.r - margin.l;
+  const width = 600 - margin.r - margin.l;
   const height = 100 - margin.t - margin.b;
 
   const svgSinus = d3
@@ -142,7 +142,7 @@ function createSinusoidAnimationUsingD3Only(div) {
     .attr("d", lineGenerator);
 
   // Add 2d color map showing lambda vs intensity
-  const MESH_WIDTH = 700;
+  const MESH_WIDTH = 600;
   const MESH_HEIGHT = 300;
   const map2DColorLambdaVsIntensityDiv = d3
     .create("div")

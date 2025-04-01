@@ -710,9 +710,11 @@ export class Slider {
     this.sliderInput.value = value;
     this.minValueText = document.createElement("span");
     this.minValueText.id = "min-value-text";
+    this.minValueText.style.color= "lightgray";
     this.minValueText.textContent = min;
     this.maxValueText = document.createElement("span");
     this.maxValueText.textContent = max;
+    this.maxValueText.style.color= "lightgray";
     this.thumbText = document.createElement("span");
 
     sliderWithRangeContainer.append(

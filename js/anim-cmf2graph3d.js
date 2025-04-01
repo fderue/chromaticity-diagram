@@ -475,7 +475,7 @@ function getCMF2volumeRGBAnimation() {
   }
 
   const div = d3.create("div");
-  div.style("display", "flex");
+  div.style("display", "flex").style("position","relative").style("left", "-50%");
   div.node().appendChild(CMFdiv.node());
   div.node().appendChild(locus3Ddiv.node());
 

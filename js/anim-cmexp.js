@@ -4,7 +4,7 @@ import * as util from "./util.mjs";
 const [, , lambdaToVMap] = await util.createCMFs();
 const chromCoefRawData = await util.loadData("data/CIE_rgb_coef.csv");
 
-const SCENE_WIDTH = 800;
+const SCENE_WIDTH = 750;
 const SCENE_HEIGHT = 400;
 const SCENE_BGND = d3.rgb(200, 200, 200);
 
@@ -636,7 +636,7 @@ function createCalibButton(rDial, gDial, bDial, position = { x: 0, y: 0 }) {
   const calibText = d3
     .create("svg:foreignObject")
     .attr("x", position.x)
-    .attr("y", position.y+20)
+    .attr("y", position.y + 20)
     .attr("width", 100)
     .attr("height", 100)
     .style("font-size", "75%");
@@ -666,7 +666,7 @@ function createCalibButton(rDial, gDial, bDial, position = { x: 0, y: 0 }) {
 
 function createCMCalibration() {
   // I want to create a scene where I can place object wherever I want
-  const sceneWidth = 700;
+  const sceneWidth = 600;
   const sceneHeight = 400;
   const scene = new Scene(sceneWidth, sceneHeight);
   const sceneCenter = { x: sceneWidth / 2.0, y: sceneHeight / 2.0 };
@@ -827,30 +827,31 @@ function createCMExp() {
   // I want to create a scene where I can place object wherever I want
   const scene = new Scene(SCENE_WIDTH, SCENE_HEIGHT);
   const sceneCenter = { x: SCENE_WIDTH / 2.0, y: SCENE_HEIGHT / 2.0 };
+  const projectionPos = { x: 0.45 * SCENE_WIDTH, y: 0.5 * SCENE_HEIGHT };
 
   // Place the primaries around the center at -45, 0, 45 degrees at distance d
   const distanceFromCenter = 120;
-  const rPosition = util.addCoordinates(sceneCenter, {
+  const rPosition = util.addCoordinates(projectionPos, {
     x: distanceFromCenter * Math.cos(util.degToRad(-45)),
     y: distanceFromCenter * Math.sin(util.degToRad(-45)),
   });
 
-  const gPosition = util.addCoordinates(sceneCenter, {
+  const gPosition = util.addCoordinates(projectionPos, {
     x: distanceFromCenter * Math.cos(util.degToRad(0)),
     y: distanceFromCenter * Math.sin(util.degToRad(0)),
   });
 
-  const bPosition = util.addCoordinates(sceneCenter, {
+  const bPosition = util.addCoordinates(projectionPos, {
     x: distanceFromCenter * Math.cos(util.degToRad(45)),
     y: distanceFromCenter * Math.sin(util.degToRad(45)),
   });
 
-  const wPosition = util.addCoordinates(sceneCenter, {
+  const wPosition = util.addCoordinates(projectionPos, {
     x: distanceFromCenter * Math.cos(util.degToRad(135)),
     y: distanceFromCenter * Math.sin(util.degToRad(135)),
   });
 
-  const negativePrimaryPosition = util.addCoordinates(sceneCenter, {
+  const negativePrimaryPosition = util.addCoordinates(projectionPos, {
     x: distanceFromCenter * Math.cos(util.degToRad(180)),
     y: distanceFromCenter * Math.sin(util.degToRad(180)),
   });
@@ -886,19 +887,19 @@ function createCMExp() {
   negativePrimary.setVisibility(false);
 
   const testProjection = new LightProjection({
-    position: sceneCenter,
+    position: projectionPos,
     orientationDeg: 180.0,
     color: d3.rgb(255, 255, 255),
   });
 
   const mixProjection = new LightProjection({
-    position: sceneCenter,
+    position: projectionPos,
     orientationDeg: 0.0,
     color: d3.rgb(0, 0, 0),
   });
 
   const yPosPrimaryDial = 200;
-  const xPosPrimaryDial = 550;
+  const xPosPrimaryDial = SCENE_WIDTH * 0.7;
   const rDial = new Dial({
     position: { x: 50 + xPosPrimaryDial, y: yPosPrimaryDial },
     color: d3.rgb(255, 0, 0),
@@ -926,7 +927,7 @@ function createCMExp() {
   const calibratedValue = { R: 60, G: 30, B: 90 };
 
   const testLightDial = new Dial({
-    position: { x: 120, y: yPosPrimaryDial },
+    position: { x: SCENE_WIDTH / 8.0, y: yPosPrimaryDial },
     color: d3.rgb(222, 222, 222),
     unit: { min: 300.0, max: 800.0 },
     name: "λ [nm]",
@@ -937,7 +938,7 @@ function createCMExp() {
   eyeAndWallIcons.node().appendChild(createEyeAndWall().node());
   eyeAndWallIcons.attr(
     "transform",
-    `translate(${sceneCenter.x}, ${0.9 * scene.height})`
+    `translate(${projectionPos.x}, ${0.9 * scene.height})`
   );
 
   scene.add(rPrimary.getNode());
@@ -976,6 +977,7 @@ function createCMExp() {
   eqDiv.appendChild(eqChromCoefDiv.node());
   eqDiv.style.display = "flex";
   eqDiv.style.gap = "50px";
+  eqDiv.style.fontSize = "75%";
 
   // Synchronize every element according to the hovered element in the graph
   chromCoefGraphDiv.on("plotly_hover", function (data) {
@@ -1068,7 +1070,10 @@ function createCMExp() {
 
   // Return a div containing the scene, graph and equations
   const CMExpDiv = document.createElement("div");
-  const sceneAndGraphDiv = d3.create("div").style("display", "flex");
+  const sceneAndGraphDiv = d3
+    .create("div")
+    .style("display", "flex")
+    .style("align-items", "center");
   sceneAndGraphDiv.node().appendChild(scene.getDiv());
   sceneAndGraphDiv.node().appendChild(chromCoefGraphDiv);
   CMExpDiv.appendChild(sceneAndGraphDiv.node());

@@ -222,7 +222,7 @@ function CreateFullChromaticityDiagramXy() {
 }
 
 function changeColorWith_xyY(chromDiagramDiv, humanGamut) {
-  const SVG_WIDTH = 200;
+  const SVG_WIDTH = 100;
   const SVG_HEIGHT = 100;
   // Create SVG with circle of color defined by chromaticity (x,y)
   const svg = d3
@@ -233,7 +233,7 @@ function changeColorWith_xyY(chromDiagramDiv, humanGamut) {
     .append("circle")
     .attr("cx", SVG_WIDTH / 2.0)
     .attr("cy", SVG_HEIGHT / 2.0);
-  circle.attr("r", 50);
+  circle.attr("r", SVG_WIDTH / 2.0);
 
   // Selexted xyY
   let selectedY = 1.0;
@@ -369,11 +369,171 @@ function changeColorWith_xyY(chromDiagramDiv, humanGamut) {
   secondRow.node().append(sliderY.div, humanGamut.div);
 }
 
-async function main() {
+class ColorWithLabel {
+  constructor() {
+    this.div = document.createElement("div");
+    const SVG_WIDTH = 100;
+    const SVG_HEIGHT = 100;
+    this.selectedColor = { x: 0, y: 0, Y: 0 };
+
+    // Create SVG with circle of color defined by chromaticity (x,y)
+    const svg = d3
+      .create("svg")
+      .attr("width", SVG_WIDTH)
+      .attr("height", SVG_HEIGHT);
+    this.circle = svg
+      .append("circle")
+      .attr("cx", SVG_WIDTH / 2.0)
+      .attr("cy", SVG_HEIGHT / 2.0)
+      .attr("r", SVG_WIDTH / 2.0);
+
+    this.xyYText = d3
+      .create("div")
+      .attr("id", "xyY_text")
+      .text(
+        `(x, y, Y) = (${this.selectedColor.x}, ${this.selectedColor.y}, ${this.selectedColor.Y})`
+      );
+
+    this.div.style.display = "flex";
+    this.div.style.flexDirection = "column";
+    this.div.style.alignItems = "center";
+    this.div.append(svg.node(), this.xyYText.node());
+  }
+
+  set_xyY(x, y, Y) {
+    this.selectedColor.x = x;
+    this.selectedColor.y = y;
+    this.selectedColor.Y = Y;
+    const rgbColor = util.cvt_xyYtoRGB({
+      x: x,
+      y: y,
+      Y: Y,
+    });
+    this.circle.attr(
+      "fill",
+      `rgb(${rgbColor.R}, ${rgbColor.G}, ${rgbColor.B})`
+    );
+    this.xyYText.text(
+      `(x, y, Y) = (${this.selectedColor.x.toFixed(2)}, ${this.selectedColor.y.toFixed(2)}, ${this.selectedColor.Y.toFixed(2)})`
+    );
+  }
+}
+
+function linkControls(chromDiagramDiv, humanGamut3d, sliderY, resultColor) {
+  let selectedY = 1.0;
+
+  // Take the value of the slider and change the color of the circle
+  sliderY.addEventListener("input", function () {
+    selectedY = Number(this.value);
+    resultColor.set_xyY(resultColor.selectedColor.x, resultColor.selectedColor.y, selectedY);
+
+    //Move the point along the isochromatic line
+    const XYZ = util.cvt_xyYtoXYZ({
+      x: resultColor.selectedColor.x,
+      y: resultColor.selectedColor.y,
+      Y: resultColor.selectedColor.Y,
+    });
+    humanGamut3d.updateHighlightedPoint(XYZ);
+  });
+
+  let circleTraceIndex = null;
+
+  function onChromDiagramClick(points) {
+    const selectedChromaticity_xy = points;
+    // Cmpt the max Y value and limit the slider
+    const XYZ = util.cvt_xyYtoXYZ({
+      x: selectedChromaticity_xy.x,
+      y: selectedChromaticity_xy.y,
+      Y: 1.0,
+    });
+    const maxValue = Math.max(XYZ.X, XYZ.Y, XYZ.Z);
+    const XYZNorm = {
+      X: XYZ.X / maxValue,
+      Y: XYZ.Y / maxValue,
+      Z: XYZ.Z / maxValue,
+    };
+    resultColor.set_xyY(
+      selectedChromaticity_xy.x,
+      selectedChromaticity_xy.y,
+      XYZNorm.Y
+    );
+    sliderY.setMax(XYZNorm.Y);
+
+    // Add circle marker to indicate selected point
+    if (circleTraceIndex !== null) {
+      Plotly.update(
+        chromDiagramDiv,
+        {
+          x: [[selectedChromaticity_xy.x]], // Update the x-coordinates
+          y: [[selectedChromaticity_xy.y]], // Update the y-coordinates
+        },
+        {},
+        [1]
+      );
+    } else {
+      const circleMarker = {
+        x: [selectedChromaticity_xy.x],
+        y: [selectedChromaticity_xy.y],
+        mode: "markers",
+        type: "scatter",
+        marker: {
+          size: 10, // Circle size
+          color: "rgba(0, 0, 0, 0)", // Circle color
+          line: { color: "black", width: 1 },
+        },
+        showlegend: false,
+        name: "Selected Point",
+        hoverinfo: "none",
+      };
+      circleTraceIndex = 1;
+
+      // Update the graph by adding the circle
+      // Use Plotly.addTraces to append new traces to the existing plot
+      Plotly.addTraces(chromDiagramDiv, circleMarker);
+    }
+    humanGamut3d.highlightPoint(XYZNorm);
+  }
+
+  chromDiagramDiv.on("plotly_click", function (data) {
+    onChromDiagramClick(data.points[0]);
+  });
+
+  // Initialize with a click
+  const initialChromaticity = { x: 0.2, y: 0.5 };
+  onChromDiagramClick(initialChromaticity);
+}
+
+function createAnimationColorManipulation() {
   const chromDiagramDiv = CreateFullChromaticityDiagramXy();
   const humanGamut3d = new Gamut3d();
-  changeColorWith_xyY(chromDiagramDiv, humanGamut3d);
-  document.getElementById("playing-with-chromaticity-and-luminance").append(chromDiagramDiv, humanGamut3d.div);
+  const sliderY = new util.Slider({
+    label: "Y",
+    min: 0,
+    max: 1.0,
+    step: 0.01,
+    value: 1.0,
+    id: "sliderY",
+  });
+  const resultColor = new ColorWithLabel();
+
+  linkControls(chromDiagramDiv, humanGamut3d, sliderY, resultColor);
+
+  const animationDiv = d3
+    .create("div")
+    .style("display", "grid")
+    .style("grid-template-columns", "repeat(2, 1fr)");
+  animationDiv
+    .node()
+    .append(chromDiagramDiv, humanGamut3d.div, sliderY.div, resultColor.div);
+
+  return animationDiv.node();
+}
+
+async function main() {
+  const anim = createAnimationColorManipulation();
+  document
+    .getElementById("playing-with-chromaticity-and-luminance")
+    .append(anim);
 }
 
 main();

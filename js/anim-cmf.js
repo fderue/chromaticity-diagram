@@ -184,6 +184,7 @@ function createChromCoefToCmfAnimation() {
   const photopicGraph = createPhotopicGraph();
   const CmfGraph = createCmfGraph();
   const equations = d3.create("div").style("text-align", "center");
+  equations.style("font-size", "75%");
   equations.append("h3").text("Color Matching Functions Equations");
   const cmfEquations = d3.create("div").html(createCmfEquationContent());
   equations.node().appendChild(cmfEquations.node());
@@ -213,6 +214,8 @@ function createChromCoefToCmfAnimation() {
   const animation = document.createElement("div");
   animation.style.display = "grid";
   animation.style.gridTemplateColumns = "repeat(2, 1fr)";
+  animation.style.position = "relative";
+  animation.style.left = "-50%";
   animation.appendChild(chromCoefGraph);
   animation.appendChild(photopicGraph);
   animation.appendChild(equations.node());

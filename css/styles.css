@@ -4,15 +4,11 @@
           box-sizing: border-box;
 }
 
-@media (min-width: 768px) {
-  html {
-      font-size: 125%;
-      max-width: 42em;
-} }
-
-html{
+body{
+  /* max-width: 700px; */
   margin: 0 auto;
   font-family: "Roboto", sans-serif;
+  color: #414142;
   line-height: 1.5em;
   padding: 1.5em;
 }
