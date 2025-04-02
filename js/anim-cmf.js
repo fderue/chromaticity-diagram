@@ -1,5 +1,8 @@
-import d3 from "./d3-loader.js"
+import d3 from "./d3-loader.js";
 import * as util from "./util.mjs";
+
+const GRAPH2D_WIDTH = 450;
+const GRAPH2D_HEIGHT = 350;
 
 function createChromCoefGraph() {
   const chromCoefGraphDiv = document.createElement("div");
@@ -41,6 +44,8 @@ function createChromCoefGraph() {
     hovermode: "x",
     xaxis: { title: "λ" },
     title: "Chromaticity Coefficient",
+    width: GRAPH2D_WIDTH,
+    height: GRAPH2D_HEIGHT,
   };
 
   Plotly.newPlot(
@@ -52,7 +57,7 @@ function createChromCoefGraph() {
   return chromCoefGraphDiv;
 }
 
-function createPhotopicGraph() {
+function createPhotopicGraph(layoutWidth, layoutHeight) {
   const div = document.createElement("div");
   const [rawLambdas, rawVs] = util.unzipArrayOfObject(util.photopicRawData);
 
@@ -82,6 +87,8 @@ function createPhotopicGraph() {
     xaxis: { title: "λ" },
     yaxis: { title: "V(λ)" },
   };
+  if(layoutWidth) layout.width=layoutWidth;
+  if(layoutHeight) layout.height = layoutHeight;
 
   Plotly.newPlot(div, [vTrace], layout);
 
@@ -145,6 +152,8 @@ function createCmfGraph() {
     xaxis: { title: "λ" },
     yaxis: { title: "Amount of Primary" },
     hovermode: "x",
+    width: GRAPH2D_WIDTH,
+    height: GRAPH2D_HEIGHT,
   };
   Plotly.newPlot(div, [RCmfTrace, GCmfTrace, BCmfTrace], layout);
 
@@ -156,9 +165,12 @@ function createCmfEquationContent(r = 0, g = 0, b = 0, v = 0) {
 
   const k = v / (LumCoef.r * r + LumCoef.g * g + LumCoef.b * b);
   const equation = `$$ 
-  k(\\lambda) = \\frac{V(\\lambda)}{(L^rr(\\lambda)+L^gg(\\lambda)+L^bb(\\lambda))} = \\frac{${v}}{${
-    LumCoef.r
-  }\\cdot${r} + ${LumCoef.g}\\cdot${g} + ${LumCoef.b}\\cdot${b}}=${k} \\\\
+  \\begin{array}{}
+  k(\\lambda) &=& \\frac{V(\\lambda)}{(L^rr(\\lambda)+L^gg(\\lambda)+L^bb(\\lambda))}\\\\ 
+              &=& \\frac{${v}}{${LumCoef.r}\\cdot${r} + ${
+    LumCoef.g
+  }\\cdot${g} + ${LumCoef.b}\\cdot${b}}=${k} \\\\
+  \\end{array}
   $$
   $$
   \\begin{array}{}
@@ -174,17 +186,14 @@ function createCmfEquationContent(r = 0, g = 0, b = 0, v = 0) {
   \\end{array}
    $$`;
 
-  
-
   return util.limitDecimal(equation);
 }
 
 function createChromCoefToCmfAnimation() {
   const chromCoefGraph = createChromCoefGraph();
-  const photopicGraph = createPhotopicGraph();
+  const photopicGraph = createPhotopicGraph(GRAPH2D_WIDTH, GRAPH2D_HEIGHT);
   const CmfGraph = createCmfGraph();
   const equations = d3.create("div").style("text-align", "center");
-  equations.style("font-size", "75%");
   equations.append("h3").text("Color Matching Functions Equations");
   const cmfEquations = d3.create("div").html(createCmfEquationContent());
   equations.node().appendChild(cmfEquations.node());
@@ -213,6 +222,7 @@ function createChromCoefToCmfAnimation() {
 
   const animation = document.createElement("div");
   animation.style.display = "grid";
+  animation.style.justifyItems = "center";
   animation.style.gridTemplateColumns = "repeat(2, 1fr)";
   animation.appendChild(chromCoefGraph);
   animation.appendChild(photopicGraph);
@@ -228,7 +238,6 @@ function main() {
   const chromCoefToCmfAnimation = createChromCoefToCmfAnimation();
   d3.select("#anim-chrom2cmf").node().append(chromCoefToCmfAnimation);
 
-  
   MathJax.typeset();
 }
 

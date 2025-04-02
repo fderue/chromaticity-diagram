@@ -40,3 +40,8 @@ img {
   max-width: 700px;
   margin: 0 auto;
 }
+
+.full-width-animation{
+  width:80%;
+  margin:0 auto;
+}

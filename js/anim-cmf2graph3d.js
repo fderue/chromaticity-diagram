@@ -1,6 +1,8 @@
 import d3 from "./d3-loader.js";
 import * as util from "./util.mjs";
 const [CMFData, ,] = await util.createCMFs();
+const GRAPH2D_WIDTH = 500;
+const GRAPH2D_HEIGHT = 400;
 
 class Equation {
   constructor() {
@@ -352,6 +354,7 @@ function createCMFdiv() {
     mode: "lines+markers",
     name: "R",
     line: { color: "red" },
+    marker: { size: 3 },
   };
 
   const traceG = {
@@ -361,6 +364,7 @@ function createCMFdiv() {
     mode: "lines+markers",
     name: "G",
     line: { color: "green" },
+    marker: { size: 3 },
   };
 
   const traceB = {
@@ -370,6 +374,7 @@ function createCMFdiv() {
     mode: "lines+markers",
     name: "B",
     line: { color: "blue" },
+    marker: { size: 3 },
   };
 
   const cmfData = [traceR, traceG, traceB];
@@ -377,6 +382,8 @@ function createCMFdiv() {
     title: "Color Matching Functions",
     hovermode: "x",
     xaxis: { title: "λ" },
+    width: GRAPH2D_WIDTH,
+    height: GRAPH2D_HEIGHT,
   };
   Plotly.newPlot(div.node(), cmfData, layout);
 
@@ -391,9 +398,9 @@ function createSpectralLocus3Ddiv() {
   const powerFactor = 1.5;
   const pointColors = Array.from({ length: CMFDataR.x.length }, (_, i) => {
     const RGB = util.cvtLinearRGBtoRGB({
-      R: powerFactor*CMFDataR.y[i],
-      G: powerFactor*CMFDataG.y[i],
-      B: powerFactor*CMFDataB.y[i],
+      R: powerFactor * CMFDataR.y[i],
+      G: powerFactor * CMFDataG.y[i],
+      B: powerFactor * CMFDataB.y[i],
     });
     return `rgb(${RGB.R}, ${RGB.G}, ${RGB.B})`;
   });
@@ -436,8 +443,9 @@ function createSpectralLocus3Ddiv() {
       yaxis: { title: { text: "G" } },
       zaxis: { title: { text: "B" } },
     },
-    //width:500,
-    //height:500
+    width: GRAPH2D_WIDTH,
+    height: GRAPH2D_HEIGHT,
+    title: "Tristimulus Values of Spectral Colors",
   };
 
   const div = d3.create("div");
@@ -454,9 +462,20 @@ function getCMF2volumeRGBAnimation() {
   // then when the mouse is over on the 2D graph, highlight somehow the point
   // in the 3D graph.
   CMFdiv.node().on("plotly_hover", function (data) {
-    const x = data.points[2].y;
-    const y = data.points[1].y;
-    const z = data.points[0].y;
+    let x, y, z;
+    data.points.forEach((point) => {
+      switch (point.curveNumber) {
+        case 0:
+          x = point.y;
+          break;
+        case 1:
+          y = point.y;
+          break;
+        case 2:
+          z = point.y;
+          break;
+      }
+    });
     highlightPointOn3Dgraph({ x, y, z });
   });
 
@@ -476,10 +495,7 @@ function getCMF2volumeRGBAnimation() {
   }
 
   const div = d3.create("div");
-  div
-    .style("display", "flex")
-    .style("position", "relative")
-    .style("left", "-50%");
+  div.style("display", "flex").style("justify-content", "center");
   div.node().appendChild(CMFdiv.node());
   div.node().appendChild(locus3Ddiv.node());
 
@@ -503,13 +519,18 @@ function createVisualGamut3dGraph() {
   const powerFactor = 2.0;
   const volumePoints = lerpPointsBetween(
     spectralPoints,
-    ({ x, y, z }) => util.cvtLinearRGBtoRGB({ R: powerFactor*x, G: powerFactor*y, B: powerFactor*z }),
+    ({ x, y, z }) =>
+      util.cvtLinearRGBtoRGB({
+        R: powerFactor * x,
+        G: powerFactor * y,
+        B: powerFactor * z,
+      }),
     0.01
   );
   const [xVolumePoints, yVolumePoints, zVolumePoints, colorVolumePoints] =
     util.unzipArrayOfObject(volumePoints);
 
-  const colorVolumePointsAsString = colorVolumePoints.map((c)=>c.toString())
+  const colorVolumePointsAsString = colorVolumePoints.map((c) => c.toString());
   const volumePointTrace = {
     type: "scatter3d",
     mode: "markers",
@@ -547,7 +568,7 @@ function addClickAnimation(visualGamut3dDiv, slider, equation) {
     z: [],
     line: { color: "black" },
     name: "isochromatic line",
-    hoverinfo:"none"
+    hoverinfo: "none",
   };
   const isoChromLineCurveIndex = visualGamut3dDiv.data.length;
   Plotly.addTraces(visualGamut3dDiv, isochromLineTrace);
@@ -561,7 +582,7 @@ function addClickAnimation(visualGamut3dDiv, slider, equation) {
     y: [],
     z: [],
     showlegend: false,
-    name:"selected"
+    name: "selected",
   };
   const movingPointCurveIndex = visualGamut3dDiv.data.length;
   Plotly.addTraces(visualGamut3dDiv, movingPointTrace);
@@ -647,10 +668,11 @@ function addClickAnimation(visualGamut3dDiv, slider, equation) {
   slider.addEventListener("input", updateMovingPoint);
 
   // Initialize with a point
-  requestAnimationFrame(()=>{onGamutClick({x:0.02371177, y:0.09235865, z:0.002567437})});
+  requestAnimationFrame(() => {
+    onGamutClick({ x: 0.02371177, y: 0.09235865, z: 0.002567437 });
+  });
 
   // TODO: double click does not work with scatter3d, so I need a button to reset all the animation
-
 }
 
 function createIsochromaticAnimation() {

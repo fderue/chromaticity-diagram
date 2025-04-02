@@ -2,7 +2,7 @@ import d3 from "./d3-loader.js"
 import * as util from "./util.mjs";
 
 const GRAPH2D_WIDTH = 500;
-const GRAPH2D_HEIGHT = 400;
+const GRAPH2D_HEIGHT = 350;
 
 // Preload data
 const munsellSpdRawData = await util.loadData(

@@ -698,8 +698,7 @@
         photopic luminosity function \(V(\lambda)\).
       </p>
     </div>
-
-    <div id="anim-chrom2cmf"></div>
+    <div id="anim-chrom2cmf" class="full-width-animation"></div>
     <div class="central-content">
       <p>
         In the next section, we'll see how we can use those function to create
@@ -741,7 +740,7 @@
         The area under each resulting curve represents the tristimulus values.
       </p>
     </div>
-    <div id="anim-tristimulus-from-spd"></div>
+    <div id="anim-tristimulus-from-spd" class="full-width-animation"></div>
     <div class="central-content">
       <p>
         With the tristimulus values, we have found a way to represent
@@ -773,16 +772,20 @@
       </p>
       <div class="block-equation">
         $$
+        \begin{split}
         R_m=\int{\delta(\lambda-\lambda_m)\bar{r}(\lambda)d\lambda}=\bar{r}(\lambda_m)\\
         G_m=\int{\delta(\lambda-\lambda_m)\bar{g}(\lambda)d\lambda}=\bar{g}(\lambda_m)
         \\
         B_m=\int{\delta(\lambda-\lambda_m)\bar{b}(\lambda)d\lambda}=\bar{b}(\lambda_m)
+        \end{split}
         $$
       </div>
       which mean that for each spectral color, we can take the value of the CMF
       as their tristimulus value. In the animation below, you can hover on each
       wavelength and see their corresponding tristimulus value on the 3d graph.
-      <div id="anim-cmf2graph3d"></div>
+    </div>
+    <div class="full-width-animation" id="anim-cmf2graph3d"></div>
+    <div class="central-content">
       <p>
         Fine, now we have the spectral colors, but what about the other colors?
         Remember when we talked about polychromaticity? You can combine
