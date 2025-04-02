@@ -1,6 +1,9 @@
 import d3 from "./d3-loader.js"
 import * as util from "./util.mjs";
 
+const GRAPH2D_WIDTH = 500;
+const GRAPH2D_HEIGHT = 400;
+
 // Preload data
 const munsellSpdRawData = await util.loadData(
   "data/munsell_380_780_1_glossy_all.csv"
@@ -115,7 +118,7 @@ function updatePatchColor(tristimulusData) {
  * @returns Dropdown node
  */
 function createSpdSelectionControl(preCmptedData) {
-  const spdSelectionControl = d3.create("select");
+  const spdSelectionControl = d3.create("select").style("width", "auto");
   preCmptedData.forEach((e) => {
     spdSelectionControl.append("option").text(e.name);
   });
@@ -220,6 +223,8 @@ function createSpdGraph(spdData) {
     title: "SPD",
     xaxis: { title: "λ" },
     yaxis: { title: "Φ(λ)" },
+    width:GRAPH2D_WIDTH,
+    height:GRAPH2D_HEIGHT
   };
   const div = document.createElement("div");
   Plotly.newPlot(div, [spdTrace], layout);
@@ -259,6 +264,8 @@ function createCmfGraph() {
     title: "Color Matching Functions",
     xaxis: { title: "λ" },
     yaxis: { title: "Amount of Primary" },
+    width:GRAPH2D_WIDTH,
+    height:GRAPH2D_HEIGHT
   };
 
   const div = document.createElement("div");
@@ -297,6 +304,8 @@ function createSpdXCmfGraph(spdXCmfData) {
     title: "SPD x Color Matching Functions",
     xaxis: { title: "λ" },
     yaxis: { title: "Amount of Primary" },
+    width:GRAPH2D_WIDTH,
+    height:GRAPH2D_HEIGHT
   };
   const div = document.createElement("div");
   Plotly.newPlot(div, [RCmfTrace, GCmfTrace, BCmfTrace], layout);
@@ -385,14 +394,16 @@ function createTristimulusFormSpdAnimation() {
   );
   equationTex.innerHTML = util.limitDecimal(tristEquation.getTex());
 
-  const patchColorDiv = d3.create("div");
+  const patchWidth = 50;
+  const patchHeight = 50;
+  const patchColorDiv = d3.create("div").style("display", "flex").style("justify-content", "center");
   const patchColor = patchColorDiv
-    .append("svg")
+    .append("svg").attr("width", patchWidth).attr("height", patchHeight)
     .append("svg:rect")
     .attr("x", 0)
     .attr("y", 0)
-    .attr("width", 50)
-    .attr("height", 50)
+    .attr("width", patchWidth)
+    .attr("height", patchHeight)
     .attr(
       "fill",
       cvtMunsellTristimulusToDisplayRgb(
@@ -419,6 +430,11 @@ function createTristimulusFormSpdAnimation() {
   const animationDiv = document.createElement("div");
   animationDiv.style.display = "grid";
   animationDiv.style.gridTemplateColumns = "repeat(2, 1fr)";
+  cmfGraph.style.justifySelf = "center";
+  spdGraph.style.justifySelf = "center";
+  spdXCmfGraph.style.justifySelf = "center";
+  animationDiv.style.width = "1000px";
+  animationDiv.style.margin = "0 auto";
   animationDiv.appendChild(cmfGraph);
   animationDiv.appendChild(spdGraph);
   animationDiv.appendChild(spdXCmfGraph);
