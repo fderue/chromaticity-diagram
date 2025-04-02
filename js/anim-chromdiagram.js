@@ -529,7 +529,6 @@ function createAnimationColorManipulation() {
   const animationDiv = d3
     .create("div")
     .style("display", "grid")
-    //.style("justifiy-content", "center")
     .style("grid-template-columns", "1fr 1fr")
   animationDiv
     .node()

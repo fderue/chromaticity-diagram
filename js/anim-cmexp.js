@@ -7,13 +7,16 @@ const chromCoefRawData = await util.loadData("data/CIE_rgb_coef.csv");
 const SCENE_WIDTH = 750;
 const SCENE_HEIGHT = 400;
 const SCENE_BGND = d3.rgb(200, 200, 200);
+const GRAPH2D_WIDTH = 400;
+const GRAPH2D_HEIGHT = 300;
 
 class Scene {
   constructor(width, height) {
     this.width = width;
     this.height = height;
     this.animationDiv = d3.create("div");
-    this.animationDiv.style("position", "relative");
+    this.animationDiv.style("display", "flex");
+    this.animationDiv.style("justify-content", "center");
     this.svgContainer = this.animationDiv
       .append("svg")
       .attr("width", this.width)
@@ -608,6 +611,8 @@ function createChromCoefGraph2d() {
     hovermode: "x",
     xaxis: { title: "λ" },
     yaxis: { title: "Chromaticity Coefficient" },
+    width:GRAPH2D_WIDTH,
+    height:GRAPH2D_HEIGHT
   };
 
   Plotly.newPlot(
@@ -1070,14 +1075,18 @@ function createCMExp() {
 
   // Return a div containing the scene, graph and equations
   const CMExpDiv = document.createElement("div");
-  const sceneAndGraphDiv = d3
+  CMExpDiv.style.display = "flex";
+  CMExpDiv.style.flexDirection = "column";
+  CMExpDiv.style.justifyContent = "center";
+  const EqAndGraphDiv = d3
     .create("div")
     .style("display", "flex")
+    .style("justify-content", "center")
     .style("align-items", "center");
-  sceneAndGraphDiv.node().appendChild(scene.getDiv());
-  sceneAndGraphDiv.node().appendChild(chromCoefGraphDiv);
-  CMExpDiv.appendChild(sceneAndGraphDiv.node());
-  CMExpDiv.appendChild(eqDiv);
+    EqAndGraphDiv.node().appendChild(eqDiv);
+    EqAndGraphDiv.node().appendChild(chromCoefGraphDiv);
+  CMExpDiv.appendChild(scene.getDiv());
+  CMExpDiv.appendChild(EqAndGraphDiv.node());
 
   return CMExpDiv;
 }

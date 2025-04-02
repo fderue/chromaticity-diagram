@@ -714,7 +714,7 @@ function main() {
   d3.select("#interpolate-tristimulus").node().appendChild(volumePointGenAnim);
 
   const isochromaticAnimation = createIsochromaticAnimation();
-  d3.select("#isochromatic-line-animation")
+  d3.select("#anim-isochromatic-line-animation")
     .node()
     .appendChild(isochromaticAnimation);
 }
