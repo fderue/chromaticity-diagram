@@ -75,7 +75,11 @@ class Gamut3d {
           range: [0.0, 1.0],
         },
         aspectmode: "cube",
+      
       },
+      autosize: false,
+      width:500,
+      height:450
     };
     Plotly.newPlot(
       this.div,
@@ -162,7 +166,7 @@ function genXYZPoints(delta = 1.0) {
 }
 
 function CreateFullChromaticityDiagramXy() {
-  const div = d3.create("div");
+  const div = d3.create("div").attr("id", "chromdiagram-id");
 
   // Get the spectral locus as array of array
   const spectralLocus = util.xySpectralLocus.map((d) => [d.x, d.y]);
@@ -518,10 +522,15 @@ function createAnimationColorManipulation() {
 
   linkControls(chromDiagramDiv, humanGamut3d, sliderY, resultColor);
 
+  chromDiagramDiv.style.justifySelf = "right";
+  humanGamut3d.div.style.justifySelf = "left";
+  sliderY.div.style.justifySelf = "right";
+  resultColor.div.style.justifySelf = "left";
   const animationDiv = d3
     .create("div")
     .style("display", "grid")
-    .style("grid-template-columns", "repeat(2, 1fr)");
+    //.style("justifiy-content", "center")
+    .style("grid-template-columns", "1fr 1fr")
   animationDiv
     .node()
     .append(chromDiagramDiv, humanGamut3d.div, sliderY.div, resultColor.div);

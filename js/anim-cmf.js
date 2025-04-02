@@ -214,8 +214,6 @@ function createChromCoefToCmfAnimation() {
   const animation = document.createElement("div");
   animation.style.display = "grid";
   animation.style.gridTemplateColumns = "repeat(2, 1fr)";
-  animation.style.position = "relative";
-  animation.style.left = "-50%";
   animation.appendChild(chromCoefGraph);
   animation.appendChild(photopicGraph);
   animation.appendChild(equations.node());
