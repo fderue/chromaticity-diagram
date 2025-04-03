@@ -7,7 +7,11 @@ function fillNavigationListWithHeaders(){
     // Find header content
     const header = section.querySelector("h2, h3");
     const listItem = document.createElement("li");
-    listItem.style.marginLeft = (header.tagName=="H3")? "12px" : "0px";
+    if(header.tagName == "H3"){
+      listItem.style.marginLeft = "12px";
+      listItem.style.fontSize = "80%";
+    }
+
     const itemRef = document.createElement("a");
     itemRef.href = `#${section.id}`;
     itemRef.textContent = header.textContent;

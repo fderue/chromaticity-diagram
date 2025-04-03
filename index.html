@@ -308,872 +308,933 @@
     </section>
 
     <section id="the-color-matching-experiment">
-      <h2>The Color Matching Experiment</h2>
-      <p>
-        A natural conclusion of the trichromatic vision theory is that all
-        perceivable colors can be created by mixing just three primary colors in
-        varying proportions. The Color Matching Experiment was designed to
-        determine how humans perceive color by recreating a
-        <span class="highlight">test light</span>, a monochromatic light of
-        varying wavelength, using a mix of three primary monochromatic lights,
-        referred as <span class="highlight">primaries</span>. Here’s how it
-        worked:
-      </p>
-      <ol>
-        <li>
-          A participant was shown a test light with a specific wavelength.
-        </li>
-        <li>
-          They were given three primary lights of fixed wavelengths and asked to
-          adjust their intensities until the mixed light matched the test light
-          as closely as possible.
-        </li>
-        <li>
-          This process was repeated for different test wavelengths across the
-          visible spectrum.
-        </li>
-        <li>
-          The experiment was conducted with multiple participants, and their
-          results were recorded.
-        </li>
-      </ol>
+      <div class="central-content">
+        <h2>The Color Matching Experiment</h2>
+        <p>
+          A natural conclusion of the trichromatic vision theory is that all
+          perceivable colors can be created by mixing just three primary colors
+          in varying proportions. The Color Matching Experiment was designed to
+          determine how humans perceive color by recreating a
+          <span class="highlight">test light</span>, a monochromatic light of
+          varying wavelength, using a mix of three primary monochromatic lights,
+          referred as <span class="highlight">primaries</span>. Here’s how it
+          worked:
+        </p>
+        <ol>
+          <li>
+            A participant was shown a test light with a specific wavelength.
+          </li>
+          <li>
+            They were given three primary lights of fixed wavelengths and asked
+            to adjust their intensities until the mixed light matched the test
+            light as closely as possible.
+          </li>
+          <li>
+            This process was repeated for different test wavelengths across the
+            visible spectrum.
+          </li>
+          <li>
+            The experiment was conducted with multiple participants, and their
+            results were recorded.
+          </li>
+        </ol>
+      </div>
       <section id="calibration">
-        <h3>Calibration</h3>
-        <p>
-          Before conducting the actual Color Matching Experiment, the primaries
-          needs to be calibrated using a white light, called a
-          <span class="highlight">Reference White</span>. But we can't just pick
-          any light that looks white, otherwise, others wouldn't be able to
-          reproduce the experiment consistently. To ensure standardization,
-          scientists use <span class="highlight">Standard Illuminants</span>,
-          specific light sources defined by their SPD. These illuminants serve
-          as reference white lights for color experiments. Some commonly used
-          standard illuminants include:
-        </p>
-        <ul>
-          <li>A: typical tungsten-filament light</li>
-          <li>D65 (6500K): Approximating daylight</li>
-          <li>E: a theoretical Equal-energy illuminant</li>
-          <li>NPL: (National Physical Laboratory)</li>
-        </ul>
-        <div id="anim-spd-illuminant"></div>
-        <p>
-          What does calibration mean? Calibration is the process of adjusting
-          the intensity of the primaries so that their combination matches the
-          reference white. For example, at the start of the experiment, let's
-          say that we can control the amount of light emitted by each primary by
-          setting an amount of power in watt, then we could find that to match
-          the reference white, the red primary needs to be set at 60W, the green
-          primary at 30W, and the blue primary at 90W. It means that after
-          calibration:
-        </p>
-        <ul>
-          <li>One unit of red = 60W</li>
-          <li>One unit of green = 30W</li>
-          <li>One unit of blue = 90W</li>
-        </ul>
-        <p>
-          Those units defines a new system to quantify an
-          <span class="highlight">amount of primary</span>. Using this new unit
-          system, we can say that the sum of one unit of each primary matches
-          the reference white.
-        </p>
-        <p>
-          You can try calibrating the primaries yourself using the animation
-          below. Adjust each primary until it matches the reference white. Once
-          you're satisfied, click <i>Calibrate</i>. The three calibrated values
-          Rp, Gp, and Bp will appear. These notations will be used in the
-          explanation later on.
-        </p>
+        <div class="central-content">
+          <h3>Calibration</h3>
+          <p>
+            Before conducting the actual Color Matching Experiment, the
+            primaries needs to be calibrated using a white light, called a
+            <span class="highlight">Reference White</span>. But we can't just
+            pick any light that looks white, otherwise, others wouldn't be able
+            to reproduce the experiment consistently. To ensure standardization,
+            scientists use <span class="highlight">Standard Illuminants</span>,
+            specific light sources defined by their SPD. These illuminants serve
+            as reference white lights for color experiments. Some commonly used
+            standard illuminants include:
+          </p>
+          <ul>
+            <li>A: typical tungsten-filament light</li>
+            <li>D65 (6500K): Approximating daylight</li>
+            <li>E: a theoretical Equal-energy illuminant</li>
+            <li>NPL: (National Physical Laboratory)</li>
+          </ul>
+          <div id="anim-spd-illuminant"></div>
+          <p>
+            What does calibration mean? Calibration is the process of adjusting
+            the intensity of the primaries so that their combination matches the
+            reference white. For example, at the start of the experiment, let's
+            say that we can control the amount of light emitted by each primary
+            by setting an amount of power in watt, then we could find that to
+            match the reference white, the red primary needs to be set at 60W,
+            the green primary at 30W, and the blue primary at 90W. It means that
+            after calibration:
+          </p>
+          <ul>
+            <li>One unit of red = 60W</li>
+            <li>One unit of green = 30W</li>
+            <li>One unit of blue = 90W</li>
+          </ul>
+          <p>
+            Those units defines a new system to quantify an
+            <span class="highlight">amount of primary</span>. Using this new
+            unit system, we can say that the sum of one unit of each primary
+            matches the reference white.
+          </p>
+          <p>
+            You can try calibrating the primaries yourself using the animation
+            below. Adjust each primary until it matches the reference white.
+            Once you're satisfied, click <i>Calibrate</i>. The three calibrated
+            values Rp, Gp, and Bp will appear. These notations will be used in
+            the explanation later on.
+          </p>
+        </div>
         <div id="anim-cmexp-calibration"></div>
-        <p>
-          Now that the system is calibrated, what we want to measure is the
-          chromaticity of a color.
-        </p>
+        <div class="central-content">
+          <p>
+            Now that the system is calibrated, what we want to measure is the
+            chromaticity of a color.
+          </p>
+        </div>
       </section>
       <section id="chromaticity">
-        <h3>Chromaticity</h3>
-        <p>
-          In the color matching experiment, what matters is the amount of each
-          primary required to match the test light set at a specific wavelength.
-          At every wavelength, the participant was asked to change the intensity
-          of each primary to match the test light, and the amount of each
-          primary was recorded. Mathematically, we could represent this match as
-          an equation called the color matching equation:
-        </p>
-
-        <div class="block-equation">
-          $$\alpha C(\lambda) \triangleq r'(\lambda)\mathcal{R}
-          \hat{+}g'(\lambda)\mathcal{G}\hat{+}b'(\lambda)\mathcal{B} $$
+        <div class="central-content">
+          <h3>Chromaticity</h3>
+          <p>
+            In the color matching experiment, what matters is the amount of each
+            primary required to match the test light set at a specific
+            wavelength. At every wavelength, the participant was asked to change
+            the intensity of each primary to match the test light, and the
+            amount of each primary was recorded. Mathematically, we could
+            represent this match as an equation called the color matching
+            equation:
+          </p>
+          <div class="block-equation">
+            $$\alpha C(\lambda) \triangleq r'(\lambda)\mathcal{R}
+            \hat{+}g'(\lambda)\mathcal{G}\hat{+}b'(\lambda)\mathcal{B} $$
+          </div>
+          with
+          <ul>
+            <li>
+              \(r'(\lambda), g'(\lambda), b'(\lambda)\) the amount of primary
+              \(\mathcal{R},\mathcal{G},\mathcal{B}\) respectively.
+            </li>
+            <li>\(C(\lambda)\) the color to be matched.</li>
+            <li>\(\alpha\) the amount of color \(C(\lambda)\)</li>
+          </ul>
+          <p>
+            Those strange symbol \(\triangleq, \hat{+}\) indicates that they are
+            not algebraic operations, but instead <i>physical</i> operations,
+            such as the result of mixing light.
+          </p>
+          <p>
+            Since there is no unit defined for \(C(\lambda)\), we don't know the
+            amount \(\alpha\). But multiplying each side by a factor would
+            actually keep the match. It is equivalent to increase the intensity
+            of the test light and increase by the same amount each primary by a
+            factor \(s\)
+          </p>
+          <div class="block-equation">
+            $$ s\alpha C(\lambda) \triangleq
+            \underbrace{sr'(\lambda)}_{r}\mathcal{R}
+            \hat{+}\underbrace{sg'(\lambda)}_g\mathcal{G}\hat{+}\underbrace{sb'(\lambda)}_b\mathcal{B}
+            $$
+          </div>
+          <p>
+            Wright wanted to define the equation so that 1 unit of C would
+            correspond to an equation where the sum of the coefficients \(r, g,
+            b\) equal 1.
+          </p>
+          <div class="block-equation">
+            $$ sr'+sg'+sr' = 1 \ s = \frac{1}{r'+g'+b'} $$
+          </div>
+          <p>
+            From this definition, the normalized coefficients \(r, g, b\) could
+            be computed from the measured amount of primaries \(r', g', b’\).
+          </p>
+          <div class="block-equation">
+            $$ \begin{split} r = \frac{r'}{r'+g'+b'}\ g = \frac{g'}{r'+g'+b'}\ b
+            = \frac{b'}{r'+g'+b'} \end{split} $$
+          </div>
+          <p>The equation can be rewritten as</p>
+          <div class="block-equation">
+            $$ C(\lambda) \triangleq
+            r(\lambda)\mathcal{R}\hat{+}g(\lambda)\mathcal{G}\hat{+}b(\lambda)\mathcal{B}
+            $$
+          </div>
+          <p>
+            meaning that 1 unit of color C is matched by \(r\) unit of Red,
+            \(g\) unit of Green and \(b\) unit of Blue. Remember that \(r, g,
+            b\) are not the initial amount found during the experiment, they are
+            normalized value so that \(r+g+b = 1\). Those coefficients \((r, g,
+            b)\), computed for each wavelength, are called the
+            <span class="highlight">chromaticity coefficients</span>.
+          </p>
+          <div class="callout">
+            Now I am going to show you quantitative results. Those are not
+            directly the results from Guild and Wright, because they went
+            through different iterations of their experience so their results
+            changed along the way. Instead, I will show you directly the data
+            that the Commission International de l'Éclairage (CIE) finally
+            decided to use to make the standard. The primaries used are Red
+            (700nm), Green (546.1nm) and Blue (435.8nm). The white reference is
+            the the standard illuminant E.
+          </div>
+          <p>
+            In the animation below, you can see these coefficients represented
+            on a 2D graph. By hovering over it, you'll directly observe their
+            relationship with the experiment. I've used the calibrated value
+            \(R_c=60, G_c=30, B_b=90\) from the previous animation. You may
+            notice that some spectral colors cannot be matched simply by mixing
+            the three primaries. The only way to match them is by adding a
+            <i>negative</i> amount of a primary color, which is equivalent to
+            adding a positive amount on the test light side, as shown in the
+            animation.
+          </p>
         </div>
-        with
-        <ul>
-          <li>
-            \(r'(\lambda), g'(\lambda), b'(\lambda)\) the amount of primary
-            \(\mathcal{R},\mathcal{G},\mathcal{B}\) respectively.
-          </li>
-          <li>\(C(\lambda)\) the color to be matched.</li>
-          <li>\(\alpha\) the amount of color \(C(\lambda)\)</li>
-        </ul>
-        <p>
-          Those strange symbol \(\triangleq, \hat{+}\) indicates that they are
-          not algebraic operations, but instead <i>physical</i> operations, such
-          as the result of mixing light.
-        </p>
-        <p>
-          Since there is no unit defined for \(C(\lambda)\), we don't know the
-          amount \(\alpha\). But multiplying each side by a factor would
-          actually keep the match. It is equivalent to increase the intensity of
-          the test light and increase by the same amount each primary by a
-          factor \(s\)
-        </p>
-        <div class="block-equation">
-          $$ s\alpha C(\lambda) \triangleq
-          \underbrace{sr'(\lambda)}_{r}\mathcal{R}
-          \hat{+}\underbrace{sg'(\lambda)}_g\mathcal{G}\hat{+}\underbrace{sb'(\lambda)}_b\mathcal{B}
-          $$
-        </div>
-        <p>
-          Wright wanted to define the equation so that 1 unit of C would
-          correspond to an equation where the sum of the coefficients \(r, g,
-          b\) equal 1.
-        </p>
-        <div class="block-equation">
-          $$ sr'+sg'+sr' = 1 \\ s = \frac{1}{r'+g'+b'} $$
-        </div>
-        <p>
-          From this definition, the normalized coefficients \(r, g, b\) could be
-          computed from the measured amount of primaries \(r', g', b’\).
-        </p>
-        <div class="block-equation">
-          $$ \begin{split} r = \frac{r'}{r'+g'+b'}\\ g = \frac{g'}{r'+g'+b'}\\ b
-          = \frac{b'}{r'+g'+b'} \end{split} $$
-        </div>
-        <p>The equation can be rewritten as</p>
-        <div class="block-equation">
-          $$ C(\lambda) \triangleq
-          r(\lambda)\mathcal{R}\hat{+}g(\lambda)\mathcal{G}\hat{+}b(\lambda)\mathcal{B}
-          $$
-        </div>
-        <p>
-          meaning that 1 unit of color C is matched by \(r\) unit of Red, \(g\)
-          unit of Green and \(b\) unit of Blue. Remember that \(r, g, b\) are
-          not the initial amount found during the experiment, they are
-          normalized value so that \(r+g+b = 1\). Those coefficients \((r, g,
-          b)\), computed for each wavelength, are called the
-          <span class="highlight">chromaticity coefficients</span>.
-        </p>
-        <div class="callout">
-          Now I am going to show you quantitative results. Those are not
-          directly the results from Guild and Wright, because they went through
-          different iterations of their experience so their results changed
-          along the way. Instead, I will show you directly the data that the
-          Commission International de l'Éclairage (CIE) finally decided to use
-          to make the standard. The primaries used are Red (700nm), Green
-          (546.1nm) and Blue (435.8nm). The white reference is the the standard
-          illuminant E.
-        </div>
-        <p>
-          In the animation below, you can see these coefficients represented on
-          a 2D graph. By hovering over it, you'll directly observe their
-          relationship with the experiment. I've used the calibrated value
-          \(R_c=60, G_c=30, B_b=90\) from the previous animation. You may notice
-          that some spectral colors cannot be matched simply by mixing the three
-          primaries. The only way to match them is by adding a
-          <i>negative</i> amount of a primary color, which is equivalent to
-          adding a positive amount on the test light side, as shown in the
-          animation.
-        </p>
 
         <div id="anim-cmexp" class="full-width-animation"></div>
-        <p>
-          Now is the time to give a proper definition for chromaticity! As we
-          saw earlier, the chromaticity coefficients represent the relative
-          amounts of the primaries that, when summed, match a given color. Since
-          these coefficients are relative, we can multiply them by the same
-          factor and still obtain the same perceived color, but with a different
-          intensity. Here, the word <i>color</i> can be misleading. One might
-          argue that blue and dark blue are different colors, and that's fair!
-          Instead, we can say: Blue and dark blue have different intensities but
-          share the same chromaticity. In this context, <i>intensity</i> is a
-          vague term. A more intuitive way to describe it might be
-          <i>luminosity</i> or <i>brightness</i>, but the most precise term used
-          in color science is <i>luminance</i>.We'll explore luminance in the
-          next section but to conclude with the chromaticity, here is
-          definition:
-        </p>
-        <div class="callout">
-          The <span class="highlight">chromaticity</span> of a color is the
-          relative amount of primaries needed to match a color regardless of its
-          luminance. The relative amounts that sum up to one are called the
-          chromaticity coefficients.
+        <div class="central-content">
+          <p>
+            Now is the time to give a proper definition for chromaticity! As we
+            saw earlier, the chromaticity coefficients represent the relative
+            amounts of the primaries that, when summed, match a given color.
+            Since these coefficients are relative, we can multiply them by the
+            same factor and still obtain the same perceived color, but with a
+            different intensity. Here, the word <i>color</i> can be misleading.
+            One might argue that blue and dark blue are different colors, and
+            that's fair! Instead, we can say: Blue and dark blue have different
+            intensities but share the same chromaticity. In this context,
+            <i>intensity</i> is a vague term. A more intuitive way to describe
+            it might be <i>luminosity</i> or <i>brightness</i>, but the most
+            precise term used in color science is <i>luminance</i>.We'll explore
+            luminance in the next section but to conclude with the chromaticity,
+            here is definition:
+          </p>
+          <div class="callout">
+            The <span class="highlight">chromaticity</span> of a color is the
+            relative amount of primaries needed to match a color regardless of
+            its luminance. The relative amounts that sum up to one are called
+            the chromaticity coefficients.
+          </div>
+          <p>
+            The chromaticity is only one of the two attributes to describe a
+            color. The other attribute is the luminance. To fully characterize a
+            color, we need both. The chromaticity graph is not enough, we need
+            another graph to take into consideration the luminance.
+          </p>
         </div>
-        <p>
-          The chromaticity is only one of the two attributes to describe a
-          color. The other attribute is the luminance. To fully characterize a
-          color, we need both. The chromaticity graph is not enough, we need
-          another graph to take into consideration the luminance.
-        </p>
       </section>
       <section id="luminance">
-        <h3>Luminance</h3>
-        <p>
-          The luminance describes how bright an object appears. The term
-          luminance can be confusing because it has different meanings in
-          photometry and radiometry:
-        </p>
-        <ul>
-          <li>
-            Photometric luminance is based on human vision and perception. It
-            measures light as seen by the human eye and is expressed in lumens.
-          </li>
-          <li>
-            Radiometric luminance, also called radiance, is a physical
-            measurement of energy, independent of human perception. It is
-            measured in watts per steradian per square meter (W/sr·m²).
-          </li>
-        </ul>
-        <p>In this article, luminance refers to the photometric luminance.</p>
-        <p>
-          To illustrate the luminance, let's take a monochromatic red light and
-          a monochromatic green light. If both emit the same power (let's say 1
-          watt), you might expect them to appear equally bright. But when you
-          look at them, the green light appears brighter than the red, even
-          though they emit the same amount of energy! This tells us that
-          brightness is a relative metric—our eyes perceive some wavelengths as
-          brighter than others, even when their physical energy output is
-          identical. Imagine we have a monochromatic light source that emits
-          exactly 1 watt of power at any given wavelength. Now, if we ask people
-          to compare the brightness of different wavelengths, they will likely
-          report that the brightest color they perceive is around 570 nm
-          (yellow-green light). Since brightness is a relative measure, we can
-          assign a value of 1 to this maximum perceived brightness and scale all
-          other brightness perceptions accordingly. By gathering these
-          observations across the entire visible spectrum, we obtain a curve
-          known as the
-          <span class="highlight">photopic luminosity function V(λ)</span>.
-        </p>
-        <div id="photopic-graph"></div>
-        <p>
-          This unit-less curve—derived from human-based experiments based on
-          Wright and Guild works—illustrates how our eyes perceive brightness
-          under well-lit conditions. So, how does luminance relate to the
-          photopic curve?
-        </p>
-        <p>
-          Luminance is computed based on the photopic function V(λ). Therefore,
-          it remains a subjective measure—meaning it reflects human visual
-          perception rather than an absolute physical quantity. However, unlike
-          raw brightness perception, luminance has a unit and can be measured.
-          Given a light source having a Spectral Power Distribution (SPD)
-          \(\Phi(\lambda)\), its luminance is defined as:
-        </p>
-        <div class="block-equation">
-          $$ L = C_l\int_\lambda \Phi(\lambda)V(\lambda) d\lambda $$
+        <div class="central-content">
+          <h3>Luminance</h3>
+          <p>
+            The luminance describes how bright an object appears. The term
+            luminance can be confusing because it has different meanings in
+            photometry and radiometry:
+          </p>
+          <ul>
+            <li>
+              Photometric luminance is based on human vision and perception. It
+              measures light as seen by the human eye and is expressed in
+              lumens.
+            </li>
+            <li>
+              Radiometric luminance, also called radiance, is a physical
+              measurement of energy, independent of human perception. It is
+              measured in watts per steradian per square meter (W/sr·m²).
+            </li>
+          </ul>
+          <p>In this article, luminance refers to the photometric luminance.</p>
+          <p>
+            To illustrate the luminance, let's take a monochromatic red light
+            and a monochromatic green light. If both emit the same power (let's
+            say 1 watt), you might expect them to appear equally bright. But
+            when you look at them, the green light appears brighter than the
+            red, even though they emit the same amount of energy! This tells us
+            that brightness is a relative metric—our eyes perceive some
+            wavelengths as brighter than others, even when their physical energy
+            output is identical. Imagine we have a monochromatic light source
+            that emits exactly 1 watt of power at any given wavelength. Now, if
+            we ask people to compare the brightness of different wavelengths,
+            they will likely report that the brightest color they perceive is
+            around 570 nm (yellow-green light). Since brightness is a relative
+            measure, we can assign a value of 1 to this maximum perceived
+            brightness and scale all other brightness perceptions accordingly.
+            By gathering these observations across the entire visible spectrum,
+            we obtain a curve known as the
+            <span class="highlight">photopic luminosity function V(λ)</span>.
+          </p>
+          <div id="photopic-graph"></div>
+          <p>
+            This unit-less curve—derived from human-based experiments based on
+            Wright and Guild works—illustrates how our eyes perceive brightness
+            under well-lit conditions. So, how does luminance relate to the
+            photopic curve?
+          </p>
+          <p>
+            Luminance is computed based on the photopic function V(λ).
+            Therefore, it remains a subjective measure—meaning it reflects human
+            visual perception rather than an absolute physical quantity.
+            However, unlike raw brightness perception, luminance has a unit and
+            can be measured. Given a light source having a Spectral Power
+            Distribution (SPD) \(\Phi(\lambda)\), its luminance is defined as:
+          </p>
+          <div class="block-equation">
+            $$ L = C_l\int_\lambda \Phi(\lambda)V(\lambda) d\lambda $$
+          </div>
+          where
+          <ul>
+            <li>
+              \(C_l=683.002\frac{\mathrm{lm}}{W}\) is a constant that ensures
+              luminance is expressed in lumens.
+            </li>
+            <li>
+              The integral sums the weighted contribution of each wavelength,
+              according to the human eye's sensitivity V(λ).
+            </li>
+          </ul>
+          <p>
+            To simplify notation, I often omit the constant $C_l$ and express
+            luminance in watts instead. The purpose of luminance is to match
+            perceived brightness rather than actual emitted power. For example:
+            A red light and a green light with equal luminance will appear
+            equally bright, even though they may emit different amounts of
+            physical power. This makes luminance an essential metric in color
+            science, display technology, and lighting design, where human
+            perception matters more than raw energy output. Now that we
+            understand what luminance is, together with the chromaticity, we can
+            fully describe a color! In the next section, we'll modify the
+            trichromatic graph to take into account the luminance information of
+            a color. The results are three functions called the
+            <span class="highlight">Color Matching Functions</span>.
+          </p>
         </div>
-        where
-        <ul>
-          <li>
-            \(C_l=683.002\frac{\mathrm{lm}}{W}\) is a constant that ensures
-            luminance is expressed in lumens.
-          </li>
-          <li>
-            The integral sums the weighted contribution of each wavelength,
-            according to the human eye's sensitivity V(λ).
-          </li>
-        </ul>
-        <p>
-          To simplify notation, I often omit the constant $C_l$ and express
-          luminance in watts instead. The purpose of luminance is to match
-          perceived brightness rather than actual emitted power. For example: A
-          red light and a green light with equal luminance will appear equally
-          bright, even though they may emit different amounts of physical power.
-          This makes luminance an essential metric in color science, display
-          technology, and lighting design, where human perception matters more
-          than raw energy output. Now that we understand what luminance is,
-          together with the chromaticity, we can fully describe a color! In the
-          next section, we'll modify the trichromatic graph to take into account
-          the luminance information of a color. The results are three functions
-          called the
-          <span class="highlight">Color Matching Functions</span>.
-        </p>
       </section>
       <section id="color-matching-function">
-        <h3>Color Matching Functions (CMF)</h3>
-        <p>
-          Remember the 2D graph representing the trichromatic coefficients? It
-          allowed us to describe colors independently of luminance, but now,
-          with our understanding of luminance, we can enhance this
-          representation to fully account for both chromaticity and luminance.
-          To achieve this, we introduce in this section three key functions
-          known as the Color Matching Functions (CMFs).
-        </p>
-        <p>
-          In the Color Matching Experiment, the goal was to match not only the
-          chromaticity of a test color but also its luminance. This means that
-          when mixing the primary lights, their combined luminance had to be
-          equal to the luminance of the test color. When we write
-        </p>
-        <div class="block-equation">
-          $$ C(\lambda) \triangleq
-          r(\lambda)\mathcal{R}\hat{+}g(\lambda)\mathcal{G}\hat{+}b(\lambda)\mathcal{B}
-          $$
+        <div class="central-content">
+          <h3>Color Matching Functions (CMF)</h3>
+          <p>
+            Remember the 2D graph representing the trichromatic coefficients? It
+            allowed us to describe colors independently of luminance, but now,
+            with our understanding of luminance, we can enhance this
+            representation to fully account for both chromaticity and luminance.
+            To achieve this, we introduce in this section three key functions
+            known as the Color Matching Functions (CMFs).
+          </p>
+          <p>
+            In the Color Matching Experiment, the goal was to match not only the
+            chromaticity of a test color but also its luminance. This means that
+            when mixing the primary lights, their combined luminance had to be
+            equal to the luminance of the test color. When we write
+          </p>
+          <div class="block-equation">
+            $$ C(\lambda) \triangleq
+            r(\lambda)\mathcal{R}\hat{+}g(\lambda)\mathcal{G}\hat{+}b(\lambda)\mathcal{B}
+            $$
+          </div>
+          <p>
+            using the chromaticity coefficients
+            \(r(\lambda),g(\lambda),b(\lambda)\) , this equation only describes
+            the relative amounts of chromaticity, but it tells us nothing about
+            luminance. The resulting color C has an unknown luminance. We are
+            now looking for an equation that will involve the color luminance.
+            To determine the luminance of a color given by mixing three
+            primaries, we use Grassmann's Law, which states that: The luminance
+            of a color is the sum of the luminance of the individual lights that
+            compose it. In other words, when mixing three primary lights, the
+            total luminance of the result is simply the sum of their individual
+            luminance. Let's pose \(L_r, L_g, L_b\) the luminance of each unit
+            of primary \(\mathcal{R},\mathcal{G},\mathcal{B}\) respectively.
+            Let's choose a specific spectral color C of wavelength
+            \(\lambda_C\), whose chromaticity coefficients are \(r, g, b\).
+            Mixing the primaries according to these chromaticity coefficients
+            would result in a unknown luminance \(L_c\). Mathematically,
+          </p>
+          <div class="block-equation">
+            $$ \begin{equation} L_c = rL_r+gL_g+bL_b \end{equation} $$
+          </div>
+          <p>
+            Now let's decide that we want the luminance of a color C that emits
+            one 1 watt of light. We then have to scale the amount of each
+            primary by the same factor $v$ to keep the chromaticity of the
+            color.
+          </p>
+          <div class="block-equation">
+            $$ \begin{equation} \begin{split} L_C^1=v(rL_r+gL_g+bL_b)\
+            =vrL_r+vgL_g+vbL_b\ \end{split} \end{equation} $$
+          </div>
+          <p>
+            This equation tells us that to match the color C with luminance of 1
+            watt, you need to mix \(vr\) amount of \(\mathcal{R}\), $vg$ of
+            \(\mathcal{G}\) and $vb$ of \(\mathcal{B}\). So far, here are the
+            unknowns : \(v, L_r, L_g, L_b\) We actually know the luminance
+            \(L_C^1\). We said that it is the luminance given by 1 Watt of C.
+            Remembering the luminance equation
+          </p>
+          <div class="block-equation">
+            $$ L = C_l\int_\lambda \Phi(\lambda)V(\lambda) d\lambda $$
+          </div>
+          <p>
+            If we omit the constant \(C_l\), \(V(\lambda)\) is the known
+            photopic curve, and since for a monochromatic light $\lambda_C$
+            emitting 1 watt, its SPD \(\Phi(\lambda) =
+            \delta(\lambda-\lambda_C)\) is just a peak at \(\lambda_C\), we can
+            write
+          </p>
+          <div class="block-equation">$$ L_C^1 = V(\lambda_C) $$</div>
+          Now we can isolate \(v\)
+          <div class="block-equation">
+            $$ \begin{equation} \begin{split} L_C^1 = V(\lambda_C) =
+            v(rL_r+gL_g+bL_b)\ v = \frac{V(\lambda_c)}{rL_r+gL_g+bL_b}
+            \end{split} \end{equation} $$
+          </div>
+          <p>
+            But what are the luminance of one unit of Red, Green, and Blue:
+            \(L_r, L_g, L_b\)? Actually, we don't need the absolute luminance
+            values, just their relative luminance is needed here. Here is what I
+            mean. Without modifying the problem, we could have said that the
+            factor $v$ could instead be written as \(v = k\frac{1}{L_r}\).
+            Equation (3) becomes
+          </p>
+          <div class="block-equation">
+            $$ \begin{split} k\frac{1}{L_r} =
+            \frac{V(\lambda_c)}{rL_r+gL_g+bL_b}\ \end{split} $$
+          </div>
+          Now isolating \(k\) gives
+          <div class="block-equation">
+            $$ \begin{split} k =
+            \frac{V(\lambda_c)}{\frac{1}{L_r}(rL_r+gL_g+bL_b)}\
+            =\frac{V(\lambda_c)}{(r\frac{L_r}{L_r}+g\frac{L_g}{L_r}+b\frac{L_b}{L_r})}\
+            = \frac{V(\lambda_c)}{(rL^r+gL^ g+bL^b)} \end{split} $$
+          </div>
+          with
+          <div class="block-equation">
+            $$ \begin{split} L^r = \frac{L_r}{L_r} = 1\\ L^g = \frac{L_g}{L_r}\\
+            L^b = \frac{L_b}{L_r}\ \end{split} $$
+          </div>
+          <p>
+            This change of variable illustrates that only the relative
+            luminances are necessary. Those coefficients \(L^r, L^g, L^b\) are
+            called the luminance coefficients. Injecting them in (2) gives this
+            luminance equation involving the relative luminances.
+          </p>
+          <div class="block-equation">
+            $$ \begin{equation} \begin{split} L_C^1=v(rL_r+gL_g+bL_b)\ =
+            k\frac{1}{L_r}(rL_r+gL_g+bL_b)\ = krL^r + kgL_ g + kbL^b \end{split}
+            \end{equation} $$
+          </div>
+          <p>
+            But we are still missing \(L^g\) and \(L^b\) ! Wright measured that
+            one unit of Green primary was about 4.4 times brighter than one unit
+            of Red primary. And that one unit of blue primary was about 0.04
+            times less bright than one unit of Red. The exact value given by CIE
+            are the following coefficients. If you are curious on how to find
+            those coefficients, here is the <a href="TODO">procedure</a>.
+          </p>
+          <div class="block-equation">
+            $$ \begin{split} L^r = 1 \\ L^g = 4.4036 \\ L^b = 0.0471
+            \end{split}$$
+          </div>
+          Let's generalize equation (4) for any spectral color \(\lambda\),
+          <div class="block-equation">
+            $$ \begin{equation} \begin{aligned} L^1(\lambda)
+            &=k(\lambda)r(\lambda)L^r+k(\lambda)g(\lambda)L^g+k(\lambda)b(\lambda)L^b
+            \end{aligned} \end{equation} $$
+          </div>
+          <p>
+            which tells us that to match the luminance of 1 watt of a color
+            whose chromaticity coefficients are \(r(\lambda), g(\lambda),
+            b(\lambda)\), you need
+          </p>
+          <ul>
+            <li>\(\bar{r}(\lambda) = k(\lambda)r(\lambda)\) of Red Primary</li>
+            <li>
+              \(\bar{g}(\lambda) = k(\lambda)g(\lambda)\) of Green Primary
+            </li>
+            <li>\(\bar{b}(\lambda) = k(\lambda)b(\lambda)\) of Blue Primary</li>
+          </ul>
+          <p>
+            Now you have it, the three Color Matching Functions
+            \(\bar{r}(\lambda), \bar{g}(\lambda), \bar{b}(\lambda)\). To give a
+            proper definition the CMF, \(\bar{r}(\lambda), \bar{g}(\lambda),
+            \bar{b}(\lambda)\) represents the amount of Red, Green and Blue
+            primary respectively, needed to match the spectral color
+            \(C(\lambda)\) that emits 1 Watt of power. On the animation below,
+            you can hover the color matching functions graph to see the
+            mathematical relationship with the chromaticity coefficients and the
+            photopic luminosity function \(V(\lambda)\).
+          </p>
         </div>
-        <p>
-          using the chromaticity coefficients
-          \(r(\lambda),g(\lambda),b(\lambda)\) , this equation only describes
-          the relative amounts of chromaticity, but it tells us nothing about
-          luminance. The resulting color C has an unknown luminance. We are now
-          looking for an equation that will involve the color luminance. To
-          determine the luminance of a color given by mixing three primaries, we
-          use Grassmann's Law, which states that: The luminance of a color is
-          the sum of the luminance of the individual lights that compose it. In
-          other words, when mixing three primary lights, the total luminance of
-          the result is simply the sum of their individual luminance. Let's pose
-          \(L_r, L_g, L_b\) the luminance of each unit of primary
-          \(\mathcal{R},\mathcal{G},\mathcal{B}\) respectively. Let's choose a
-          specific spectral color C of wavelength \(\lambda_C\), whose
-          chromaticity coefficients are \(r, g, b\). Mixing the primaries
-          according to these chromaticity coefficients would result in a unknown
-          luminance \(L_c\). Mathematically,
-        </p>
-        <div class="block-equation">
-          $$ \begin{equation} L_c = rL_r+gL_g+bL_b \end{equation} $$
-        </div>
-        <p>
-          Now let's decide that we want the luminance of a color C that emits
-          one 1 watt of light. We then have to scale the amount of each primary
-          by the same factor $v$ to keep the chromaticity of the color.
-        </p>
-        <div class="block-equation">
-          $$ \begin{equation} \begin{split} L_C^1=v(rL_r+gL_g+bL_b)\\
-          =vrL_r+vgL_g+vbL_b\\ \end{split} \end{equation} $$
-        </div>
-        <p>
-          This equation tells us that to match the color C with luminance of 1
-          watt, you need to mix \(vr\) amount of \(\mathcal{R}\), $vg$ of
-          \(\mathcal{G}\) and $vb$ of \(\mathcal{B}\). So far, here are the
-          unknowns : \(v, L_r, L_g, L_b\) We actually know the luminance
-          \(L_C^1\). We said that it is the luminance given by 1 Watt of C.
-          Remembering the luminance equation
-        </p>
-        <div class="block-equation">
-          $$ L = C_l\int_\lambda \Phi(\lambda)V(\lambda) d\lambda $$
-        </div>
-        <p>
-          If we omit the constant \(C_l\), \(V(\lambda)\) is the known photopic
-          curve, and since for a monochromatic light $\lambda_C$ emitting 1
-          watt, its SPD \(\Phi(\lambda) = \delta(\lambda-\lambda_C)\) is just a
-          peak at \(\lambda_C\), we can write
-        </p>
-        <div class="block-equation">$$ L_C^1 = V(\lambda_C) $$</div>
-        Now we can isolate \(v\)
-        <div class="block-equation">
-          $$ \begin{equation} \begin{split} L_C^1 = V(\lambda_C) =
-          v(rL_r+gL_g+bL_b)\\ v = \frac{V(\lambda_c)}{rL_r+gL_g+bL_b}
-          \end{split} \end{equation} $$
-        </div>
-        <p>
-          But what are the luminance of one unit of Red, Green, and Blue: \(L_r,
-          L_g, L_b\)? Actually, we don't need the absolute luminance values,
-          just their relative luminance is needed here. Here is what I mean.
-          Without modifying the problem, we could have said that the factor $v$
-          could instead be written as \(v = k\frac{1}{L_r}\). Equation (3)
-          becomes
-        </p>
-        <div class="block-equation">
-          $$ \begin{split} k\frac{1}{L_r} =
-          \frac{V(\lambda_c)}{rL_r+gL_g+bL_b}\\ \end{split} $$
-        </div>
-        Now isolating $k$ gives $$
-        <div class="block-equation">
-          \begin{split} k = \frac{V(\lambda_c)}{\frac{1}{L_r}(rL_r+gL_g+bL_b)}\\
-          =\frac{V(\lambda_c)}{(r\frac{L_r}{L_r}+g\frac{L_g}{L_r}+b\frac{L_b}{L_r})}\\
-          = \frac{V(\lambda_c)}{(rL^r+gL^ g+bL^b)} \end{split} $$
-        </div>
-        with
-        <div class="block-equation">
-          $$ \begin{split} L^r = \frac{L_r}{L_r} = 1\\ L^g = \frac{L_g}{L_r}\\
-          L^b = \frac{L_b}{L_r}\\ \end{split} $$
-        </div>
-        <p>
-          This change of variable illustrates that only the relative luminances
-          are necessary. Those coefficients \(L^r, L^g, L^b\) are called the
-          luminance coefficients. Injecting them in (2) gives this luminance
-          equation involving the relative luminances.
-        </p>
-        <div class="block-equation">
-          $$ \begin{equation} \begin{split} L_C^1=v(rL_r+gL_g+bL_b)\\ =
-          k\frac{1}{L_r}(rL_r+gL_g+bL_b)\\ = krL^r + kgL_ g + kbL^b \end{split}
-          \end{equation} $$
-        </div>
-        <p>
-          But we are still missing \(L^g\) and \(L^b\) ! Wright measured that
-          one unit of Green primary was about 4.4 times brighter than one unit
-          of Red primary. And that one unit of blue primary was about 0.04 times
-          less bright than one unit of Red. The exact value given by CIE are the
-          following coefficients. If you are curious on how to find those
-          coefficients, here is the <a href="TODO">procedure</a>.
-        </p>
-        <div class="block-equation">
-          $$ L^r = 1 \\ L^g = 4.4036 \\ L^b = 0.0471 $$
-        </div>
-        Let's generalize equation (4) for any spectral color \(\lambda\),
-        <div class="block-equation">
-          $$ \begin{equation} \begin{aligned} L^1(\lambda)
-          &=k(\lambda)r(\lambda)L^r+k(\lambda)g(\lambda)L^g+k(\lambda)b(\lambda)L^b
-          \end{aligned} \end{equation} $$
-        </div>
-        <p>
-          which tells us that to match the luminance of 1 watt of a color whose
-          chromaticity coefficients are \(r(\lambda), g(\lambda), b(\lambda)\),
-          you need
-        </p>
-        <ul>
-          <li>\(\bar{r}(\lambda) = k(\lambda)r(\lambda)\) of Red Primary</li>
-          <li>\(\bar{g}(\lambda) = k(\lambda)g(\lambda)\) of Green Primary</li>
-          <li>\(\bar{b}(\lambda) = k(\lambda)b(\lambda)\) of Blue Primary</li>
-        </ul>
-        <p>
-          Now you have it, the three Color Matching Functions
-          \(\bar{r}(\lambda), \bar{g}(\lambda), \bar{b}(\lambda)\). To give a
-          proper definition the CMF, \(\bar{r}(\lambda), \bar{g}(\lambda),
-          \bar{b}(\lambda)\) represents the amount of Red, Green and Blue
-          primary respectively, needed to match the spectral color
-          \(C(\lambda)\) that emits 1 Watt of power. On the animation below, you
-          can hover the color matching functions graph to see the mathematical
-          relationship with the chromaticity coefficients and the photopic
-          luminosity function \(V(\lambda)\).
-        </p>
         <div id="anim-chrom2cmf" class="full-width-animation"></div>
-        <p>
-          In the next section, we'll see how we can use those function to create
-          any
-          <span class="highlight">tristimulus values</span>, which are the three
-          values used to describe any colors!
-        </p>
+        <div class="central-content">
+          <p>
+            In the next section, we'll see how we can use those function to
+            create any
+            <span class="highlight">tristimulus values</span>, which are the
+            three values used to describe any colors!
+          </p>
+        </div>
       </section>
       <section id="tristimulus-values">
-        <h3>Tristimulus Values</h3>
-        <p>
-          Why are the CMF important? Remember at the beginning of this article,
-          I suggested the idea that to create a color, we could just try to
-          reproduce its SPD. I said that it was not realistic to take every
-          monochromatic light with a different intensity to try to reproduce the
-          SPD. But then we discovered the concept of metamerism. So actually
-          only three monochromatic lights are needed to reproduce any colors. We
-          just didn't know how to mix them together. Thanks to the CMF, now we
-          know the amount of each primary required to match a specific SPD. To
-          reproduce any color C (not just a spectral color) having a SPD
-          \(\Phi(\lambda)\), the CMF tell us that we need those amount of
-          primary:
-        </p>
-        <div class="block-equation">
-          $$ R=\int{\Phi(\lambda)\bar{r}(\lambda)d\lambda} \\
-          G=\int{\Phi(\lambda)\bar{g}(\lambda)d\lambda} \\
-          B=\int{\Phi(\lambda)\bar{b}(\lambda)d\lambda} $$
+        <div class="central-content">
+          <h3>Tristimulus Values</h3>
+          <p>
+            Why are the CMF important? Remember at the beginning of this
+            article, I suggested the idea that to create a color, we could just
+            try to reproduce its SPD. I said that it was not realistic to take
+            every monochromatic light with a different intensity to try to
+            reproduce the SPD. But then we discovered the concept of metamerism.
+            So actually only three monochromatic lights are needed to reproduce
+            any colors. We just didn't know how to mix them together. Thanks to
+            the CMF, now we know the amount of each primary required to match a
+            specific SPD. To reproduce any color C (not just a spectral color)
+            having a SPD \(\Phi(\lambda)\), the CMF tell us that we need those
+            amount of primary:
+          </p>
+          <div class="block-equation">
+            $$
+            \begin{split}
+             R=\int{\Phi(\lambda)\bar{r}(\lambda)d\lambda} \\
+            G=\int{\Phi(\lambda)\bar{g}(\lambda)d\lambda} \\
+            B=\int{\Phi(\lambda)\bar{b}(\lambda)d\lambda} 
+            \end{split}
+            $$
+          </div>
+          Now, the color C characterized by SPD $\Phi(\lambda)$ is exactly
+          matched in chromaticity and luminance by those amounts
+          <div class="block-equation">
+            $$ C \triangleq R\mathcal{R}\hat{+}G\mathcal{G}\hat{+}B\mathcal{B}
+            $$
+          </div>
+          <p>
+            $R, G, B$ are called the tristimulus values of C. The tristimulus R,
+            G, B of a color C are the amount of Red, Green and Blue primary
+            respectively required to match the color C in chromaticity and
+            luminance. Note that the mix R, G, B does not reproduce the SPD of
+            C. They create a light whose color is perceived the same as the one
+            of SPD \(\Phi(\lambda)\). In the animation below, you can select a
+            color using the dropdown menu. You will see how its SPD is
+            multiplied by the CMF. The area under each resulting curve
+            represents the tristimulus values.
+          </p>
         </div>
-        Now, the color C characterized by SPD $\Phi(\lambda)$ is exactly matched
-        in chromaticity and luminance by those amounts
-        <div class="block-equation">
-          $$ C \triangleq R\mathcal{R}\hat{+}G\mathcal{G}\hat{+}B\mathcal{B} $$
-        </div>
-        <p>
-          $R, G, B$ are called the tristimulus values of C. The tristimulus R,
-          G, B of a color C are the amount of Red, Green and Blue primary
-          respectively required to match the color C in chromaticity and
-          luminance. Note that the mix R, G, B does not reproduce the SPD of C.
-          They create a light whose color is perceived the same as the one of
-          SPD \(\Phi(\lambda)\). In the animation below, you can select a color
-          using the dropdown menu. You will see how its SPD is multiplied by the
-          CMF. The area under each resulting curve represents the tristimulus
-          values.
-        </p>
         <div id="anim-tristimulus-from-spd" class="full-width-animation"></div>
-        <p>
-          With the tristimulus values, we have found a way to represent
-          mathematically any color using three numbers. Remember that we said
-          that a color is a specific cone response and that if we could find all
-          the cone response, they would compose all the colors a human can
-          perceive, i.e the Human Visual Gamut. The R, G, B tristimulus values
-          are those cones response! It would be more correct to say that they
-          are the attempt of Guild and Wright to represent the cone response. In
-          an other chapter, we'll compare the real cone responses (L, M, S)
-          found later by scientists to those tristimulus RGB. Since the
-          tristimulus are 3 numbers, we can use them as dimensions on a 3D
-          graph! Each axis will represent the amount of each primary. If you
-          forgot what one unit of R primary is, it is the
-          <i>look</i> of the Red Primary found during calibration! Our unit
-          system is the one decided during calibration.
-        </p>
-        <h3>Graphical 3D representation of colors</h3>
-        <p>
-          Let's start to plot the tristimulus of the Spectral Colors
-          corresponding of monochromatic lights that emit 1 one watt! Why?
-          because we already have those tristimulus values, they are equivalent
-          to the CMF! Remember that the CMF values are the amount of primary
-          needed to match a monochromatic light emitting one watt.
-          Mathematically, you could express the SPD of monochromatic light as
-          dirac function \(\Phi(\lambda) = P_0\delta(\lambda-\lambda_0)\), with
-          P0=1 watt. Therefore the tristimulus value of a monochromatic light of
-          wavelength \(\lambda_m\) emitting 1 watt are given by
-        </p>
-        <div class="block-equation">
-          $$ \begin{split}
-          R_m=\int{\delta(\lambda-\lambda_m)\bar{r}(\lambda)d\lambda}=\bar{r}(\lambda_m)\\
-          G_m=\int{\delta(\lambda-\lambda_m)\bar{g}(\lambda)d\lambda}=\bar{g}(\lambda_m)
-          \\
-          B_m=\int{\delta(\lambda-\lambda_m)\bar{b}(\lambda)d\lambda}=\bar{b}(\lambda_m)
-          \end{split} $$
+        <div class="central-content">
+          <p>
+            With the tristimulus values, we have found a way to represent
+            mathematically any color using three numbers. Remember that we said
+            that a color is a specific cone response and that if we could find
+            all the cone response, they would compose all the colors a human can
+            perceive, i.e the Human Visual Gamut. The R, G, B tristimulus values
+            are those cones response! It would be more correct to say that they
+            are the attempt of Guild and Wright to represent the cone response.
+            In an other chapter, we'll compare the real cone responses (L, M, S)
+            found later by scientists to those tristimulus RGB. Since the
+            tristimulus are 3 numbers, we can use them as dimensions on a 3D
+            graph! Each axis will represent the amount of each primary. If you
+            forgot what one unit of R primary is, it is the
+            <i>look</i> of the Red Primary found during calibration! Our unit
+            system is the one decided during calibration.
+          </p>
         </div>
-        which mean that for each spectral color, we can take the value of the
-        CMF as their tristimulus value. In the animation below, you can hover on
-        each wavelength and see their corresponding tristimulus value on the 3d
-        graph.
+      </section>
+      <section id="graphical-representation-3d">
+        <div class="central-content">
+          <h3>Graphical 3D representation of colors</h3>
+          <p>
+            Let's start to plot the tristimulus of the Spectral Colors
+            corresponding of monochromatic lights that emit 1 one watt! Why?
+            because we already have those tristimulus values, they are
+            equivalent to the CMF! Remember that the CMF values are the amount
+            of primary needed to match a monochromatic light emitting one watt.
+            Mathematically, you could express the SPD of monochromatic light as
+            dirac function \(\Phi(\lambda) = P_0\delta(\lambda-\lambda_0)\),
+            with P0=1 watt. Therefore the tristimulus value of a monochromatic
+            light of wavelength \(\lambda_m\) emitting 1 watt are given by
+          </p>
+          <div class="block-equation">
+            $$ \begin{split}
+            R_m=\int{\delta(\lambda-\lambda_m)\bar{r}(\lambda)d\lambda}=\bar{r}(\lambda_m)\\
+            G_m=\int{\delta(\lambda-\lambda_m)\bar{g}(\lambda)d\lambda}=\bar{g}(\lambda_m)
+            \\
+            B_m=\int{\delta(\lambda-\lambda_m)\bar{b}(\lambda)d\lambda}=\bar{b}(\lambda_m)
+            \end{split} $$
+          </div>
+          which mean that for each spectral color, we can take the value of the
+          CMF as their tristimulus value. In the animation below, you can hover
+          on each wavelength and see their corresponding tristimulus value on
+          the 3d graph.
+        </div>
         <div class="full-width-animation" id="anim-cmf2graph3d"></div>
-        <p>
-          Fine, now we have the spectral colors, but what about the other
-          colors? Remember when we talked about polychromaticity? You can
-          combine monochromatic light to create other colors? Then
-          mathematically, we can also express it in this 3D graph. Let's take
-          the color Red an Green. If you mix half of both, you do the same for
-          their tristimulus value and you will have a resulting color C. Name it
-          as you want (maybe yellow?). But what your brain will perceive is a
-          linear combination of both of the spectral color. On the graph you
-          notice that it almost coincide with the yellow spectral color. Yes!
-          Metamerism! In your brain, the response of the cones will be similar
-          as the response given by monochromatic yellow light! So mixing red and
-          green will give you the same response. But wait R, G, B are not the
-          brain response right? You're right, but remember, according to the
-          research of Thomas, Guild and Wright thought that each cone was more
-          sensitive to one primary color, so they use the primary as a way to
-          simulate the cone response. And later, when we were able to
-          effectively compute the cone response (we'll talk later about LMS),
-          the 3D graph will look very similar!!
-        </p>
-        <p>
-          So by combining the monochromatic light with different weights, we are
-          able to make the brain perceive other colors and we can plot them in
-          the 3D graph. There is an infinity of combination possible, but some
-          of them will give the same color! Taking two spectral colors and
-          generating all the colors in between can already give us many colors,
-          which as we can visualize on the animation, will give us an "envelope”
-          of the Human Visual Gamut.
-        </p>
-        <div id="interpolate-tristimulus"></div>
-        <p>
-          Note that this envelope of generated color from the spectral colors
-          are colors that would be perceived by a light emitting 1 watt! If you
-          remember the general color matching equation using the tristimulus
-          values
-        </p>
-        <div class="block-equation">
-          $$ C \triangleq R\mathcal{R}\hat{+}G\mathcal{G}\hat{+}B\mathcal{B} $$
+        <div class="central-content">
+          <p>
+            Fine, now we have the spectral colors, but what about the other
+            colors? Remember when we talked about polychromaticity? You can
+            combine monochromatic light to create other colors? Then
+            mathematically, we can also express it in this 3D graph. Let's take
+            the color Red an Green. If you mix half of both, you do the same for
+            their tristimulus value and you will have a resulting color C. Name
+            it as you want (maybe yellow?). But what your brain will perceive is
+            a linear combination of both of the spectral color. On the graph you
+            notice that it almost coincide with the yellow spectral color. Yes!
+            Metamerism! In your brain, the response of the cones will be similar
+            as the response given by monochromatic yellow light! So mixing red
+            and green will give you the same response. But wait R, G, B are not
+            the brain response right? You're right, but remember, according to
+            the research of Thomas, Guild and Wright thought that each cone was
+            more sensitive to one primary color, so they use the primary as a
+            way to simulate the cone response. And later, when we were able to
+            effectively compute the cone response (we'll talk later about LMS),
+            the 3D graph will look very similar!!
+          </p>
+          <p>
+            So by combining the monochromatic light with different weights, we
+            are able to make the brain perceive other colors and we can plot
+            them in the 3D graph. There is an infinity of combination possible,
+            but some of them will give the same color! Taking two spectral
+            colors and generating all the colors in between can already give us
+            many colors, which as we can visualize on the animation, will give
+            us an "envelope” of the Human Visual Gamut.
+          </p>
+          <div id="interpolate-tristimulus"></div>
+          <p>
+            Note that this envelope of generated color from the spectral colors
+            are colors that would be perceived by a light emitting 1 watt! If
+            you remember the general color matching equation using the
+            tristimulus values
+          </p>
+          <div class="block-equation">
+            $$ C \triangleq R\mathcal{R}\hat{+}G\mathcal{G}\hat{+}B\mathcal{B}
+            $$
+          </div>
+          <p>
+            If the luminance correspond to a light emitting 1 one of power, we
+            can use the CMF as tristimulus values to write
+          </p>
+          <div class="block-equation">
+            $$ C_1 \triangleq
+            \bar{r}\mathcal{R}\hat{+}\bar{g}\mathcal{G}\hat{+}\bar{b}\mathcal{B}
+            $$
+          </div>
+          <p>
+            and for any other luminance $l$, you could simply scale each
+            coefficient with the same factor $s$ to keep the same chromaticity
+          </p>
+          <div class="block-equation">
+            $$ C_l = sC_1 \triangleq
+            s\bar{r}\mathcal{R}+s\bar{g}\mathcal{G}+s\bar{b}\mathcal{B} $$
+          </div>
+          <p>
+            Varying $s$ will vary the luminance of the color but keep the same
+            chromaticity. Graphically, changing the luminance while keeping the
+            chromaticity boils down to moving the tristimulus values on the
+            <span class="highlight">isochromatic line</span>, a line of constant
+            chromaticity.
+          </p>
         </div>
-        <p>
-          If the luminance correspond to a light emitting 1 one of power, we can
-          use the CMF as tristimulus values to write
-        </p>
-        <div class="block-equation">
-          $$ C_1 \triangleq
-          \bar{r}\mathcal{R}\hat{+}\bar{g}\mathcal{G}\hat{+}\bar{b}\mathcal{B}
-          $$
-        </div>
-        <p>
-          and for any other luminance $l$, you could simply scale each
-          coefficient with the same factor $s$ to keep the same chromaticity
-        </p>
-        <div class="block-equation">
-          $$ C_l = sC_1 \triangleq
-          s\bar{r}\mathcal{R}+s\bar{g}\mathcal{G}+s\bar{b}\mathcal{B} $$
-        </div>
-        <p>
-          Varying $s$ will vary the luminance of the color but keep the same
-          chromaticity. Graphically, changing the luminance while keeping the
-          chromaticity boils down to moving the tristimulus values on the
-          <span class="highlight">isochromatic line</span>, a line of constant
-          chromaticity.
-        </p>
         <div
           id="anim-isochromatic-line-animation"
           class="full-width-animation"
         ></div>
-        <p>
-          Since you can increase the luminance indefinitely, there is actually
-          no boundaries to be able to represent the Human Visual Gamut. The cone
-          shape envelope we see is only a representation of equal-energy colors.
-          However, the chromaticity of the Human Visual has boundaries. You'll
-          better visualize those boundaries in the next section but we can
-          already understand that because of those defined boundaries, we use
-          the chromaticity diagram as a representation of the Human Visual
-          Gamut.
-        </p>
-        <p>
-          So we could say that the 3d volume is one sample of the Human Visual
-          Gamut in a 3D space where each axis represent the amount of a primary
-          light composing a color. Remember that the data I used are from the
-          CIE. The actual primaries used for this representation are the Red at
-          700nm, Green at 546.1nm and Blue at 435.8nm. And the sum of one unit
-          of each primary will match the reference white E. Those primaries and
-          reference white defined the 3D color space called the
-          <span class="highlight">CIE 1931 RGB color space</span> (which is
-          still neither the sRgb nor AdobeRGB color space!)
-        </p>
+        <div class="central-content">
+          <p>
+            Since you can increase the luminance indefinitely, there is actually
+            no boundaries to be able to represent the Human Visual Gamut. The
+            cone shape envelope we see is only a representation of equal-energy
+            colors. However, the chromaticity of the Human Visual has
+            boundaries. You'll better visualize those boundaries in the next
+            section but we can already understand that because of those defined
+            boundaries, we use the chromaticity diagram as a representation of
+            the Human Visual Gamut.
+          </p>
+          <p>
+            So we could say that the 3d volume is one sample of the Human Visual
+            Gamut in a 3D space where each axis represent the amount of a
+            primary light composing a color. Remember that the data I used are
+            from the CIE. The actual primaries used for this representation are
+            the Red at 700nm, Green at 546.1nm and Blue at 435.8nm. And the sum
+            of one unit of each primary will match the reference white E. Those
+            primaries and reference white defined the 3D color space called the
+            <span class="highlight">CIE 1931 RGB color space</span> (which is
+            still neither the sRgb nor AdobeRGB color space!)
+          </p>
+        </div>
       </section>
       <section id="color-matching-experiment-summary">
-        <h3>Color Matching Experiment Summary</h3>
-        <p>
-          Here is a quick recap on the different step of the color matching
-          experiment. By asking humans to match the spectral colors, we ended up
-          by being able to represent the colors by three tristimulus values in a
-          3D in a color space called the CIE1931 RGB color space.
-        </p>
+        <div class="central-content">
+          <h3>Color Matching Experiment Summary</h3>
+          <p>
+            Here is a quick recap on the different step of the color matching
+            experiment. By asking humans to match the spectral colors, we ended
+            up by being able to represent the colors by three tristimulus values
+            in a 3D in a color space called the CIE1931 RGB color space.
+          </p>
+        </div>
         <div class="image-container full-width-animation">
           <img
             src="images/cmexp-summary.png"
             alt="Color Matching Experiment Summary"
           />
         </div>
-        <ol></ol>
-        <li>
-          <b>Calibration</b>: this step allows to define what is a
-          <i>unit of primary</i> in term of a real measure of power to match the
-          <span class="highlight">Reference White</span> .
-        </li>
-        <li>
-          <b>Test Light Matching</b>: this step allows to find the
-          <span class="highlight"></span>chromaticity coefficients which are
-          computed from the amount of primaries required to match the test light
-          at different wavelength.
-        </li>
-        <li>
-          <b>Creation of the Color Matching Function (CMF)</b>: Introduction of
-          the concept of <span class="highlight">Luminance</span> which leads to
-          the notion of
-          <span class="highlight">Luminance Coefficients</span> and
-          <span class="highlight">photopic curve \(V(\lambda)\)</span>. With the
-          chromaticity, they allows to compute the
-          <span class="highlight">Color Matching Functions (CMF)</span>. They
-          represent the amount of primary required to match a spectral color of
-          1 Watt.
-        </li>
-        <li>
-          <b
-            >Definition of a color by its
-            <span class="highlight">tristimulus values</span></b
-          >: triplet of value representing the amount of primaries needed to
-          create a color of a specific SPD. They can be computed from the CMF
-          and the SPD of a color. This triplet is a mathematical representation
-          of a color. Therefore we can now represent them in a 3D space, which
-          is the first color space called the CIE1931 RGB color space.
-        </li>
-
-        <p>
-          The next question is: how is the CIE1931 color space related to the
-          horseshoe-shape chromaticity diagram? It is a 2d graph, not a 3d and
-          the axis are x and y, not R, G nor B!
-        </p>
+        <div class="central-content">
+          <ol></ol>
+          <li>
+            <b>Calibration</b>: this step allows to define what is a
+            <i>unit of primary</i> in term of a real measure of power to match
+            the <span class="highlight">Reference White</span> .
+          </li>
+          <li>
+            <b>Test Light Matching</b>: this step allows to find the
+            <span class="highlight"></span>chromaticity coefficients which are
+            computed from the amount of primaries required to match the test
+            light at different wavelength.
+          </li>
+          <li>
+            <b>Creation of the Color Matching Function (CMF)</b>: Introduction
+            of the concept of <span class="highlight">Luminance</span> which
+            leads to the notion of
+            <span class="highlight">Luminance Coefficients</span> and
+            <span class="highlight">photopic curve \(V(\lambda)\)</span>. With
+            the chromaticity, they allows to compute the
+            <span class="highlight">Color Matching Functions (CMF)</span>. They
+            represent the amount of primary required to match a spectral color
+            of 1 Watt.
+          </li>
+          <li>
+            <b
+              >Definition of a color by its
+              <span class="highlight">tristimulus values</span></b
+            >: triplet of value representing the amount of primaries needed to
+            create a color of a specific SPD. They can be computed from the CMF
+            and the SPD of a color. This triplet is a mathematical
+            representation of a color. Therefore we can now represent them in a
+            3D space, which is the first color space called the CIE1931 RGB
+            color space.
+          </li>
+          <p>
+            The next question is: how is the CIE1931 color space related to the
+            horseshoe-shape chromaticity diagram? It is a 2d graph, not a 3d and
+            the axis are x and y, not R, G nor B!
+          </p>
+        </div>
       </section>
     </section>
 
     <section id="the-chromaticity-diagram-finally">
-      <h2>The Chromaticity Diagram (finally)</h2>
-      <p>
-        So far we've been able to understand that a color can be represented by
-        its chromaticity coefficients and its luminance, and all the color a
-        human can perceive are represented in a 3D volume with 3 axes R, G and
-        B. Now it's good to recall the relationship between the different
-        concepts through their mathematical notation.
-      </p>
-      <ul>
-        <li>\(r, g, b\) : chromaticity coefficients</li>
-        <li>\(\bar{r},\bar{g},\bar{b}\) : Color Matching Functions</li>
-        <li>\(R, G, B\) : tristimulus values of a color</li>
-        <li>\(\mathcal{R},\mathcal{G},\mathcal{B}\) : unit of Primary</li>
-      </ul>
-      <p>
-        A color C represented by its SPD \(\Phi(\lambda)\) is fully matched in
-        term of chromaticity and luminance using the tristimulus values:
-      </p>
-      <div class="block-equation">
-        $$ C \triangleq R\mathcal{R}\hat{+}G\mathcal{G}\hat{+}B\mathcal{B} $$
+      <div class="central-content">
+        <h2>The Chromaticity Diagram (finally)</h2>
+        <p>
+          So far we've been able to understand that a color can be represented
+          by its chromaticity coefficients and its luminance, and all the color
+          a human can perceive are represented in a 3D volume with 3 axes R, G
+          and B. Now it's good to recall the relationship between the different
+          concepts through their mathematical notation.
+        </p>
+        <ul>
+          <li>\(r, g, b\) : chromaticity coefficients</li>
+          <li>\(\bar{r},\bar{g},\bar{b}\) : Color Matching Functions</li>
+          <li>\(R, G, B\) : tristimulus values of a color</li>
+          <li>\(\mathcal{R},\mathcal{G},\mathcal{B}\) : unit of Primary</li>
+        </ul>
+        <p>
+          A color C represented by its SPD \(\Phi(\lambda)\) is fully matched in
+          term of chromaticity and luminance using the tristimulus values:
+        </p>
+        <div class="block-equation">
+          $$ C \triangleq R\mathcal{R}\hat{+}G\mathcal{G}\hat{+}B\mathcal{B} $$
+        </div>
+        where each tristimulus value are
+        <div class="block-equation">
+          $$
+          \begin{split}
+          R=\int{\Phi(\lambda)\bar{r}(\lambda)d\lambda} \\
+          G=\int{\Phi(\lambda)\bar{g}(\lambda)d\lambda} \\
+          B=\int{\Phi(\lambda)\bar{b}(\lambda)d\lambda} 
+          \end{split}
+          $$
+        </div>
+        <p>
+          And from these tristimulus values, we can deduce the chromaticity
+          coefficients because they are the relative amount primaries needed to
+          produce a certain amount of this color C. In addition, they are
+          defined such that their sum = 1.
+        </p>
+        <div class="block-equation">
+          $$\begin{split} r = \frac{R}{R+G+B} \\ g = \frac{G}{R+G+B} \\ b = 1-r-g \end{split}$$
+        </div>
+        <p>
+          If we represent the chromaticity coefficients in the RGB space, those
+          points $r, g, b$ lies on the plane R+G+B =1, which is equivalent to
+          project all the 3D visual gamut points onto this plane, along their
+          line of constant chromaticity. By omitting b which can be found using
+          r and g, you could visualize this plane in a 2D graph rg. This
+          animation shows you the different projections. To make it the
+          animation clearer, only the spectral colors are shown.
+        </p>
+        <div id="anim-RgbFrom3dTo2d"></div>
+        <p>
+          And there you have it, the chromaticity diagram. But it's still
+          different than the one in the introduction! Be patient, we are almost
+          there. This chromaticity diagram is expressed in the rg-plane while
+          the one we are looking for is in the xy-plane. However, the
+          xy-chromaticity diagram is actually the same this rg-chromaticity
+          diagram but coming from a other color space created by CIE, the
+          CIE1931 XYZ color space, which is a simple linear transformation of
+          the CIE1931 RGB color space. Why not use the CIE1931 RGB? Because CIE
+          wanted a standard color space where the colors could be expressed only
+          with positive values. On top of that, they wanted one of the
+          dimensions to represent the luminance.
+        </p>
       </div>
-      where each tristimulus value are
-      <div class="block-equation">
-        $$ R=\int{\Phi(\lambda)\bar{r}(\lambda)d\lambda} \\
-        G=\int{\Phi(\lambda)\bar{g}(\lambda)d\lambda} \\
-        B=\int{\Phi(\lambda)\bar{b}(\lambda)d\lambda} $$
-      </div>
-      <p>
-        And from these tristimulus values, we can deduce the chromaticity
-        coefficients because they are the relative amount primaries needed to
-        produce a certain amount of this color C. In addition, they are defined
-        such that their sum = 1.
-      </p>
-      <div class="block-equation">
-        $$ r = \frac{R}{R+G+B} \\ g = \frac{G}{R+G+B} \\ b = 1-r-g $$
-      </div>
-      <p>
-        If we represent the chromaticity coefficients in the RGB space, those
-        points $r, g, b$ lies on the plane R+G+B =1, which is equivalent to
-        project all the 3D visual gamut points onto this plane, along their line
-        of constant chromaticity. By omitting b which can be found using r and
-        g, you could visualize this plane in a 2D graph rg. This animation shows
-        you the different projections. To make it the animation clearer, only
-        the spectral colors are shown.
-      </p>
-      <div id="anim-RgbFrom3dTo2d"></div>
-      <p>
-        And there you have it, the chromaticity diagram. But it's still
-        different than the one in the introduction! Be patient, we are almost
-        there. This chromaticity diagram is expressed in the rg-plane while the
-        one we are looking for is in the xy-plane. However, the xy-chromaticity
-        diagram is actually the same this rg-chromaticity diagram but coming
-        from a other color space created by CIE, the CIE1931 XYZ color space,
-        which is a simple linear transformation of the CIE1931 RGB color space.
-        Why not use the CIE1931 RGB? Because CIE wanted a standard color space
-        where the colors could be expressed only with positive values. On top of
-        that, they wanted one of the dimensions to represent the luminance.
-      </p>
       <section id="from-cie1931-to-xyz">
-        <h3>From CIE1931 RGB to CIE1931 XYZ</h3>
-        <p>
-          Remembering a bit of linear algebra, you know that to transform the
-          coordinates of a point into another coordinate system, you need a
-          transformation matrix that maps the axis of one of the system to the
-          other one. Mathematically, the tristimulus values (R, G, B) in the RGB
-          space defined by the three axis $(\mathcal{R}, \mathcal{G},
-          \mathcal{B})$ (the primaries) system can be expressed in the
-          coordinate system defined by three other
-          axis\(\mathcal{X},\mathcal{Y},\mathcal{Z}\) and have coordinate (X, Y,
-          Z).
-        </p>
-        <div class="block-equation">
-          $$ \begin{bmatrix} X \\ Y \\ Z \end{bmatrix} = M \begin{bmatrix} R \\
-          G \\ B \end{bmatrix} $$
+        <div class="central-content">
+          <h3>From CIE1931 RGB to CIE1931 XYZ</h3>
+          <p>
+            Remembering a bit of linear algebra, you know that to transform the
+            coordinates of a point into another coordinate system, you need a
+            transformation matrix that maps the axis of one of the system to the
+            other one. Mathematically, the tristimulus values (R, G, B) in the
+            RGB space defined by the three axis $(\mathcal{R}, \mathcal{G},
+            \mathcal{B})$ (the primaries) system can be expressed in the
+            coordinate system defined by three other
+            axis\(\mathcal{X},\mathcal{Y},\mathcal{Z}\) and have coordinate (X,
+            Y, Z).
+          </p>
+          <div class="block-equation">
+            $$
+             \begin{bmatrix} X \\ Y \\ Z \end{bmatrix} = M \begin{bmatrix} R \\ G
+            \\ B \end{bmatrix} $$
+          </div>
+          with
+          <div class="block-equation">
+            $$ M = \begin{bmatrix} 0.49 & 0.31 & 0.20 \\ 0.17697 & 0.81240 &
+            0.01063 \\ 0.00 & 0.01 & 0.99 \end{bmatrix} $$
+          </div>
+          <p>
+            How did we find this matrix? and how was this new coordinate system
+            X, Y, Z chosen? You'll find all the details <a href="">here</a>
+          </p>
+          <p>
+            The important point is that in this new system, all tristimulus
+            values will be positive and the Y component represents the luminance
+            of the color. In the XYZ space using primaries
+            \(\mathcal{X},\mathcal{Y},\mathcal{Z}\), a color (chromaticity and
+            luminance) of coordinates \((X, Y,Z)\) is now expressed as
+          </p>
+          <div class="block-equation">
+            $$ C \triangleq X\mathcal{X}\hat{+}Y\mathcal{Y}\hat{+}Z\mathcal{Z}
+            $$
+          </div>
+          <p>
+            And again, the chromaticity coefficients are the relative amount of
+            primaries chosen such that their sum = 1.
+          </p>
+          <div class="block-equation">
+            $$ \begin{split} x = \frac{X}{X+Y+Z} \\ y = \frac{Y}{X+Y+Z} \\ z = 1-x-y \end{split}$$
+          </div>
+          <p>
+            Similarly as we did in the CIE1931 RGB space, we can plot the (X, Y,
+            Z) tristimulus values simply by transforming the tristimulus (R, G,
+            B) thanks to the matrix M.
+          </p>
+          <p>
+            if we project those points along their line of isochromaticity on
+            the plane X+Y+Z=1, we obtain the chromaticity coefficients (x, y,
+            z). Then by omitting z which is dependent of x and y, we obtain on
+            the XY-plane the famous horseshoe shape diagram. If we transfer
+            those coordinates in a 2d graph with x and y label, we finally
+            obtain our
+            <span class="highlight">xy-chromaticity diagram</span>!
+          </p>
+          <div id="anim-cieRGBtoXYZ"></div>
+          <p>
+            Remember I've only projected the spectral colors, this is why the
+            chromaticity diagram seems "empty”. This projection draws the
+            boundaries of the chromaticity diagram and is called the
+            <span class="highlight">spectral locus</span>. If we would have
+            taken more points in the 3d volume we would have had more points and
+            the shape would start to fill in. But we can also work directly on
+            the 2d chromaticity diagram itself. To add more chromaticity we need
+            to generate other colors. As seen previously (when filling the
+            volume between two colors), mixing colors to produce an other color
+            consists in summing up their tristimulus value.
+          </p>
+          <div class="block-equation">
+            $$ \begin{split} C_1 \triangleq X_1\mathcal{X} \hat{+}
+            Y_1\mathcal{Y} \hat{+} Z_1\mathcal{Z}\\ C_2 \triangleq
+            X_2\mathcal{X} \hat{+} Y_2\mathcal{Y} \hat{+} Z_2\mathcal{Z}\\ C_r
+            \triangleq C_1+C_2 \triangleq
+            \underbrace{(X_1+X_2)}_{X_r}\mathcal{X}
+            \hat{+}\underbrace{(Y_1+Y_2)}_{Y_r}\mathcal{Y} \hat{+}
+            \underbrace{(Z_1+Z_2)}_{Z_r}\mathcal{Z}\\ \end{split} $$
+          </div>
+          <p>
+            During this addition, what happens to the chromaticity coefficients.
+            Do they also add up? Let's take the x chromaticity coordinate.
+          </p>
+          <div class="block-equation">
+            $$ \begin{split} x_r &= \frac{X_r}{X_r+Y_r+Z_r}\\ &=
+            \frac{X_1+X_2}{X_1+X_2+Y_1+Y_2+Z_1+Z_2} \end{split} $$
+          </div>
+          Using the chromaticity of C1 and C2,
+          <div class="block-equation">
+            $$ X_1 = x_1(X_1+Y_1+Z_1)\\ X_2 = x_2(X_2+Y_2+Z_2) $$
+          </div>
+          Substituting in (…), and posing \(L_1 = (X_1+Y_1+Z_1)\) and
+          \(L_2=(X_2+Y_2+Z_2)\), we end up with
+          <div class="block-equation">
+            $$ \begin{split} x_r = \frac{X_r}{X_r+Y_r+Z_r} = \frac{L_1x_1 +
+            L_2x_2}{L_1+L_2} \end{split} $$
+          </div>
+          This equation show the relation between the chromaticities. When
+          mixing two colors, the resulting chromaticity is a weighted sum of
+          their respective chromaticity.
+          <p>
+            Now, back to our chromaticity diagram. Remember that it is a
+            projection of the plane X+Y+Z = 1. Therefore, to represent the
+            chromaticity of \(C_r\), we have to constraint \(L_1+L_2 = 1\). We
+            can rewrite equation (…) with this constraint and do the same
+            development for the y-coordinate.
+          </p>
+          <div class="block-equation">
+            $$ \begin{split} x_r = L_1x_1 + (1-L_1)x_2\\ y_r = L_1y_1 +
+            (1-L_1)y_2 \end{split} $$
+          </div>
+          <p>
+            According to this equation, if you take two color on the spectral
+            locus and you combine them, the line in between represent the
+            chromaticity of the colors resulting in mixing the spectral colors
+            with different amount. Here an animation illustrating this
+            computation.
+          </p>
+          <p>
+            The chromaticities between minLambda and maxLambda which close the
+            shape is called the line of purple! It's not part of the spectral
+            locus since those colors does not correspond spectral colors. Each
+            point inside this shape has coordinate (x, y) and represent the
+            chromaticity of a colors. Since multiple colors have the same
+            chromaticity, you could arbitraly decide which colors of
+            chormaticity (x, y) you want plot. Usually, we use the color with
+            the maximum luminance possible given by your device.
+          </p>
         </div>
-        with
-        <div class="block-equation">
-          $$ M = \begin{bmatrix} 0.49 & 0.31 & 0.20 \\ 0.17697 & 0.81240 &
-          0.01063 \\ 0.00 & 0.01 & 0.99 \end{bmatrix} $$
-        </div>
-        <p>
-          How did we find this matrix? and how was this new coordinate system X,
-          Y, Z chosen? You'll find all the details <a href="">here</a>
-        </p>
-        <p>
-          The important point is that in this new system, all tristimulus values
-          will be positive and the Y component represents the luminance of the
-          color. In the XYZ space using primaries
-          \(\mathcal{X},\mathcal{Y},\mathcal{Z}\), a color (chromaticity and
-          luminance) of coordinates \((X, Y,Z)\) is now expressed as
-        </p>
-        <div class="block-equation">
-          $$ C \triangleq X\mathcal{X}\hat{+}Y\mathcal{Y}\hat{+}Z\mathcal{Z} $$
-        </div>
-        <p>
-          And again, the chromaticity coefficients are the relative amount of
-          primaries chosen such that their sum = 1.
-        </p>
-        <div class="block-equation">
-          $$ x = \frac{X}{X+Y+Z} \\ y = \frac{Y}{X+Y+Z} \\ z = 1-x-y $$
-        </div>
-        <p>
-          Similarly as we did in the CIE1931 RGB space, we can plot the (X, Y,
-          Z) tristimulus values simply by transforming the tristimulus (R, G, B)
-          thanks to the matrix M.
-        </p>
-        <p>
-          if we project those points along their line of isochromaticity on the
-          plane X+Y+Z=1, we obtain the chromaticity coefficients (x, y, z). Then
-          by omitting z which is dependent of x and y, we obtain on the XY-plane
-          the famous horseshoe shape diagram. If we transfer those coordinates
-          in a 2d graph with x and y label, we finally obtain our
-          <span class="highlight">xy-chromaticity diagram</span>!
-        </p>
-        <div id="anim-cieRGBtoXYZ"></div>
-        <p>
-          Remember I've only projected the spectral colors, this is why the
-          chromaticity diagram seems "empty”. This projection draws the
-          boundaries of the chromaticity diagram and is called the
-          <span class="highlight">spectral locus</span>. If we would have taken
-          more points in the 3d volume we would have had more points and the
-          shape would start to fill in. But we can also work directly on the 2d
-          chromaticity diagram itself. To add more chromaticity we need to
-          generate other colors. As seen previously (when filling the volume
-          between two colors), mixing colors to produce an other color consists
-          in summing up their tristimulus value.
-        </p>
-        <div class="block-equation">
-          $$ \begin{split} C_1 \triangleq X_1\mathcal{X} \hat{+} Y_1\mathcal{Y}
-          \hat{+} Z_1\mathcal{Z}\\ C_2 \triangleq X_2\mathcal{X} \hat{+}
-          Y_2\mathcal{Y} \hat{+} Z_2\mathcal{Z}\\ C_r \triangleq C_1+C_2
-          \triangleq \underbrace{(X_1+X_2)}_{X_r}\mathcal{X}
-          \hat{+}\underbrace{(Y_1+Y_2)}_{Y_r}\mathcal{Y} \hat{+}
-          \underbrace{(Z_1+Z_2)}_{Z_r}\mathcal{Z}\\ \end{split} $$
-        </div>
-        <p>
-          During this addition, what happens to the chromaticity coefficients.
-          Do they also add up? Let's take the x chromaticity coordinate.
-        </p>
-        <div class="block-equation">
-          $$ \begin{split} x_r &= \frac{X_r}{X_r+Y_r+Z_r}\\ &=
-          \frac{X_1+X_2}{X_1+X_2+Y_1+Y_2+Z_1+Z_2} \end{split} $$
-        </div>
-        Using the chromaticity of C1 and C2,
-        <div class="block-equation">
-          $$ X_1 = x_1(X_1+Y_1+Z_1)\\ X_2 = x_2(X_2+Y_2+Z_2) $$
-        </div>
-        Substituting in (…), and posing \(L_1 = (X_1+Y_1+Z_1)\) and
-        \(L_2=(X_2+Y_2+Z_2)\), we end up with
-        <div class="block-equation">
-          $$ \begin{split} x_r = \frac{X_r}{X_r+Y_r+Z_r} = \frac{L_1x_1 +
-          L_2x_2}{L_1+L_2} \end{split} $$
-        </div>
-        This equation show the relation between the chromaticities. When mixing
-        two colors, the resulting chromaticity is a weighted sum of their
-        respective chromaticity.
-        <p>
-          Now, back to our chromaticity diagram. Remember that it is a
-          projection of the plane X+Y+Z = 1. Therefore, to represent the
-          chromaticity of \(C_r\), we have to constraint \(L_1+L_2 = 1\). We can
-          rewrite equation (…) with this constraint and do the same development
-          for the y-coordinate.
-        </p>
-        <div class="block-equation">
-          $$ \begin{split} x_r = L_1x_1 + (1-L_1)x_2\\ y_r = L_1y_1 + (1-L_1)y_2
-          \end{split} $$
-        </div>
-        <p>
-          According to this equation, if you take two color on the spectral
-          locus and you combine them, the line in between represent the
-          chromaticity of the colors resulting in mixing the spectral colors
-          with different amount. Here an animation illustrating this
-          computation.
-        </p>
-        <p>
-          The chromaticities between minLambda and maxLambda which close the
-          shape is called the line of purple! It's not part of the spectral
-          locus since those colors does not correspond spectral colors. Each
-          point inside this shape has coordinate (x, y) and represent the
-          chromaticity of a colors. Since multiple colors have the same
-          chromaticity, you could arbitraly decide which colors of chormaticity
-          (x, y) you want plot. Usually, we use the color with the maximum
-          luminance possible given by your device.
-        </p>
       </section>
       <section id="playing-with-chromaticity">
-        <h3>Playing with chromaticity and luminance</h3>
-        <p>
-          Remember that a color can be characterized by its two attributes: its
-          chromaticity and its luminance. And now you know that the chromaticity
-          is given by the coordinates (x, y) in the chromaticity diagram. And
-          the luminance is the Y component in the XYZ color space. In the
-          animation below, you can create any color by choosing the chromaticity
-          on the diagram and the luminance by changing the Y component. As
-          expected, changing the luminance while keeping the same chromaticity
-          will move you along the isochromatic line represented in the 3D graph.
-        </p>
+        <div class="central-content">
+          <h3>Playing with chromaticity and luminance</h3>
+          <p>
+            Remember that a color can be characterized by its two attributes:
+            its chromaticity and its luminance. And now you know that the
+            chromaticity is given by the coordinates (x, y) in the chromaticity
+            diagram. And the luminance is the Y component in the XYZ color
+            space. In the animation below, you can create any color by choosing
+            the chromaticity on the diagram and the luminance by changing the Y
+            component. As expected, changing the luminance while keeping the
+            same chromaticity will move you along the isochromatic line
+            represented in the 3D graph.
+          </p>
+        </div>
         <div
           id="playing-with-chromaticity-and-luminance"
           class="full-width-animation"

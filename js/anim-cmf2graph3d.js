@@ -26,7 +26,7 @@ class Equation {
 
   #createEquationElement(title) {
     const div = document.createElement("div");
-    div.appendChild(document.createElement("h3")).textContent = title;
+    div.appendChild(document.createElement("span")).textContent = title;
     const eqDiv = div.appendChild(document.createElement("div"));
     //div.style.display = "none";
 
@@ -35,6 +35,7 @@ class Equation {
       justifyContent: "center",
       flexDirection: "column",
       alignItems: "center",
+      marginTop:"1em"
     };
     Object.assign(div.style, commonStyle);
     return { div, eqDiv };
@@ -691,6 +692,7 @@ function createIsochromaticAnimation() {
   const div = document.createElement("div");
   div.appendChild(visualGamut3dGraph);
   const secondColumnDiv = document.createElement("div");
+  secondColumnDiv.style.fontSize="80%";
   secondColumnDiv.append(
     equation.equationContainers.colorEqDiv.div,
     equation.equationContainers.scaledColorEqDiv.div,
