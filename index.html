@@ -42,8 +42,12 @@
     <script type="module" src="js/anim-from3dTo2d.js"></script>
     <script type="module" src="js/anim-rgb2xyz.js"></script>
     <script type="module" src="js/anim-chromdiagram.js"></script>
+    <script type="module" src="js/nav-sidebar.js" defer></script>
   </head>
   <body>
+    <nav class="sidebar">
+      <ul id="sidebar-menu"></ul>
+    </nav>
     <div class="central-content">
       <h1>Chromaticity Diagram</h1>
       <div class="image-container">
@@ -52,225 +56,244 @@
           alt="chromaticity diagram"
         />
       </div>
-      <h2>Why am I interested in this diagram?</h2>
+      <section id="introduction">
+        <h2>Why am I interested in this diagram?</h2>
+        <p>
+          As a photography enthusiast, I wanted to invest in a high-quality
+          monitor for photo editing. Naturally, I turned to Google and searched
+          for
+          <i>Best monitor for photo editing</i>. I assumed that the most
+          important factor for photography was a monitor that could accurately
+          reproduce colors as they appear in real life. But which specifications
+          truly matter? I had often come across the term
+          <i>color gamut coverage</i>, but I never fully understood it.
+          Specifications like <i>98% sRGB</i> or <i>95% AdobeRGB</i> appeared
+          frequently, and while it was clear that higher percentages were
+          better, I wanted to dive deeper. What do these values actually
+          represent? When researching color gamut, sRGB, and AdobeRGB, I
+          repeatedly encountered this diagram, called the
+          <span class="highlight">CIE 1931 xy-chromaticity diagram</span>.
+        </p>
+        <p>
+          Determined to finally demystify this diagram, I embarked on an
+          in-depth investigation. This article is the result of my findings. By
+          the end, you'll be able to answer these questions:
+        </p>
+        <ul>
+          <li>What is the chromaticity diagram?</li>
+          <li>What is it used for?</li>
+          <li>Where does it come from?</li>
+          <li>How was it created?</li>
+        </ul>
+        Let's dive in!
+      </section>
+      <section id="the-short-story">
+        <h3>The short story</h3>
 
-      <p>
-        As a photography enthusiast, I wanted to invest in a high-quality
-        monitor for photo editing. Naturally, I turned to Google and searched
-        for
-        <i>Best monitor for photo editing</i>. I assumed that the most important
-        factor for photography was a monitor that could accurately reproduce
-        colors as they appear in real life. But which specifications truly
-        matter? I had often come across the term <i>color gamut coverage</i>,
-        but I never fully understood it. Specifications like <i>98% sRGB</i> or
-        <i>95% AdobeRGB</i> appeared frequently, and while it was clear that
-        higher percentages were better, I wanted to dive deeper. What do these
-        values actually represent? When researching color gamut, sRGB, and
-        AdobeRGB, I repeatedly encountered this diagram, called the
-        <span class="highlight">CIE 1931 xy-chromaticity diagram</span>.
-      </p>
-      <p>
-        Determined to finally demystify this diagram, I embarked on an in-depth
-        investigation. This article is the result of my findings. By the end,
-        you'll be able to answer these questions:
-      </p>
-      <ul>
-        <li>What is the chromaticity diagram?</li>
-        <li>What is it used for?</li>
-        <li>Where does it come from?</li>
-        <li>How was it created?</li>
-      </ul>
-      Let's dive in!
+        <p>
+          What is a chromaticity diagram? I would quickly describe the
+          chromaticity diagram as a representation of the
+          <span class="highlight">Human Visual Gamut</span>, the full range of
+          colors that the human eye can perceive. But then you would ask me: all
+          the colors? but I don't see the grey? neither the brown nor the
+          burgundy? and why would a color have a (x, y) coordinate? Does it mean
+          you could represent mathematically a color? Then I would try to be
+          more specific: Consider that a color could be fully characterized by
+          two attributes: its <span class="highlight">chromaticity</span> and
+          its <span class="highlight">luminance</span>. The chromaticity diagram
+          represents <i>only</i> the chromaticity of the Human Visual Gamut,
+          ignoring luminance. For example, the white point in this diagram has a
+          chromaticity of (x = 0.33, y = 0.33), but its luminance isn't
+          represented.
+        </p>
+        <p>
+          If this short explanation does not satisfy you, I invite you to keep
+          reading and start by asking yourself a simple question: what is a
+          color?
+        </p>
+      </section>
 
-      <h3>The short story</h3>
+      <section id="what-is-a-color">
+        <h2>What is a color? Color vs Wavelength</h2>
 
-      <p>
-        What is a chromaticity diagram? I would quickly describe the
-        chromaticity diagram as a representation of the
-        <span class="highlight">Human Visual Gamut</span>, the full range of
-        colors that the human eye can perceive. But then you would ask me: all
-        the colors? but I don't see the grey? neither the brown nor the
-        burgundy? and why would a color have a (x, y) coordinate? Does it mean
-        you could represent mathematically a color? Then I would try to be more
-        specific: Consider that a color could be fully characterized by two
-        attributes: its <span class="highlight">chromaticity</span> and its
-        <span class="highlight">luminance</span>. The chromaticity diagram
-        represents <i>only</i> the chromaticity of the Human Visual Gamut,
-        ignoring luminance. For example, the white point in this diagram has a
-        chromaticity of (x = 0.33, y = 0.33), but its luminance isn't
-        represented.
-      </p>
-      <p>
-        If this short explanation does not satisfy you, I invite you to keep
-        reading and start by asking yourself a simple question: what is a color?
-      </p>
+        <p>
+          You've probably learned in physics class that light is an
+          electromagnetic wave, and the portion visible to the human eye falls
+          within the wavelength range of approximately 380 nm to 750 nm. You've
+          likely seen a diagram illustrating this visible spectrum, where violet
+          appears at the shortest wavelengths (~380 nm) and red at the longest
+          (~750 nm).
+        </p>
+        <div class="image-container">
+          <img
+            src="https://www.datacolor.com/wp-content/uploads/2024/01/electromagnetic-spectrum.jpg"
+            alt="visible spectrum"
+          />
+        </div>
+        <p>
+          Each wavelength in this range seems to correspond to a specific color.
+          But here's an interesting question: Does this mean that every color we
+          perceive can be produced by an electromagnetic wave with a specific
+          wavelength? In other words, if you could generate a light with
+          electromagnetic waves at any wavelength and any intensity, would you
+          find one that corresponds to pink? Let's test this idea with a simple
+          simulation. Try matching those patch colors:
+        </p>
+        <div id="anim-patch-color-match"></div>
+        <p>
+          Not possible right? That brings us to an important conclusion: not
+          every color we perceive can be produced by a light of a single
+          wavelength. A light composed of a single wavelength is called
+          <span class="highlight">monochromatic light</span> . The colors
+          produced by monochromatic light belong to a group known as the
+          <span class="highlight"> spectral colors</span>. But what happens when
+          we mix multiple monochromatic lights? We get
+          <span class="highlight">polychromatic light</span>. And this is how we
+          get the other colors.
+        </p>
+        <p>
+          A perfect example is sunlight, which is a polychromatic light made up
+          of all the wavelengths in the visible spectrum. You've probably seen
+          this in action with a prism experiment, where white light is split
+          into the different spectral colors.
+        </p>
+        <div class="image-container">
+          <img
+            src="https://pbs.twimg.com/media/E_UA_azVIAAj1Ae.jpg"
+            alt="a prism decomposes sunlight into its spectral colors"
+          />
+        </div>
+        <section id="spectral-power-distribution">
+          <h3>Spectral Power Distribution (SPD)</h3>
+          <p>
+            Now, imagine we have a device—similar to a prism that not only
+            decomposes light into its individual monochromatic components but
+            also measures the amount of energy carried by each wavelength. Good
+            news: such a tool exists, and it's called a
+            <span class="highlight">spectrometer</span>! The spectrometer's
+            measures allows to create a graph known as the
+            <span class="highlight">Spectral Power Distribution (SPD)</span>,
+            which shows the
+            <span class="highlight">flux density Φ(λ) [W/nm]</span> at each
+            wavelength. Here are some exemple of SPD.
+          </p>
 
-      <h2>What is a color? Color vs Wavelength</h2>
-
-      <p>
-        You've probably learned in physics class that light is an
-        electromagnetic wave, and the portion visible to the human eye falls
-        within the wavelength range of approximately 380 nm to 750 nm. You've
-        likely seen a diagram illustrating this visible spectrum, where violet
-        appears at the shortest wavelengths (~380 nm) and red at the longest
-        (~750 nm).
-      </p>
-      <div class="image-container">
-        <img
-          src="https://www.datacolor.com/wp-content/uploads/2024/01/electromagnetic-spectrum.jpg"
-          alt="visible spectrum"
-        />
-      </div>
-      <p>
-        Each wavelength in this range seems to correspond to a specific color.
-        But here's an interesting question: Does this mean that every color we
-        perceive can be produced by an electromagnetic wave with a specific
-        wavelength? In other words, if you could generate a light with
-        electromagnetic waves at any wavelength and any intensity, would you
-        find one that corresponds to pink? Let's test this idea with a simple
-        simulation. Try matching those patch colors:
-      </p>
-      <div id="anim-patch-color-match"></div>
-      <p>
-        Not possible right? That brings us to an important conclusion: not every
-        color we perceive can be produced by a light of a single wavelength. A
-        light composed of a single wavelength is called
-        <span class="highlight">monochromatic light</span> . The colors produced
-        by monochromatic light belong to a group known as the
-        <span class="highlight"> spectral colors</span>. But what happens when
-        we mix multiple monochromatic lights? We get
-        <span class="highlight">polychromatic light</span>. And this is how we
-        get the other colors.
-      </p>
-      <p>
-        A perfect example is sunlight, which is a polychromatic light made up of
-        all the wavelengths in the visible spectrum. You've probably seen this
-        in action with a prism experiment, where white light is split into the
-        different spectral colors.
-      </p>
-      <div class="image-container">
-        <img
-          src="https://pbs.twimg.com/media/E_UA_azVIAAj1Ae.jpg"
-          alt="a prism decomposes sunlight into its spectral colors"
-        />
-      </div>
-      <h3>Spectral Power Distribution (SPD)</h3>
-      <p>
-        Now, imagine we have a device—similar to a prism that not only
-        decomposes light into its individual monochromatic components but also
-        measures the amount of energy carried by each wavelength. Good news:
-        such a tool exists, and it's called a
-        <span class="highlight">spectrometer</span>! The spectrometer's measures
-        allows to create a graph known as the
-        <span class="highlight">Spectral Power Distribution (SPD)</span>, which
-        shows the <span class="highlight">flux density Φ(λ) [W/nm]</span> at
-        each wavelength. Here are some exemple of SPD.
-      </p>
-
-      <div id="anim-spd"></div>
-      <p>
-        We might imagine that to create a color from its SPD, we could combine
-        all the monochromatic lights of the visible spectrum, adjusting their
-        intensities according to the SPD. However, this approach is impractical
-        for two main reasons: first, pure monochromatic light does not truly
-        exist, and second, we would need an infinite number of such lights.
-        There must be an easier way!
-      </p>
-      <p>
-        Let's take a classical color as the yellow. As seen in the visual
-        spectrum, it seems to correspond to the spectral color at about 575nm.
-        But you've also known your whole life that you could mix red and green
-        to get yellow. So it seems we could create yellow in two different ways:
-      </p>
-      <ol>
-        <li>Using a monochromatic light at 575nm.</li>
-        <li>
-          Combining two monochromatic lights: a red one at 650nm and a green one
-          at 545nm.
-        </li>
-      </ol>
-      <p>
-        On the graph below, you can visualize the SPD of the the monochromatic
-        light yellow being a peak at 575nm and the SPD of the combined red and
-        green having a peak at 650 and 545 nm.
-      </p>
-      <div id="anim-spd-yellow"></div>
-      <p>
-        So two different SPD but the same color! At this point, you might wonder
-        🤔: "Maybe it's not two different SPD because if we mix two wavelengths,
-        it could create a single monochromatic wavelength that corresponds to
-        their sum?" Not quite! For one, wavelengths don't add up like numbers:
-        if you recall some trigonometry, adding two sinusoidal waves doesn't
-        simply result in another sine wave of their summed wavelength. Plus,
-        even if you wanted to add the wavelength of the green and red, it would
-        not give the wavelength of yellow (545nm(green) + 650nm(red) ≠
-        575nm(yellow)).
-      </p>
-      <p>
-        This brings us to an important concept: light of different SPD can have
-        the same color! This phenomenon is called
-        <span class="highlight">Metamerism</span>. Metamerism is the phenomenon
-        where two different light sources, with different SPDs, are perceived as
-        the same color by the human eye. Perhaps, instead of defining color
-        based on the physical properties of light, we should focus more on how
-        the human eye perceives it.
-      </p>
-      <h3>Trichromatic Vision</h3>
-      <p>
-        In the early 1800s, Thomas Young proposed a groundbreaking idea: the
-        human eye has <span class="highlight">three types of receptors</span>,
-        each sensitive to a different range of wavelengths—corresponding roughly
-        to red, green, and blue light. This meant that color perception is
-        determined by how these receptors respond to incoming light. Yes, you've
-        guessed it, these receptors are what we now call
-        <span class="highlight">cones</span>! Since different light spectra can
-        produce the same cone response, this explains metamerism, why different
-        SPDs can result in the same perceived color. In a few words,
-      </p>
-      <div id="color-definition">A color is a specific cone response.</div>
-      <p>
-        As a qualitative example of cone response, imagine looking at blue
-        light. The first and second types of cones would show low sensitivity,
-        while the third type would have high sensitivity. Later, you'll see that
-        we can represent cone responses as a triplet of number, for example, a
-        blue light might be expressed quantitatively as (0.1, 0.1, 0.9).
-      </p>
-      <p>
-        This was purely based on experiments at the time—scientists in the 1800s
-        had no way to physically analyze the eye's cells. But in the 1960s,
-        technology finally caught up. Using microspectrophotometry, a technique
-        that measures the light absorption of individual cells, researchers
-        confirmed the existence of three distinct types of cones:
-      </p>
-      <ul>
-        <li>L-cones (sensitive to long wavelengths, red-sensitive)</li>
-        <li>M-cones (sensitive too medium wavelengths, green-sensitive)</li>
-        <li>S-cones (sensitive to short wavelengths, blue-sensitive)</li>
-      </ul>
-      <p>This discovery provided definitive proof of trichromatic vision!</p>
-      <p>
-        If we can determine the full range of possible cone responses, this
-        range corresponds to the complete set of colors humans can perceive,
-        also known as the Human Visual Gamut. Yes, this is the same gamut we
-        mentioned at the start of this article! Remember, we're working toward
-        explaining the chromaticity diagram, which represents the chromaticity
-        attribute of each color of the Human Visual Gamut.
-      </p>
-      <p>
-        But here's an important point: the CIE 1931 xy-chromaticity diagram, the
-        very diagram we're trying to explain, was created in 1931, before
-        scientists could directly measure cone sensitivity. So how did
-        researchers determine cone responses and construct a representation of
-        the Human Visual Gamut before they had the technology to analyze the
-        eye's cells? To answer this, we need to step back into the 1920s, where
-        two scientists, John Guild and William Wright, working independently,
-        devised a similar way to map human color perception. Their key
-        breakthrough came from an experiment known as the
-        <span class="highlight">Color Matching Experiment</span>. In the next
-        section, we'll break down this experiment and by the end, you'll
-        understand key concepts such as: primaries, reference white,
-        chromaticity, luminance, color matching functions.
-      </p>
+          <div id="anim-spd"></div>
+          <p>
+            We might imagine that to create a color from its SPD, we could
+            combine all the monochromatic lights of the visible spectrum,
+            adjusting their intensities according to the SPD. However, this
+            approach is impractical for two main reasons: first, pure
+            monochromatic light does not truly exist, and second, we would need
+            an infinite number of such lights. There must be an easier way!
+          </p>
+          <p>
+            Let's take a classical color as the yellow. As seen in the visual
+            spectrum, it seems to correspond to the spectral color at about
+            575nm. But you've also known your whole life that you could mix red
+            and green to get yellow. So it seems we could create yellow in two
+            different ways:
+          </p>
+          <ol>
+            <li>Using a monochromatic light at 575nm.</li>
+            <li>
+              Combining two monochromatic lights: a red one at 650nm and a green
+              one at 545nm.
+            </li>
+          </ol>
+          <p>
+            On the graph below, you can visualize the SPD of the the
+            monochromatic light yellow being a peak at 575nm and the SPD of the
+            combined red and green having a peak at 650 and 545 nm.
+          </p>
+          <div id="anim-spd-yellow"></div>
+          <p>
+            So two different SPD but the same color! At this point, you might
+            wonder 🤔: "Maybe it's not two different SPD because if we mix two
+            wavelengths, it could create a single monochromatic wavelength that
+            corresponds to their sum?" Not quite! For one, wavelengths don't add
+            up like numbers: if you recall some trigonometry, adding two
+            sinusoidal waves doesn't simply result in another sine wave of their
+            summed wavelength. Plus, even if you wanted to add the wavelength of
+            the green and red, it would not give the wavelength of yellow
+            (545nm(green) + 650nm(red) ≠ 575nm(yellow)).
+          </p>
+          <p>
+            This brings us to an important concept: light of different SPD can
+            have the same color! This phenomenon is called
+            <span class="highlight">Metamerism</span>. Metamerism is the
+            phenomenon where two different light sources, with different SPDs,
+            are perceived as the same color by the human eye. Perhaps, instead
+            of defining color based on the physical properties of light, we
+            should focus more on how the human eye perceives it.
+          </p>
+        </section>
+        <section id="trichromatic-vision">
+          <h3>Trichromatic Vision</h3>
+          <p>
+            In the early 1800s, Thomas Young proposed a groundbreaking idea: the
+            human eye has
+            <span class="highlight">three types of receptors</span>, each
+            sensitive to a different range of wavelengths—corresponding roughly
+            to red, green, and blue light. This meant that color perception is
+            determined by how these receptors respond to incoming light. Yes,
+            you've guessed it, these receptors are what we now call
+            <span class="highlight">cones</span>! Since different light spectra
+            can produce the same cone response, this explains metamerism, why
+            different SPDs can result in the same perceived color. In a few
+            words,
+          </p>
+          <div id="color-definition">A color is a specific cone response.</div>
+          <p>
+            As a qualitative example of cone response, imagine looking at blue
+            light. The first and second types of cones would show low
+            sensitivity, while the third type would have high sensitivity.
+            Later, you'll see that we can represent cone responses as a triplet
+            of number, for example, a blue light might be expressed
+            quantitatively as (0.1, 0.1, 0.9).
+          </p>
+          <p>
+            This was purely based on experiments at the time—scientists in the
+            1800s had no way to physically analyze the eye's cells. But in the
+            1960s, technology finally caught up. Using microspectrophotometry, a
+            technique that measures the light absorption of individual cells,
+            researchers confirmed the existence of three distinct types of
+            cones:
+          </p>
+          <ul>
+            <li>L-cones (sensitive to long wavelengths, red-sensitive)</li>
+            <li>M-cones (sensitive too medium wavelengths, green-sensitive)</li>
+            <li>S-cones (sensitive to short wavelengths, blue-sensitive)</li>
+          </ul>
+          <p>
+            This discovery provided definitive proof of trichromatic vision!
+          </p>
+          <p>
+            If we can determine the full range of possible cone responses, this
+            range corresponds to the complete set of colors humans can perceive,
+            also known as the Human Visual Gamut. Yes, this is the same gamut we
+            mentioned at the start of this article! Remember, we're working
+            toward explaining the chromaticity diagram, which represents the
+            chromaticity attribute of each color of the Human Visual Gamut.
+          </p>
+          <p>
+            But here's an important point: the CIE 1931 xy-chromaticity diagram,
+            the very diagram we're trying to explain, was created in 1931,
+            before scientists could directly measure cone sensitivity. So how
+            did researchers determine cone responses and construct a
+            representation of the Human Visual Gamut before they had the
+            technology to analyze the eye's cells? To answer this, we need to
+            step back into the 1920s, where two scientists, John Guild and
+            William Wright, working independently, devised a similar way to map
+            human color perception. Their key breakthrough came from an
+            experiment known as the
+            <span class="highlight">Color Matching Experiment</span>. In the
+            next section, we'll break down this experiment and by the end,
+            you'll understand key concepts such as: primaries, reference white,
+            chromaticity, luminance, color matching functions.
+          </p>
+        </section>
+      </section>
 
       <h2>The Color Matching Experiment</h2>
       <p>
@@ -771,14 +794,12 @@
         emitting 1 watt are given by
       </p>
       <div class="block-equation">
-        $$
-        \begin{split}
+        $$ \begin{split}
         R_m=\int{\delta(\lambda-\lambda_m)\bar{r}(\lambda)d\lambda}=\bar{r}(\lambda_m)\\
         G_m=\int{\delta(\lambda-\lambda_m)\bar{g}(\lambda)d\lambda}=\bar{g}(\lambda_m)
         \\
         B_m=\int{\delta(\lambda-\lambda_m)\bar{b}(\lambda)d\lambda}=\bar{b}(\lambda_m)
-        \end{split}
-        $$
+        \end{split} $$
       </div>
       which mean that for each spectral color, we can take the value of the CMF
       as their tristimulus value. In the animation below, you can hover on each
@@ -848,7 +869,10 @@
         chromaticity.
       </p>
     </div>
-    <div id="anim-isochromatic-line-animation" class="full-width-animation"></div>
+    <div
+      id="anim-isochromatic-line-animation"
+      class="full-width-animation"
+    ></div>
     <div class="central-content">
       <p>
         Since you can increase the luminance indefinitely, there is actually no
@@ -1118,6 +1142,9 @@
       </p>
     </div>
 
-    <div id="playing-with-chromaticity-and-luminance" class="full-width-animation"></div>
+    <div
+      id="playing-with-chromaticity-and-luminance"
+      class="full-width-animation"
+    ></div>
   </body>
 </html>
