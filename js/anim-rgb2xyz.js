@@ -387,11 +387,15 @@ function addVisualGamut3d(graph3d) {
     x: spectralRGBArrays.x,
     y: spectralRGBArrays.y,
     z: spectralRGBArrays.z,
-    mode: "markers",
+    mode: "markers+lines",
     marker: {
       size: 3,
       color: spectralRGBArrays.color,
       opacity: 1,
+    },
+    line: {
+      width: 4,
+      color: spectralRGBArrays.color,
     },
     type: "scatter3d",
     name: "Human Visual Gamut",

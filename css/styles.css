@@ -49,18 +49,18 @@ img {
 }
 
 .full-width-animation {
-  /* max-width: 700px; */
-  /* margin: 0 auto; */
+  width: 80%;
+  margin: 0 auto;
 }
 
 .sidebar {
   position: fixed;
   top: 20px;
-  right: 0;
+  left: 0;
   font-size: 90%;
   line-height: 1.5;
-  margin-right: 2em;
-  border-left: 1px solid #ccc;
+  margin-left: 1em;
+  border-right: 1px solid #ccc;
   padding: 1em;
   z-index: 1000;
 }

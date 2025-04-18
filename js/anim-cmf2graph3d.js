@@ -517,7 +517,7 @@ function createVisualGamut3dGraph() {
     spectralPoints[i].y = CMFDataG.y[i];
     spectralPoints[i].z = CMFDataB.y[i];
   }
-  const powerFactor = 2.0;
+  const powerFactor = 3.0;
   const volumePoints = lerpPointsBetween(
     spectralPoints,
     ({ x, y, z }) =>
@@ -575,7 +575,6 @@ function addClickAnimation(visualGamut3dDiv, slider, equation) {
   Plotly.addTraces(visualGamut3dDiv, isochromLineTrace);
 
   // Create an invisible trace for the moving point along the isochromatic line
-  const highlightedPointSize = 10;
   const movingPointTrace = {
     type: "scatter3d",
     mode: "markers",
@@ -676,6 +675,44 @@ function addClickAnimation(visualGamut3dDiv, slider, equation) {
   // TODO: double click does not work with scatter3d, so I need a button to reset all the animation
 }
 
+function overlaySpectralLocus(graph3d){
+  const CMFDataR = util.unzipXY(CMFData[0].values);
+  const CMFDataG = util.unzipXY(CMFData[1].values);
+  const CMFDataB = util.unzipXY(CMFData[2].values);
+
+  const powerFactor = 2.0; // for color to appear brighter
+  const pointColors = Array.from({ length: CMFDataR.x.length }, (_, i) => {
+    const RGB = util.cvtLinearRGBtoRGB({
+      R: powerFactor * CMFDataR.y[i],
+      G: powerFactor * CMFDataG.y[i],
+      B: powerFactor * CMFDataB.y[i],
+    });
+    return `rgba(${RGB.R}, ${RGB.G}, ${RGB.B})`;
+  });
+
+  const traceLocus3D = {
+    type: "scatter3d",
+    mode: "markers+lines",
+    x: CMFDataR.y,
+    y: CMFDataG.y,
+    z: CMFDataB.y,
+    marker: {
+      size: 3,
+      color: pointColors,
+    },
+    line: {
+      color: pointColors,
+      width: 4,
+    },
+    showlegend: false,
+    name: "Spectral colors",
+    hoverinfo:"none"
+  };
+
+  Plotly.addTraces(graph3d, traceLocus3D);
+
+}
+
 function createIsochromaticAnimation() {
   // Create the 3d visual gamut with only the envelop
   const visualGamut3dGraph = createVisualGamut3dGraph();
@@ -688,6 +725,8 @@ function createIsochromaticAnimation() {
   });
   const equation = new Equation();
   addClickAnimation(visualGamut3dGraph, slider, equation);
+  overlaySpectralLocus(visualGamut3dGraph);
+ 
 
   const div = document.createElement("div");
   div.appendChild(visualGamut3dGraph);

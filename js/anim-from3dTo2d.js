@@ -371,12 +371,18 @@ function createRgbVisualGamutAnimation() {
     return { x: 0, y: 0, z: 0 };
   });
 
-  const scaleFactor = 1/Math.max(Math.max(...CMFDataR.y), Math.max(...CMFDataG.y), Math.max(...CMFDataB.y));
-  
+  const scaleFactor =
+    1 /
+    Math.max(
+      Math.max(...CMFDataR.y),
+      Math.max(...CMFDataG.y),
+      Math.max(...CMFDataB.y)
+    );
+
   for (let i = 0; i < nbSpectralColors; ++i) {
-    spectralPoints[i].x = scaleFactor*CMFDataR.y[i];
-    spectralPoints[i].y = scaleFactor*CMFDataG.y[i];
-    spectralPoints[i].z = scaleFactor*CMFDataB.y[i];
+    spectralPoints[i].x = scaleFactor * CMFDataR.y[i];
+    spectralPoints[i].y = scaleFactor * CMFDataG.y[i];
+    spectralPoints[i].z = scaleFactor * CMFDataB.y[i];
   }
 
   // Create 3d visual gamut with only spectral colors
@@ -394,11 +400,15 @@ function createRgbVisualGamutAnimation() {
   const colorVolumePointsAsString = brightenedColors.map((c) => c.toString());
   const volumePointTrace = {
     type: "scatter3d",
-    mode: "markers",
+    mode: "markers+lines",
     x: xVolumePoints,
     y: yVolumePoints,
     z: zVolumePoints,
     marker: { color: colorVolumePointsAsString, size: 3 },
+    line: {
+      color: colorVolumePointsAsString,
+      width: 4,
+    },
     name: "Spectral colors",
   };
 
@@ -456,12 +466,20 @@ function createRgbVisualGamutAnimation() {
   // Add isochromatic line passing through the origin and the plane
   addIsoLines(graph3Ddiv);
 
+  // Save this initial state
+  let initialState = JSON.parse(JSON.stringify(graph3Ddiv.data));
+  let initialLayout = JSON.parse(JSON.stringify(layout));
+
   // Project points on the plane R+G+B
   buttonPanel
     .append("button")
     .text("1.Project on R+G+B=1")
     .on("click", () => {
-      ProjectOnRgbEq1(graph3Ddiv,  {x:xVolumePoints, y:yVolumePoints, z:zVolumePoints});
+      ProjectOnRgbEq1(graph3Ddiv, {
+        x: xVolumePoints,
+        y: yVolumePoints,
+        z: zVolumePoints,
+      });
     });
 
   // Project points on the plane R+G+B
@@ -480,16 +498,13 @@ function createRgbVisualGamutAnimation() {
       pointCameraOnRGPlane(graph3Ddiv);
     });
 
-    buttonPanel
+  buttonPanel
     .append("button")
     .text("Reset")
     .on("click", () => {
-      const initialData = {
-        x: [xVolumePoints],
-        y: [yVolumePoints],
-        z: [zVolumePoints],
-      }
-      Plotly.restyle(graph3Ddiv, initialData, 0);
+      const initialCopy = JSON.parse(JSON.stringify(initialState));
+      const initialLayoutCopy = JSON.parse(JSON.stringify(initialLayout));
+      Plotly.react(graph3Ddiv, initialCopy, initialLayoutCopy);
     });
 
   // Project points on the plane R-G and move the camera

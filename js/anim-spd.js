@@ -242,7 +242,9 @@ function createSPDstandardIlluminant() {
     name: "E",
   };
 
-  const layout = {};
+  const layout = {
+    title:"Standard Illuminants SPD"
+  };
   const div = document.createElement("div");
   Plotly.newPlot(
     div,
