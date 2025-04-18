@@ -450,7 +450,7 @@ async function cmpt_xySpectralLocus() {
     const XpYpZ = d.X + d.Y + d.Z;
     const x = d.X / XpYpZ;
     const y = d.Y / XpYpZ;
-    locus_coord.push({ x: x, y: y });
+    locus_coord.push({ x: x, y: y, Wavelength:d.Wavelength });
   });
   return locus_coord;
 }
@@ -687,6 +687,24 @@ export function intersect(array1, array2) {
 
   return indexes;
 }
+
+export function cleanValue(val, epsilon = 1e-10) {
+  return Math.abs(val) < epsilon ? 0 : val;
+}
+
+export function cvt_xyToMaxLumDisplayRgb(x, y) {
+  const XYZ = cvt_xyYtoXYZ({ x: x, y: y, Y: 1.0 });
+  const maxValue = Math.max(XYZ.X, XYZ.Y, XYZ.Z);
+  // Normalize such that the max coordinates is one (corresponding to the max luminance possible of a color)
+  const XYZNorm = {
+    X: cleanValue(XYZ.X / maxValue),
+    Y: cleanValue(XYZ.Y / maxValue),
+    Z: cleanValue(XYZ.Z / maxValue),
+  };
+  const RGB = cvtXYZtoRGB(XYZNorm);
+  return d3.rgb(RGB.R, RGB.G, RGB.B);
+}
+
 
 export class Slider {
   constructor({
