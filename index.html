@@ -31,6 +31,8 @@
       src="https://cdn.plot.ly/plotly-2.35.2.min.js"
       charset="utf-8"
     ></script>
+    <script src="js/noUiSlider/dist/nouislider.js"></script>
+    <link href="js/noUiSlider/dist/nouislider.css" rel="stylesheet" />
 
     <!-- script -->
     <script type="module" src="js/anim-patch-color-match.js"></script>
@@ -788,13 +790,9 @@
             amount of primary:
           </p>
           <div class="block-equation">
-            $$
-            \begin{split}
-             R=\int{\Phi(\lambda)\bar{r}(\lambda)d\lambda} \\
+            $$ \begin{split} R=\int{\Phi(\lambda)\bar{r}(\lambda)d\lambda} \\
             G=\int{\Phi(\lambda)\bar{g}(\lambda)d\lambda} \\
-            B=\int{\Phi(\lambda)\bar{b}(\lambda)d\lambda} 
-            \end{split}
-            $$
+            B=\int{\Phi(\lambda)\bar{b}(\lambda)d\lambda} \end{split} $$
           </div>
           Now, the color C characterized by SPD $\Phi(\lambda)$ is exactly
           matched in chromaticity and luminance by those amounts
@@ -1041,13 +1039,9 @@
         </div>
         where each tristimulus value are
         <div class="block-equation">
-          $$
-          \begin{split}
-          R=\int{\Phi(\lambda)\bar{r}(\lambda)d\lambda} \\
+          $$ \begin{split} R=\int{\Phi(\lambda)\bar{r}(\lambda)d\lambda} \\
           G=\int{\Phi(\lambda)\bar{g}(\lambda)d\lambda} \\
-          B=\int{\Phi(\lambda)\bar{b}(\lambda)d\lambda} 
-          \end{split}
-          $$
+          B=\int{\Phi(\lambda)\bar{b}(\lambda)d\lambda} \end{split} $$
         </div>
         <p>
           And from these tristimulus values, we can deduce the chromaticity
@@ -1056,7 +1050,8 @@
           defined such that their sum = 1.
         </p>
         <div class="block-equation">
-          $$\begin{split} r = \frac{R}{R+G+B} \\ g = \frac{G}{R+G+B} \\ b = 1-r-g \end{split}$$
+          $$\begin{split} r = \frac{R}{R+G+B} \\ g = \frac{G}{R+G+B} \\ b =
+          1-r-g \end{split}$$
         </div>
         <p>
           If we represent the chromaticity coefficients in the RGB space, those
@@ -1097,9 +1092,8 @@
             Y, Z).
           </p>
           <div class="block-equation">
-            $$
-             \begin{bmatrix} X \\ Y \\ Z \end{bmatrix} = M \begin{bmatrix} R \\ G
-            \\ B \end{bmatrix} $$
+            $$ \begin{bmatrix} X \\ Y \\ Z \end{bmatrix} = M \begin{bmatrix} R
+            \\ G \\ B \end{bmatrix} $$
           </div>
           with
           <div class="block-equation">
@@ -1126,7 +1120,8 @@
             primaries chosen such that their sum = 1.
           </p>
           <div class="block-equation">
-            $$ \begin{split} x = \frac{X}{X+Y+Z} \\ y = \frac{Y}{X+Y+Z} \\ z = 1-x-y \end{split}$$
+            $$ \begin{split} x = \frac{X}{X+Y+Z} \\ y = \frac{Y}{X+Y+Z} \\ z =
+            1-x-y \end{split}$$
           </div>
           <p>
             Similarly as we did in the CIE1931 RGB space, we can plot the (X, Y,
@@ -1205,14 +1200,42 @@
           </p>
           <div id="anim-chromdiag2handles"></div>
           <p>
-            The chromaticities between minLambda and maxLambda which close the
-            shape is called the line of purple! It's not part of the spectral
-            locus since those colors does not correspond spectral colors. Each
-            point inside this shape has coordinate (x, y) and represent the
-            chromaticity of a colors. Since multiple colors have the same
-            chromaticity, you could arbitraly decide which colors of
+            Finally, if you close the spectral locus and fill in the shape with
+            chromaticites as found in the animation above, you end up with the
+            final chromaticity diagram. Note that the straight line closing the
+            spectral locus is called the
+            <span class="highlight">line of purples</span>! It's not part of the
+            spectral locus since those colors does not correspond spectral
+            colors. Each point inside this shape has coordinate (x, y) and
+            represent the chromaticity of a colors. Since multiple colors have
+            the same chromaticity, you could arbitraly decide which colors of
             chormaticity (x, y) you want plot. Usually, we use the color with
             the maximum luminance possible given by your device.
+          </p>
+          <p>
+            It shows that this chromaticity diagram can be used to know how to
+            mix colors together to create specific chromaticities. Let's say you
+            have three colors. The triangle formed by those three points
+            represent the ensemble of chromaticities you can create. If you take
+            a point inside that triangle, you know that to create this points,
+            you have to mix the three colors by the amount corresponding to
+            their respective distance to that point. You can play with the
+            animation and change the three colors.
+          </p>
+          <div id="anim-chromdiag3handles"></div>
+          <p>
+            As you might have noticed, it looks exactly as if we would have
+            taken 3 primary colors and mix them together to create other colors.
+            And it is exactly the case. Remember the triangle of sRGB and
+            AdobeRGB placed in the CIE1931 xy-chromaticity diagram? Now we
+            understand their meaning. Each vertex of the triangle correspond to
+            the primaries used by those space. And the triangle created covers
+            the space of colors they can represent. So we notice that adobeRGB
+            space covers a larger area than sRGB. Since we said that the
+            chromaticity diagram represented the human visual gamut, then the
+            triangle represent the gamut (the ensemble of chromaticties) that
+            each space can cover. That's why you will hear "AdobeRGB has a wider
+            gamut than sRGB”.
           </p>
         </div>
       </section>

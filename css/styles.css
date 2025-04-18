@@ -61,19 +61,18 @@ img {
   line-height: 1.5;
   margin-right: 2em;
   border-left: 1px solid #ccc;
-  padding:1em;
+  padding: 1em;
   z-index: 1000;
 }
 
-.sidebar li.active a{
+.sidebar li.active a {
   color: #333;
   font-weight: 500;
 }
 
-
 .sidebar ul {
   list-style-type: none;
-  padding:0;
+  padding: 0;
 }
 
 .sidebar a {

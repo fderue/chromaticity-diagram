@@ -698,9 +698,493 @@ function createChromDiagramWithBoundaries() {
   return chromDiagramDiv;
 }
 
+function createChromDiagWithTwoHandles() {
+  const [spectralLocusArrayX, spectralLocusArrayY, Wavelengths] =
+    util.unzipArrayOfObject(util.xySpectralLocus);
+
+  const nbLambda = Wavelengths.length;
+
+  // Compute all corresponding displayRGB colors
+  const spectralColorsDisplayRgb = spectralLocusArrayX.map((x, i) => {
+    const y = spectralLocusArrayY[i];
+    return util.cvt_xyToMaxLumDisplayRgb(x, y);
+  });
+
+  const spectralColorsDisplayRgbAsString = spectralColorsDisplayRgb.map((c) =>
+    c.toString()
+  );
+
+  const spectralLocusTrace = {
+    type: "scatter2d",
+    mode: "markers",
+    x: spectralLocusArrayX,
+    y: spectralLocusArrayY,
+    name: "spectral locus",
+    marker: { color: spectralColorsDisplayRgbAsString, size: 3 },
+    line: {
+      shape: "spline",
+      color: "lightgray",
+      width: 1,
+    },
+  };
+
+  const layout = {
+    title: "Chromaticity Diagram",
+    xaxis: { title: "x", range: [0, 1], fixedrange: true, scaleanchor: "y" },
+    yaxis: { title: "y", range: [0, 1], fixedrange: true },
+    width: 500,
+    height: 500,
+  };
+
+  const chromDiagDiv = document.createElement("div");
+  Plotly.newPlot(chromDiagDiv, [spectralLocusTrace], layout);
+
+  // Add interpolation line connecting the two handles
+  const interpLineTrace = {
+    type: "scatter",
+    mode: "markers+lines",
+    x: [],
+    y: [],
+    marker: { size: 1 },
+    line: { color: "lightgray", width: 1 },
+    name: "interpolation line",
+    hoverinfo: "none",
+  };
+  const interpLineCurveIndex = 1;
+
+  const interpPointTrace = {
+    type: "scatter",
+    mode: "markers",
+    x: [],
+    y: [],
+    marker: { size: 10, color: "blue" },
+    showlegend: false,
+    hoverinfo: "none",
+  };
+  const interpPointCurveIndex = 2;
+
+  Plotly.addTraces(
+    chromDiagDiv,
+    [interpLineTrace, interpPointTrace],
+    [interpLineCurveIndex, interpPointCurveIndex]
+  );
+
+  // Add slider to control the two handles because it seems simpler than draging the handler themselve
+  const sliderContainer = document.createElement("div");
+  sliderContainer.style.width = "500px";
+  sliderContainer.style.padding = "1em";
+  sliderContainer.style.textAlign = "center";
+  const slider = document.createElement("div");
+  noUiSlider.create(slider, {
+    start: [0, nbLambda - 1],
+    connect: true,
+    range: {
+      min: 0,
+      max: nbLambda - 1,
+    },
+    step: 1,
+    format: {
+      to: function (value) {
+        return value.toFixed(0);
+      },
+      from: function (value) {
+        return Number(value);
+      },
+    },
+    tooltips: {
+      to: function (value) {
+        return `${Wavelengths[value.toFixed(0)]}`;
+      },
+    },
+  });
+
+  // Override style of noUiSlider
+  slider.querySelector(".noUi-connect").style.background = "lightgray";
+
+  const sliderLabel = document.createElement("label");
+  sliderLabel.textContent = "λ";
+  sliderLabel.style.display = "inline-block";
+  sliderLabel.style.margin = "0.5em";
+  slider.noUiSlider.on("update", function (values, handle) {
+    const leftHandlePoint = {
+      x: spectralLocusArrayX[values[0]],
+      y: spectralLocusArrayY[values[0]],
+    };
+    const rightHandlePoint = {
+      x: spectralLocusArrayX[values[1]],
+      y: spectralLocusArrayY[values[1]],
+    };
+
+    // Add interpolated point between leftHandle and rightHandle
+    const nbPoints = 100;
+    const tArray = Array.from(
+      { length: nbPoints },
+      (_, i) => i / (nbPoints - 1)
+    );
+    const interpolatedPoints = tArray.map((t) => {
+      return {
+        x: t * leftHandlePoint.x + (1 - t) * rightHandlePoint.x,
+        y: t * leftHandlePoint.y + (1 - t) * rightHandlePoint.y,
+      };
+    });
+
+    const [xArray, yArray] = util.unzipArrayOfObject(interpolatedPoints);
+
+    const updatedData = {
+      x: [xArray],
+      y: [yArray],
+    };
+
+    Plotly.restyle(chromDiagDiv, updatedData, interpLineCurveIndex);
+
+    // change color of the handlers to show them currently selected colors
+    const handles = slider.querySelectorAll(".noUi-handle");
+    [leftHandlePoint, rightHandlePoint].forEach((point, i) => {
+      const displayRgbColor = util.cvt_xyToMaxLumDisplayRgb(point.x, point.y);
+      handles[i].style.background = displayRgbColor;
+    });
+  });
+
+  chromDiagDiv.on("plotly_hover", (data) => {
+    if (!data || !data.points) return;
+    const curHoverPoint = data.points[0];
+    if (curHoverPoint.curveNumber === interpLineCurveIndex) {
+      const updatedPoint = {
+        x: [[curHoverPoint.x]],
+        y: [[curHoverPoint.y]],
+        "marker.color": util.cvt_xyToMaxLumDisplayRgb(
+          curHoverPoint.x,
+          curHoverPoint.y
+        ),
+        visible: true,
+      };
+      Plotly.restyle(chromDiagDiv, updatedPoint, interpPointCurveIndex);
+    }
+  });
+
+  chromDiagDiv.on("plotly_unhover", (data) => {
+    const updatedPoint = {
+      visible: false,
+    };
+    Plotly.restyle(chromDiagDiv, updatedPoint, interpPointCurveIndex);
+  });
+
+  const animationDiv = document.createElement("div");
+  animationDiv.append(chromDiagDiv);
+  sliderContainer.append(slider, sliderLabel);
+  animationDiv.append(sliderContainer);
+
+  return animationDiv;
+}
+
+function generateUniformGridInTriangle(A, B, C, N) {
+  const points = [];
+  for (let i = 0; i <= N; i++) {
+    for (let j = 0; j <= N - i; j++) {
+      const a = i / N;
+      const b = j / N;
+      const c = 1 - a - b;
+
+      const x = a * A.x + b * B.x + c * C.x;
+      const y = a * A.y + b * B.y + c * C.y;
+
+      points.push({ x, y });
+    }
+  }
+  return points;
+}
+
+function createChromDiagWithThreeHandles() {
+  const [spectralLocusArrayX, spectralLocusArrayY, Wavelengths] =
+    util.unzipArrayOfObject(util.xySpectralLocus);
+
+  const nbLambda = Wavelengths.length;
+
+  // Compute all corresponding displayRGB colors
+  const spectralColorsDisplayRgb = spectralLocusArrayX.map((x, i) => {
+    const y = spectralLocusArrayY[i];
+    return util.cvt_xyToMaxLumDisplayRgb(x, y);
+  });
+
+  const spectralColorsDisplayRgbAsString = spectralColorsDisplayRgb.map((c) =>
+    c.toString()
+  );
+
+  const spectralLocusTrace = {
+    type: "scatter2d",
+    mode: "markers",
+    x: spectralLocusArrayX,
+    y: spectralLocusArrayY,
+    name: "spectral locus",
+    marker: { color: spectralColorsDisplayRgbAsString, size: 3 },
+    hoverinfo: "none",
+  };
+
+  const layout = {
+    title: "Chromaticity Diagram",
+    xaxis: { title: "x", range: [0, 1], fixedrange: true, scaleanchor: "y" },
+    yaxis: { title: "y", range: [0, 1], fixedrange: true },
+    width: 500,
+    height: 500,
+  };
+
+  const chromDiagDiv = document.createElement("div");
+  Plotly.newPlot(chromDiagDiv, [spectralLocusTrace], layout).then(() => {
+    d3.select("g.draglayer").selectAll("rect").style("cursor", "default");
+  });
+
+  // Add three line to define the triangle
+  const triangleSideTrace1 = {
+    mode: "lines",
+    x: [],
+    y: [],
+    showlegend: false,
+    line: { color: "lightgray", width: 1 },
+  };
+  const side1CurveIdx = 1;
+  const triangleSideTrace2 = {
+    mode: "lines",
+    x: [],
+    y: [],
+    showlegend: false,
+    line: { color: "lightgray", width: 1 },
+  };
+  const side2CurveIdx = side1CurveIdx + 1;
+  const triangleSideTrace3 = {
+    mode: "lines",
+    x: [],
+    y: [],
+    showlegend: false,
+    line: { color: "lightgray", width: 1 },
+  };
+  const side3CurveIdx = side2CurveIdx + 1;
+
+  // Add interpolated point inside the triangle, which should be invisible when not hovered
+  const trianglePointsTrace = {
+    mode: "markers",
+    x: [],
+    y: [],
+    showlegend: false,
+    marker: { size: 1, opacity: 0 },
+    hoverinfo: "none",
+    //visible:false
+  };
+  const trianglePointsCurveIdx = side3CurveIdx + 1;
+
+  // Add currently hovered point marker
+  const hoverPointTrace = {
+    mode: "markers",
+    x: [],
+    y: [],
+    showlegend: false,
+    marker: { size: 10 },
+    hoverinfo: "none",
+  };
+  const hoverPointCurveIdx = trianglePointsCurveIdx + 1;
+
+  const connectionTraces = Array.from({ length: 3 }, () => {
+    return {
+      mode: "lines",
+      x: [],
+      y: [],
+      showlegend: false,
+      line: { color: "lightgray", width: 1, dash: "dot" },
+    };
+  });
+  const connection1Idx = hoverPointCurveIdx + 1;
+  const connection2Idx = hoverPointCurveIdx + 2;
+  const connection3Idx = hoverPointCurveIdx + 3;
+
+  Plotly.addTraces(
+    chromDiagDiv,
+    [
+      triangleSideTrace1,
+      triangleSideTrace2,
+      triangleSideTrace3,
+      trianglePointsTrace,
+      hoverPointTrace,
+      ...connectionTraces,
+    ],
+    [
+      side1CurveIdx,
+      side2CurveIdx,
+      side3CurveIdx,
+      trianglePointsCurveIdx,
+      hoverPointCurveIdx,
+      connection1Idx,
+      connection2Idx,
+      connection3Idx,
+    ]
+  );
+
+  // Add slider
+  const sliderContainer = document.createElement("div");
+  sliderContainer.style.width = "500px";
+  sliderContainer.style.padding = "1em";
+  sliderContainer.style.textAlign = "center";
+  const slider = document.createElement("div");
+  noUiSlider.create(slider, {
+    start: [0, 156, nbLambda - 1],
+    connect: true,
+    range: {
+      min: 0,
+      max: nbLambda - 1,
+    },
+    step: 1,
+    format: {
+      to: function (value) {
+        return value.toFixed(0);
+      },
+      from: function (value) {
+        return Number(value);
+      },
+    },
+    tooltips: {
+      to: function (value) {
+        return `${Wavelengths[value.toFixed(0)]}`;
+      },
+    },
+  });
+  slider
+    .querySelectorAll(".noUi-connect")
+    .forEach((elem) => (elem.style.background = "lightgray"));
+
+  const sliderLabel = document.createElement("label");
+  sliderLabel.textContent = "λ";
+  sliderLabel.style.display = "inline-block";
+  sliderLabel.style.margin = "0.5em";
+  slider.noUiSlider.on("update", function (values, handle) {
+    const leftHandlePoint = {
+      x: spectralLocusArrayX[values[0]],
+      y: spectralLocusArrayY[values[0]],
+    };
+    const centerHandlePoint = {
+      x: spectralLocusArrayX[values[1]],
+      y: spectralLocusArrayY[values[1]],
+    };
+    const rightHandlePoint = {
+      x: spectralLocusArrayX[values[2]],
+      y: spectralLocusArrayY[values[2]],
+    };
+
+    const triangelPoints = generateUniformGridInTriangle(
+      leftHandlePoint,
+      centerHandlePoint,
+      rightHandlePoint,
+      50
+    );
+    const [trianglePointX, trianglePointY] =
+      util.unzipArrayOfObject(triangelPoints);
+
+    const updatedSideData = {
+      x: [
+        [leftHandlePoint.x, centerHandlePoint.x],
+        [centerHandlePoint.x, rightHandlePoint.x],
+        [rightHandlePoint.x, leftHandlePoint.x],
+        trianglePointX,
+      ],
+      y: [
+        [leftHandlePoint.y, centerHandlePoint.y],
+        [centerHandlePoint.y, rightHandlePoint.y],
+        [rightHandlePoint.y, leftHandlePoint.y],
+        trianglePointY,
+      ],
+    };
+
+    Plotly.restyle(chromDiagDiv, updatedSideData, [
+      side1CurveIdx,
+      side2CurveIdx,
+      side3CurveIdx,
+      trianglePointsCurveIdx,
+    ]);
+
+    // Change slider handle color
+    const handles = slider.querySelectorAll(".noUi-handle");
+    [leftHandlePoint, centerHandlePoint, rightHandlePoint].forEach(
+      (point, i) => {
+        const displayRgbColor = util.cvt_xyToMaxLumDisplayRgb(point.x, point.y);
+        handles[i].style.background = displayRgbColor;
+      }
+    );
+  });
+
+  // When hovering on triangle points, place marker on this position and add
+  // connection to each triangle corner.
+  chromDiagDiv.on("plotly_hover", (data) => {
+    if (!data || !data.points) return;
+    const curHoverPoint = data.points[0];
+    if (curHoverPoint.curveNumber === trianglePointsCurveIdx) {
+      const sliderValues = slider.noUiSlider.get();
+      const leftHandlePoint = {
+        x: spectralLocusArrayX[sliderValues[0]],
+        y: spectralLocusArrayY[sliderValues[0]],
+      };
+      const centerHandlePoint = {
+        x: spectralLocusArrayX[sliderValues[1]],
+        y: spectralLocusArrayY[sliderValues[1]],
+      };
+      const rightHandlePoint = {
+        x: spectralLocusArrayX[sliderValues[2]],
+        y: spectralLocusArrayY[sliderValues[2]],
+      };
+
+      const updatedPoint = {
+        x: [
+          [curHoverPoint.x],
+          [leftHandlePoint.x, curHoverPoint.x],
+          [centerHandlePoint.x, curHoverPoint.x],
+          [rightHandlePoint.x, curHoverPoint.x],
+        ],
+        y: [
+          [curHoverPoint.y],
+          [leftHandlePoint.y, curHoverPoint.y],
+          [centerHandlePoint.y, curHoverPoint.y],
+          [rightHandlePoint.y, curHoverPoint.y],
+        ],
+        "marker.color": util.cvt_xyToMaxLumDisplayRgb(
+          curHoverPoint.x,
+          curHoverPoint.y
+        ),
+        visible: true,
+      };
+      Plotly.restyle(chromDiagDiv, updatedPoint, [
+        hoverPointCurveIdx,
+        connection1Idx,
+        connection2Idx,
+        connection3Idx,
+      ]);
+    }
+  });
+
+  chromDiagDiv.on("plotly_unhover", (data) => {
+    const updatedPoint = {
+      visible: false,
+    };
+    Plotly.restyle(chromDiagDiv, updatedPoint, [
+      hoverPointCurveIdx,
+      connection1Idx,
+      connection2Idx,
+      connection3Idx,
+    ]);
+  });
+
+  const animationDiv = document.createElement("div");
+  animationDiv.append(chromDiagDiv);
+  sliderContainer.append(slider, sliderLabel);
+  animationDiv.append(sliderContainer);
+
+  return animationDiv;
+}
+
 async function main() {
   const mainChromDiagram = createChromDiagramWithBoundaries();
   document.getElementById("anim-main-chromdiagram").append(mainChromDiagram);
+
+  const chromDiag2Handles = createChromDiagWithTwoHandles();
+  document.getElementById("anim-chromdiag2handles").append(chromDiag2Handles);
+
+  const chromDiag3Handles = createChromDiagWithThreeHandles();
+  document.getElementById("anim-chromdiag3handles").append(chromDiag3Handles);
 
   const anim = createAnimationColorManipulation();
   document
