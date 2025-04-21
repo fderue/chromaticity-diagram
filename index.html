@@ -35,6 +35,7 @@
     <link href="js/noUiSlider/dist/nouislider.css" rel="stylesheet" />
 
     <!-- script -->
+    <script type="module" src="js/svg-diagram.js"></script>
     <script type="module" src="js/anim-patch-color-match.js"></script>
     <script type="module" src="js/anim-spd.js"></script>
     <script type="module" src="js/anim-cmexp.js"></script>
@@ -126,12 +127,13 @@
           appears at the shortest wavelengths (~380 nm) and red at the longest
           (~750 nm).
         </p>
-        <div class="image-container">
+        <!-- <div class="image-container">
           <img
             src="https://www.datacolor.com/wp-content/uploads/2024/01/electromagnetic-spectrum.jpg"
             alt="visible spectrum"
           />
-        </div>
+        </div> -->
+        <div id="svg-em-spectrum"></div>
         <p>
           Each wavelength in this range seems to correspond to a specific color.
           But here's an interesting question: Does this mean that every color we

@@ -27,7 +27,7 @@ function createMeshSpectralColorCanvas(canvasWidth = 700, canvasHeight = 300) {
     pixels[idx + 3] = a;
   }
 
-  const minLambda = 350;
+  const minLambda = 380;
   const maxLambda = 750;
   const minIntensity = 0;
   const maxIntensity = 1.0;
