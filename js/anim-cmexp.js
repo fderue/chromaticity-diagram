@@ -611,8 +611,8 @@ function createChromCoefGraph2d() {
     hovermode: "x",
     xaxis: { title: "λ" },
     yaxis: { title: "Chromaticity Coefficient" },
-    width:GRAPH2D_WIDTH,
-    height:GRAPH2D_HEIGHT
+    width: GRAPH2D_WIDTH,
+    height: GRAPH2D_HEIGHT,
   };
 
   Plotly.newPlot(
@@ -964,25 +964,30 @@ function createCMExp() {
 
   // Create div to contains the chromaticity coefficients equations
   const eqChromCoefDiv = d3.create("div");
+  eqChromCoefDiv.style("display", "flex");
+  eqChromCoefDiv.style("flex-direction", "column");
+  //eqChromCoefDiv.style("justify-content", "left");
   eqChromCoefDiv.append("h3").text("Chromaticity Coefficients");
-  const eqChromCoefEquation = eqChromCoefDiv
-    .append("div")
-    .attr("id", "tex-equation-cc");
+  const eqChromCoefEquation = eqChromCoefDiv.append("div");
+  eqChromCoefEquation.style("display", "flex");
+  eqChromCoefEquation.style("justify-content", "left");
   eqChromCoefEquation.html(getChromCoefEquation(0, 0, 0));
 
   const eqUnitPrimaryDiv = d3.create("div");
+  eqUnitPrimaryDiv.style("display", "flex");
+  eqUnitPrimaryDiv.style("flex-direction", "column");
   eqUnitPrimaryDiv.append("h3").text("Unit of Primaries");
-  const eqUnitPrimaryEquation = eqUnitPrimaryDiv
-    .append("div")
-    .attr("id", "tex-equation-up");
+  const eqUnitPrimaryEquation = eqUnitPrimaryDiv.append("div");
+  eqUnitPrimaryEquation.style("display", "flex");
+  eqUnitPrimaryEquation.style("justify-content", "left");
   eqUnitPrimaryEquation.html(getUnitPrimEquation(0, 0, 0));
 
-  const eqDiv = document.createElement("div");
-  eqDiv.appendChild(eqUnitPrimaryDiv.node());
-  eqDiv.appendChild(eqChromCoefDiv.node());
-  eqDiv.style.display = "flex";
-  eqDiv.style.gap = "50px";
-  eqDiv.style.fontSize = "75%";
+  //const eqDiv = document.createElement("div");
+  //eqDiv.appendChild(eqUnitPrimaryDiv.node());
+  //eqDiv.appendChild(eqChromCoefDiv.node());
+  //eqDiv.style.display = "flex";
+  //eqDiv.style.gap = "50px";
+  //eqDiv.style.fontSize = "75%";
 
   // Synchronize every element according to the hovered element in the graph
   chromCoefGraphDiv.on("plotly_hover", function (data) {
@@ -1080,11 +1085,14 @@ function createCMExp() {
   CMExpDiv.style.justifyContent = "center";
   const EqAndGraphDiv = d3
     .create("div")
-    .style("display", "flex")
-    .style("justify-content", "center")
-    .style("align-items", "center");
-    EqAndGraphDiv.node().appendChild(eqDiv);
-    EqAndGraphDiv.node().appendChild(chromCoefGraphDiv);
+    .style("display", "grid")
+    .style("grid-template-columns", "250px 350px 300px")
+    .style("width", "fit-content")
+    .style("margin", "0 auto");
+  EqAndGraphDiv.style("font-size", "75%");
+  EqAndGraphDiv.node().appendChild(eqUnitPrimaryDiv.node());
+  EqAndGraphDiv.node().appendChild(eqChromCoefDiv.node());
+  EqAndGraphDiv.node().appendChild(chromCoefGraphDiv);
   CMExpDiv.appendChild(scene.getDiv());
   CMExpDiv.appendChild(EqAndGraphDiv.node());
 
