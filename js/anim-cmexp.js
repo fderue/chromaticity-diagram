@@ -105,8 +105,8 @@ class Dial {
       .attr("stroke-opacity", 1.0);
 
     const unitLabelY = -this.radius - 20;
-    const buttonWidth = 10;
-    const buttonHeight = 10;
+    const buttonWidth = 16;
+    const buttonHeight = 16;
     this.#createControlButtons(buttonWidth, buttonHeight);
     this.increaseButton.attr(
       "transform",
