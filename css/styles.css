@@ -92,12 +92,12 @@ img {
   margin: 1em 0;
 }
 
-a{
+.central-content a{
   color:#fa6432;
   text-decoration: none;
 }
 
-a:hover {
+.central-content a:hover {
   text-decoration: underline;
 }
 
