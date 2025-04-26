@@ -5,19 +5,13 @@
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0" /> -->
     <title>Chromaticity Diagram</title>
 
-    <!-- style -->
-    <link rel="stylesheet" href="css/styles.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-      rel="stylesheet"
-    />
-
     <!-- librairies -->
     <script>
       window.MathJax = {
         loader: { load: ["[tex]/color"] },
+        tex: {
+          tags: "ams",
+        },
       };
     </script>
     <script
@@ -33,6 +27,15 @@
     ></script>
     <script src="js/noUiSlider/dist/nouislider.js"></script>
     <link href="js/noUiSlider/dist/nouislider.css" rel="stylesheet" />
+
+    <!-- style -->
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
 
     <!-- script -->
     <script type="module" src="js/svg-diagram.js"></script>
@@ -162,7 +165,7 @@
             src="./images/spectralColorGradientPrism.svg"
             alt="a prism decomposes sunlight into its spectral colors"
             width="300"
-            style="background:#414141;"
+            style="background: #414141"
           />
         </div>
       </div>
@@ -1014,7 +1017,7 @@
 
     <section id="the-chromaticity-diagram-finally">
       <div class="central-content">
-        <h2>The Chromaticity Diagram (finally)</h2>
+        <h2>The CIE 1931 xy Chromaticity Diagram</h2>
         <p>
           So far we've been able to understand that a color can be represented
           by its chromaticity coefficients and its luminance, and all the color
@@ -1077,17 +1080,21 @@
       </div>
       <section id="from-cie1931-to-xyz">
         <div class="central-content">
-          <h3>From CIE1931 RGB to CIE1931 XYZ</h3>
+          <h3>From CIE 1931 RGB to CIE 1931 XYZ</h3>
           <p>
-            Remembering a bit of linear algebra, you know that to transform the
-            coordinates of a point into another coordinate system, you need a
-            transformation matrix that maps the axis of one of the system to the
-            other one. Mathematically, the tristimulus values (R, G, B) in the
-            RGB space defined by the three axis $(\mathcal{R}, \mathcal{G},
-            \mathcal{B})$ (the primaries) system can be expressed in the
-            coordinate system defined by three other
-            axis\(\mathcal{X},\mathcal{Y},\mathcal{Z}\) and have coordinate (X,
-            Y, Z).
+            If you recall a bit of linear algebra, transforming the coordinates
+            of a point from one coordinate system to another requires a
+            transformation matrix that maps the axes of one system onto those of
+            another.
+          </p>
+
+          <p>
+            In the context of color, the tristimulus values (R, G, B) in the RGB
+            color space, defined the three primary color axes $(\mathcal{R},
+            \mathcal{G}, \mathcal{B})$, can be transformed into another
+            coordinate system defined by a different set of axes
+            (\(\mathcal{X},\mathcal{Y},\mathcal{Z}\)) with coordinates (X, Y,
+            Z). Using matrix notation:
           </p>
           <div class="block-equation">
             $$ \begin{bmatrix} X \\ Y \\ Z \end{bmatrix} = M \begin{bmatrix} R
@@ -1099,157 +1106,231 @@
             0.01063 \\ 0.00 & 0.01 & 0.99 \end{bmatrix} $$
           </div>
           <p>
-            How did we find this matrix? and how was this new coordinate system
-            X, Y, Z chosen? You'll find all the details <a href="">here</a>
+            How was this matrix determined, and how was the new coordinate
+            system (X, Y, Z) chosen? You'll find all the details in this
+            <a href="">article</a>.
           </p>
           <p>
-            The important point is that in this new system, all tristimulus
-            values will be positive and the Y component represents the luminance
-            of the color. In the XYZ space using primaries
-            \(\mathcal{X},\mathcal{Y},\mathcal{Z}\), a color (chromaticity and
-            luminance) of coordinates \((X, Y,Z)\) is now expressed as
+            The key takeaway is that in this new system, all tristimulus values
+            are positive, and the Y component represents the luminance of the
+            color. In this XYZ space defined by the primaries \(\mathcal{X},
+            \mathcal{Y}, \mathcal{Z}\), the color matching equation of a color
+            with coordinates \((X, Y, Z)\) is now expressed as:
           </p>
           <div class="block-equation">
             $$ C \triangleq X\mathcal{X}\hat{+}Y\mathcal{Y}\hat{+}Z\mathcal{Z}
             $$
           </div>
           <p>
-            And again, the chromaticity coefficients are the relative amount of
-            primaries chosen such that their sum = 1.
+            Just like in the RGB space, we can define the chromaticity
+            coefficients in this new space as the relative proportions of the
+            primaries, chosen such that their sum equals 1.
           </p>
           <div class="block-equation">
             $$ \begin{split} x = \frac{X}{X+Y+Z} \\ y = \frac{Y}{X+Y+Z} \\ z =
             1-x-y \end{split}$$
           </div>
           <p>
-            Similarly as we did in the CIE1931 RGB space, we can plot the (X, Y,
-            Z) tristimulus values simply by transforming the tristimulus (R, G,
-            B) thanks to the matrix M.
+            And here they are: the chromaticity coefficients that make up our
+            famous <span class="highlight">xy-chromaticity diagram</span> , the
+            very one we've been trying to understand.
           </p>
           <p>
-            if we project those points along their line of isochromaticity on
-            the plane X+Y+Z=1, we obtain the chromaticity coefficients (x, y,
-            z). Then by omitting z which is dependent of x and y, we obtain on
-            the XY-plane the famous horseshoe shape diagram. If we transfer
-            those coordinates in a 2d graph with x and y label, we finally
-            obtain our
-            <span class="highlight">xy-chromaticity diagram</span>!
+            In the animation below, you can see how the chromaticity diagram is
+            constructed, starting from the RGB tristimulus values of the
+            spectral colors. These tristimulus values are transformed into the
+            XYZ color space using the matrix \(M\). Then, by projecting the
+            resulting points onto the plane \(X + Y + Z = 1\), we obtain the
+            chromaticity coefficients coordinates \((x, y, z)\) which still
+            exist in three dimensions. However, since \(z\) is dependent on
+            \(x\) and \(y\), we can reduce the dimensionality by omitting the
+            \(z\) component. This gives us a 2D representation on the XY-plane:
+            the famous horseshoe-shaped chromaticity diagram.
           </p>
           <div id="anim-cieRGBtoXYZ"></div>
+        </div>
+      </section>
+      <section id="mixing-colors">
+        <div class="central-content">
+          <h3>Color mixing</h3>
           <p>
-            Remember I've only projected the spectral colors, this is why the
-            chromaticity diagram seems "empty”. This projection draws the
-            boundaries of the chromaticity diagram and is called the
-            <span class="highlight">spectral locus</span>. If we would have
-            taken more points in the 3d volume we would have had more points and
-            the shape would start to fill in. But we can also work directly on
-            the 2d chromaticity diagram itself. To add more chromaticity we need
-            to generate other colors. As seen previously (when filling the
-            volume between two colors), mixing colors to produce an other color
-            consists in summing up their tristimulus value.
+            This projection traces the outer boundary of the diagram and is
+            known as the
+            <span class="highlight">spectral locus</span>. If we had included
+            more points from within the 3D color volume, the diagram would begin
+            to fill in, revealing more colors within the boundaries. But we can
+            also work directly in the 2D chromaticity diagram itself. To add
+            more chromaticities, we need to generate additional colors. As we've
+            seen earlier when filling in the volume between two colors, mixing
+            colors to produce a new one involves summing their tristimulus
+            values. For example, if we mix two colors \(C_1\) and \(C_2\), the
+            resulting color \(C_r\) can be described by the following color
+            matching equation:
           </p>
           <div class="block-equation">
-            $$ \begin{split} C_1 \triangleq X_1\mathcal{X} \hat{+}
-            Y_1\mathcal{Y} \hat{+} Z_1\mathcal{Z}\\ C_2 \triangleq
+            $$ \begin{align} C_1 &\triangleq X_1\mathcal{X} \hat{+}
+            Y_1\mathcal{Y} \hat{+} Z_1\mathcal{Z}\\ C_2 &\triangleq
             X_2\mathcal{X} \hat{+} Y_2\mathcal{Y} \hat{+} Z_2\mathcal{Z}\\ C_r
-            \triangleq C_1+C_2 \triangleq
+            &\triangleq C_1+C_2 \triangleq
             \underbrace{(X_1+X_2)}_{X_r}\mathcal{X}
             \hat{+}\underbrace{(Y_1+Y_2)}_{Y_r}\mathcal{Y} \hat{+}
-            \underbrace{(Z_1+Z_2)}_{Z_r}\mathcal{Z}\\ \end{split} $$
+            \underbrace{(Z_1+Z_2)}_{Z_r}\mathcal{Z}\\ \end{align} $$
           </div>
           <p>
-            During this addition, what happens to the chromaticity coefficients.
-            Do they also add up? Let's take the x chromaticity coordinate.
+            During this color mixing process, what happens to the chromaticity
+            coefficients? Do they simply add up as well? Let's focus on the
+            \(x\) chromaticity coordinate to explore this. By definition
           </p>
           <div class="block-equation">
-            $$ \begin{split} x_r &= \frac{X_r}{X_r+Y_r+Z_r}\\ &=
-            \frac{X_1+X_2}{X_1+X_2+Y_1+Y_2+Z_1+Z_2} \end{split} $$
+            $$\begin{equation} x_r = \frac{X_r}{X_r+Y_r+Z_r}\\ =
+            \frac{X_1+X_2}{X_1+X_2+Y_1+Y_2+Z_1+Z_2} \label{eq:xr} \end{equation}
+            $$
           </div>
-          Using the chromaticity of C1 and C2,
+          Using the \(x\) chromaticity of \(C_1\) and \(C_2\),
           <div class="block-equation">
-            $$ X_1 = x_1(X_1+Y_1+Z_1)\\ X_2 = x_2(X_2+Y_2+Z_2) $$
+            $$ \begin{align} X_1 &= x_1(X_1+Y_1+Z_1) \\ X_2 &= x_2(X_2+Y_2+Z_2)
+            \end{align}$$
           </div>
-          Substituting in (…), and posing \(L_1 = (X_1+Y_1+Z_1)\) and
-          \(L_2=(X_2+Y_2+Z_2)\), we end up with
+          Substituting into equation \(\eqref{eq:xr}\), and defining the
+          variables \(L_1 = (X_1+Y_1+Z_1)\) and \(L_2=(X_2+Y_2+Z_2)\), we arrive
+          at:
           <div class="block-equation">
             $$ \begin{split} x_r = \frac{X_r}{X_r+Y_r+Z_r} = \frac{L_1x_1 +
             L_2x_2}{L_1+L_2} \end{split} $$
           </div>
-          This equation show the relation between the chromaticities. When
-          mixing two colors, the resulting chromaticity is a weighted sum of
-          their respective chromaticity.
           <p>
-            Now, back to our chromaticity diagram. Remember that it is a
-            projection of the plane X+Y+Z = 1. Therefore, to represent the
-            chromaticity of \(C_r\), we have to constraint \(L_1+L_2 = 1\). We
-            can rewrite equation (…) with this constraint and do the same
-            development for the y-coordinate.
+            This equation shows the relationship between chromaticities: when
+            mixing two colors, the resulting chromaticity is a weighted sum of
+            their respective chromaticities.
+          </p>
+          <p>
+            Now, let's return to our chromaticity diagram. Remember, it's a
+            projection onto the plane \(X + Y + Z = 1\). To represent the
+            chromaticity of \(C_r\) correctly within this projection, we must
+            apply the constraint \(X_r+Y_r+Z_r = L_1 + L_2 = 1\). With this
+            constraint, we can rewrite equation \(\eqref{eq:xr}\) accordingly
+            and perform the same derivation for the \(y\) coordinate.
           </p>
           <div class="block-equation">
             $$ \begin{split} x_r = L_1x_1 + (1-L_1)x_2\\ y_r = L_1y_1 +
             (1-L_1)y_2 \end{split} $$
           </div>
           <p>
-            According to this equation, if you take two color on the spectral
-            locus and you combine them, the line in between represent the
-            chromaticity of the colors resulting in mixing the spectral colors
-            with different amount. Here an animation illustrating this
-            computation.
+            According to these equations, if you take two colors and mix them,
+            the line connecting their respective chromaticity represents the
+            chromaticities of the resulting colors for different mixing ratios.
+            Here's an animation illustrating this concept: you can select two
+            colors on the spectral locus and hover over the connecting line to
+            see the resulting color. The position of the hovered point along the
+            line determines the contribution of each spectral color to the mix:
+            the closer it is to one end, the more that color influences the
+            result. In other words, the distance from each endpoint reflects its
+            weight in the resulting color.
           </p>
           <div id="anim-chromdiag2handles"></div>
           <p>
-            Finally, if you close the spectral locus and fill in the shape with
-            chromaticites as found in the animation above, you end up with the
-            final chromaticity diagram. Note that the straight line closing the
-            spectral locus is called the
-            <span class="highlight">line of purples</span>! It's not part of the
-            spectral locus since those colors does not correspond spectral
-            colors. Each point inside this shape has coordinate (x, y) and
-            represent the chromaticity of a colors. Since multiple colors have
-            the same chromaticity, you could arbitraly decide which colors of
-            chormaticity (x, y) you want plot. Usually, we use the color with
-            the maximum luminance possible given by your device.
-          </p>
-          <p>
-            It shows that this chromaticity diagram can be used to know how to
-            mix colors together to create specific chromaticities. Let's say you
-            have three colors. The triangle formed by those three points
-            represent the ensemble of chromaticities you can create. If you take
-            a point inside that triangle, you know that to create this points,
-            you have to mix the three colors by the amount corresponding to
-            their respective distance to that point. You can play with the
-            animation and change the three colors.
+            We can see that the chromaticity diagram is a powerful tool for
+            understanding how colors can be mixed to create new ones. We also
+            observe that different mixtures can produce the same chromaticity.
+            And this principle holds not just for two colors, but for any number
+            of them. In the next animation, you can experiment with mixing three
+            colors. The triangle formed by the three selected points represents
+            the full range of chromaticities you can create from those colors.
+            If you choose a point inside the triangle, it shows a chromaticity
+            that results from mixing the three colors in proportions related to
+            their respective distances from that point.
           </p>
           <div id="anim-chromdiag3handles"></div>
+        </div>
+      </section>
+      <section id="srgb-vs-adobergb">
+        <div class="central-content">
+          <h3>RGB Color Space: sRGB and AdobeRGB</h3>
           <p>
-            As you might have noticed, it looks exactly as if we would have
-            taken 3 primary colors and mix them together to create other colors.
-            And it is exactly the case. Remember the triangle of sRGB and
-            AdobeRGB placed in the CIE1931 xy-chromaticity diagram? Now we
-            understand their meaning. Each vertex of the triangle correspond to
-            the primaries used by those space. And the triangle created covers
-            the space of colors they can represent. So we notice that adobeRGB
-            space covers a larger area than sRGB. Since we said that the
-            chromaticity diagram represented the human visual gamut, then the
-            triangle represent the gamut (the ensemble of chromaticties) that
-            each space can cover. That's why you will hear "AdobeRGB has a wider
-            gamut than sRGB”.
+            Does mixing three colors remind you of something? Yes, the color
+            matching experiment, where we mixed the three primaries: red (700
+            nm), green (546.1 nm), and blue (435.8 nm). We can visualize these
+            three primaries on the chromaticity diagram and see the triangle
+            they form. As we've just learned, this triangle includes all the
+            chromaticities that can be produced by mixing those three primaries.
+            In other words, it represents the gamut of the
+            <span class="highlight">CIE 1931 RGB</span> color space.
           </p>
+          <p>
+            Now, imagine we choose a different set of primaries, the triangle
+            would change, defining a different color space. These new primaries
+            don't necessarily need to lie exactly on the spectral locus. For
+            example, if you choose primaries with chromaticity coordinates (x,
+            y) = (0.64, 0.33) for red, (0.3, 0.6) for green and (0.15, 0.06) for
+            blue, you get the gamut of the
+            <span class="highlight">sRGB</span> color space. Similarly, with
+            primaries (x, y) = (0.64, 0.33) for red, (0.21, 0.71) for green and
+            (0.15, 0.06) for blue, you get the gamut of
+            <span class="highlight">AdobeRGB</span>. Now we truly understand
+            what sRGB and AdobeRGB mean: they are color spaces defined by three
+            specific primaries, and therefore define their own gamuts. This is
+            why you often hear that “AdobeRGB has a wider gamut than sRGB”, it
+            is because the triangle representing AdobeRGB covers a larger area
+            on the chromaticity diagram than the one for sRGB. And if your
+            monitor is said to cover only 95% of AdobeRGB, it means it can
+            reproduce 95% of the colors in the AdobeRGB space, but not the
+            remaining 5%.
+          </p>
+          <div id="chromdiagram-with-rgbspace"></div>
+
+          <p>
+            Finally, if you close the spectral locus and colorize every points
+            withing that shape, you end up with the typical color representation
+            of the
+            <strong>chromaticity diagram</strong>. Note that the straight line
+            that closes the spectral locus is called the
+            <span class="highlight">line of purples</span> but it's not part of
+            the spectral locus because these colors don't correspond to any
+            single wavelength.
+          </p>
+          <div id="chromdiagram-with-boundaries"></div>
+          <div class="callout">
+            <p>
+              A quick note about the colorization: the colors used on the
+              chromaticity diagram can actually be a bit misleading.
+            </p>
+            <p>
+              First, as we've seen, each point on the diagram represents a
+              chromaticity (x, y), but it doesn't specify the luminance. In
+              theory, any color with the same chromaticity but different
+              luminance could be used. Typically, the color shown is the one
+              with the maximum luminance possible for your display.
+            </p>
+            <p>
+              Secondly, while the diagram represents the full range of
+              human-visible chromaticities, no existing display can reproduce
+              all these colors. So what colors are shown for those
+              chromaticities that can't actually be displayed? Typically, colors
+              that can't be displayed are replaced by nearby reproducible ones,
+              so the diagram remains visually continuous even if it's not
+              perfectly accurate.
+            </p>
+            <p>
+              In fact, there's no single way to colorize the chromaticity
+              diagram. If you're curious, I explain how I chose to do it in
+              <a href="TODO">this article</a>.
+            </p>
+          </div>
         </div>
       </section>
       <section id="playing-with-chromaticity">
         <div class="central-content">
           <h3>Playing with chromaticity and luminance</h3>
           <p>
-            Remember that a color can be characterized by its two attributes:
-            its chromaticity and its luminance. And now you know that the
-            chromaticity is given by the coordinates (x, y) in the chromaticity
-            diagram. And the luminance is the Y component in the XYZ color
-            space. In the animation below, you can create any color by choosing
-            the chromaticity on the diagram and the luminance by changing the Y
-            component. As expected, changing the luminance while keeping the
-            same chromaticity will move you along the isochromatic line
-            represented in the 3D graph.
+            Remember, a color can be described by two key attributes:
+            chromaticity and luminance. Chromaticity is represented by the
+            coordinates (x, y) on the chromaticity diagram, while luminance
+            corresponds to the Y component in the XYZ color space. In the
+            animation below, you can explore how any color can be created by
+            selecting a chromaticity point on the diagram and adjusting the
+            luminance via the Y value. As you might expect, changing the
+            luminance while keeping the chromaticity fixed moves you along an
+            isochromatic line, which is illustrated in the 3D graph.
           </p>
         </div>
         <div

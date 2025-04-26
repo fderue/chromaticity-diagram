@@ -242,16 +242,6 @@ function CreateFullChromaticityDiagramXy(step = 0.01) {
     return util.cvt_xyToMaxLumDisplayRgb(x, y).toString();
   });
 
-  const spectralLocusTrace = {
-    type: "scatter2d",
-    mode: "markers",
-    x: spectralLocusArrayX,
-    y: spectralLocusArrayY,
-    marker: { color: spectralColorsDisplayRgb, size: 4 },
-    name: "spectral locus",
-    showlegend: false,
-  };
-
   const lineOfPurplePoints = [
     { x: spectralLocusArrayX[0], y: spectralLocusArrayY[0] },
     { x: spectralLocusArrayX.at(-1), y: spectralLocusArrayY.at(-1) },
@@ -266,17 +256,6 @@ function CreateFullChromaticityDiagramXy(step = 0.01) {
     const y = lineOfPurpleY[i];
     return util.cvt_xyToMaxLumDisplayRgb(x, y).toString();
   });
-
-  const lineOfPurpleTrace = {
-    type: "scatter2d",
-    mode: "markers",
-    x: lineOfPurpleX,
-    y: lineOfPurpleY,
-    name: "line of purples",
-    marker: { size: 4, color: linePurpleDisplayRgb },
-    hoverinfo: "none",
-    showlegend: false,
-  };
 
   const layout = {
     title: "Chromaticity diagram",
@@ -304,7 +283,11 @@ function CreateFullChromaticityDiagramXy(step = 0.01) {
   Plotly.newPlot(div.node(), [data], layout);
   // Combine all the trace
 
-  return div.node();
+  return {
+    div: div.node(),
+    spectralLocus: uniformSpectralLocus,
+    lineOfPurples: uniformLineOfPurple,
+  };
 }
 
 function changeColorWith_xyY(chromDiagramDiv, humanGamut) {
@@ -562,7 +545,7 @@ function linkControls(chromDiagramDiv, humanGamut3d, sliderY, resultColor) {
 }
 
 function createAnimationColorManipulation() {
-  const chromDiagramDiv = CreateFullChromaticityDiagramXy();
+  const chromDiagramDiv = CreateFullChromaticityDiagramXy().div;
   const uniformScaleLayout = {
     xaxis: { title: "x", scaleanchor: "y" },
     yaxis: { title: "y" },
@@ -599,56 +582,8 @@ function createAnimationColorManipulation() {
   return animationDiv.node();
 }
 
-function createChromDiagramWithBoundaries() {
-  const [spectralLocusArrayX, spectralLocusArrayY, Wavelengths] =
-    util.unzipArrayOfObject(util.xySpectralLocus);
-
-  const spectralColorsDisplayRgb = spectralLocusArrayX.map((x, i) => {
-    const y = spectralLocusArrayY[i];
-    return util.cvt_xyToMaxLumDisplayRgb(x, y);
-  });
-
-  const spectralColorsDisplayRgbAsString = spectralColorsDisplayRgb.map((c) =>
-    c.toString()
-  );
-
-  const spectralLocusTrace = {
-    type: "scatter2d",
-    mode: "lines",
-    x: spectralLocusArrayX,
-    y: spectralLocusArrayY,
-    name: "spectral locus",
-    line: { shape: "spline", width: 4, color: "black" },
-    showlegend: false,
-  };
-
-  const lineOfPurpleTrace = {
-    type: "scatter2d",
-    mode: "lines",
-    x: [spectralLocusArrayX[0], spectralLocusArrayX.at(-1)],
-    y: [spectralLocusArrayY[0], spectralLocusArrayY.at(-1)],
-    name: "line of purples",
-    line: { shape: "spline", color: "black", width: 4 },
-    hoverinfo: "none",
-    showlegend: false,
-  };
-
-  const selectedLambdaIndexes = [4, 120, 200];
-  const selectedX = selectedLambdaIndexes.map((i) => spectralLocusArrayX[i]);
-  const selectedY = selectedLambdaIndexes.map((i) => spectralLocusArrayY[i]);
-  const selectedWavelengths = selectedLambdaIndexes.map((i) => Wavelengths[i]);
-
-  const wavelengthLabelTrace = {
-    type: "scatter2d",
-    mode: "markers+text",
-    x: selectedX,
-    y: selectedY,
-    marker: { color: "black", size: 3 },
-    text: selectedWavelengths,
-    textposition: "top",
-  };
-
-  const chromDiagramDiv = CreateFullChromaticityDiagramXy();
+function createChromDiagramForIntro() {
+  const chromDiagramDiv = CreateFullChromaticityDiagramXy().div;
   const uniformScaleLayout = {
     xaxis: { title: "x", range: [0, 1.0], fixedrange: true, scaleanchor: "y" },
     yaxis: { title: "y", range: [0, 1.0], fixedrange: true },
@@ -658,8 +593,6 @@ function createChromDiagramWithBoundaries() {
   Plotly.relayout(chromDiagramDiv, uniformScaleLayout).then(() => {
     d3.select("g.draglayer").selectAll("rect").style("cursor", "default");
   });
-
-  //Plotly.addTraces(chromDiagramDiv, [spectralLocusTrace, lineOfPurpleTrace]);
 
   // Add color space sRgb and AdobeRgb
   const sRGB = {
@@ -696,6 +629,58 @@ function createChromDiagramWithBoundaries() {
   Plotly.addTraces(chromDiagramDiv, [sRGBTrace, adobeRGBTrace]);
 
   return chromDiagramDiv;
+}
+
+function createChromDiagramWithBoundaries() {
+  const chromDiagram = CreateFullChromaticityDiagramXy();
+  const [spectralLocusArrayX, spectralLocusArrayY] = util.unzipArrayOfObject(
+    chromDiagram.spectralLocus
+  );
+
+  const spectralLocusColors = chromDiagram.spectralLocus.map((c) => {
+    return util.cvt_xyToMaxLumDisplayRgb(c.x, c.y).toString();
+  });
+
+  spectralLocusArrayX;
+  const spectralLocusTrace = {
+    type: "scatter2d",
+    mode: "lines",
+    x: spectralLocusArrayX,
+    y: spectralLocusArrayY,
+    name: "spectral locus",
+    line: { shape: "spline", width: 4, color: "rgba(10, 10, 10, 0.7)" },
+    //showlegend: false,
+  };
+
+  const [lineOfPurplesX, lineOfPurplesY] = util.unzipArrayOfObject(
+    chromDiagram.lineOfPurples
+  );
+  const lineOfPurplesColors = chromDiagram.lineOfPurples.map((c) => {
+    return util.cvt_xyToMaxLumDisplayRgb(c.x, c.y).toString();
+  });
+  const lineOfPurpleTrace = {
+    type: "scatter2d",
+    mode: "markers+lines",
+    x: lineOfPurplesX,
+    y: lineOfPurplesY,
+    name: "line of purples",
+    line: { shape: "spline", color: "rgba(100, 100, 100, 0.5)", width: 4 },
+    //showlegend: false,
+  };
+
+  const uniformScaleLayout = {
+    xaxis: { title: "x", range: [0, 1.0], fixedrange: true, scaleanchor: "y" },
+    yaxis: { title: "y", range: [0, 1.0], fixedrange: true },
+    width: 500,
+    height: 500,
+  };
+  Plotly.relayout(chromDiagram.div, uniformScaleLayout).then(() => {
+    d3.select("g.draglayer").selectAll("rect").style("cursor", "default");
+  });
+
+  Plotly.addTraces(chromDiagram.div, [spectralLocusTrace, lineOfPurpleTrace]);
+
+  return chromDiagram.div;
 }
 
 function createChromDiagWithTwoHandles() {
@@ -1176,15 +1161,154 @@ function createChromDiagWithThreeHandles() {
   return animationDiv;
 }
 
+function addGamutTriangle(
+  chromDiagDiv,
+  primaries,
+  edgeColor,
+  gamutName = "gamut"
+) {
+  const trianglePoints = generateUniformGridInTriangle(
+    primaries.r,
+    primaries.g,
+    primaries.b,
+    50
+  );
+  const [trianglePointX, trianglePointY] =
+    util.unzipArrayOfObject(trianglePoints);
+
+  const legendGroupName = "gamut-triangle-"+gamutName;
+
+  const triangleEdgesTrace = {
+    mode: "lines",
+    x: [primaries.r.x, primaries.g.x, primaries.b.x, primaries.r.x],
+    y: [primaries.r.y, primaries.g.y, primaries.b.y, primaries.r.y],
+    line: { color: edgeColor },
+    legendgroup: legendGroupName,
+    name: gamutName,
+    hoverinfo:"none"
+  };
+
+  const insidePointColors = trianglePoints.map((p) => {
+    return util.cvt_xyToMaxLumDisplayRgb(p.x, p.y).toString();
+  });
+
+  const insidePointsTrace = {
+    mode: "markers",
+    x: trianglePointX,
+    y: trianglePointY,
+    marker: { color: insidePointColors, size: 4 },
+    legendgroup: legendGroupName,
+    showlegend: false,
+    hoverinfo:"x+y"
+  };
+
+  Plotly.addTraces(chromDiagDiv, [insidePointsTrace, triangleEdgesTrace]);
+}
+
+function addCIE1931RGB(chromDiagDiv) {
+  const primaries = {
+    r: { x: 0.735, y: 0.265 },
+    g: { x: 0.274, y: 0.717 },
+    b: { x: 0.167, y: 0.009 },
+  };
+
+  addGamutTriangle(
+    chromDiagDiv,
+    primaries,
+    "rgb(100, 100, 100)",
+    "CIE 1931 RGB"
+  );
+}
+
+function addSRGB(chromDiagDiv) {
+  const primaries = {
+    r: { x: 0.64, y: 0.33 },
+    g: { x: 0.3, y: 0.6 },
+    b: { x: 0.15, y: 0.06 },
+  };
+
+  addGamutTriangle(chromDiagDiv, primaries, "rgb(200, 200, 200)", "sRGB");
+}
+
+function addAdobeRGB(chromDiagDiv) {
+  const primaries = {
+    r: { x: 0.64, y: 0.33 },
+    g: { x: 0.21, y: 0.71 },
+    b: { x: 0.15, y: 0.06 },
+  };
+
+  addGamutTriangle(chromDiagDiv, primaries, "rgb(150, 150, 150)", "AdobeRGB");
+}
+
+function createChromDiagWithRgbSpaces() {
+  // Draw spectral locus
+  const [spectralLocusArrayX, spectralLocusArrayY, Wavelengths] =
+    util.unzipArrayOfObject(util.xySpectralLocus);
+
+  const nbLambda = Wavelengths.length;
+
+  // Compute all corresponding displayRGB colors
+  const spectralColorsDisplayRgb = spectralLocusArrayX.map((x, i) => {
+    const y = spectralLocusArrayY[i];
+    return util.cvt_xyToMaxLumDisplayRgb(x, y);
+  });
+
+  const spectralColorsDisplayRgbAsString = spectralColorsDisplayRgb.map((c) =>
+    c.toString()
+  );
+
+  const spectralLocusTrace = {
+    type: "scatter2d",
+    mode: "markers",
+    x: spectralLocusArrayX,
+    y: spectralLocusArrayY,
+    name: "spectral locus",
+    marker: { color: spectralColorsDisplayRgbAsString, size: 3 },
+    hoverinfo: "none",
+  };
+
+  const layout = {
+    title: "Chromaticity Diagram",
+    xaxis: { title: "x", range: [0, 1], fixedrange: true, scaleanchor: "y" },
+    yaxis: { title: "y", range: [0, 1], fixedrange: true },
+    width: 500,
+    height: 500,
+  };
+
+  const chromDiagDiv = document.createElement("div");
+  Plotly.newPlot(chromDiagDiv, [spectralLocusTrace], layout).then(() => {
+    d3.select("g.draglayer").selectAll("rect").style("cursor", "default");
+  });
+
+  // Draw triangle boundaries and color within
+  // Gather legends together so that we can toggle them.
+  // Draw CIE 1931 RGB, sRGB, AdobeRGB
+  addCIE1931RGB(chromDiagDiv);
+  addAdobeRGB(chromDiagDiv);
+  addSRGB(chromDiagDiv);
+
+  return chromDiagDiv;
+}
+
 async function main() {
-  const mainChromDiagram = createChromDiagramWithBoundaries();
+  const mainChromDiagram = createChromDiagramForIntro();
   document.getElementById("anim-main-chromdiagram").append(mainChromDiagram);
+
+  const chromDiagWithBoundaries = createChromDiagramWithBoundaries();
+  document
+    .getElementById("chromdiagram-with-boundaries")
+    .append(chromDiagWithBoundaries);
 
   const chromDiag2Handles = createChromDiagWithTwoHandles();
   document.getElementById("anim-chromdiag2handles").append(chromDiag2Handles);
 
   const chromDiag3Handles = createChromDiagWithThreeHandles();
   document.getElementById("anim-chromdiag3handles").append(chromDiag3Handles);
+
+  const chromdDiagRgbSpace = createChromDiagWithRgbSpaces();
+  document
+    .getElementById("chromdiagram-with-rgbspace")
+    .append(chromdDiagRgbSpace);
 
   const anim = createAnimationColorManipulation();
   document
