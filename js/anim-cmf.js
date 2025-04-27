@@ -223,8 +223,13 @@ function createChromCoefToCmfAnimation() {
 
   const animation = document.createElement("div");
   animation.style.display = "grid";
-  animation.style.justifyItems = "center";
+  animation.style.width = "85%";
+  animation.style.margin = "0 auto";
   animation.style.gridTemplateColumns = "repeat(2, 1fr)";
+  chromCoefGraph.style.width = "100%";
+  photopicGraph.style.width = "100%";
+  equations.node().style.width = "100%";
+  CmfGraph.style.width = "100%";
   animation.appendChild(chromCoefGraph);
   animation.appendChild(photopicGraph);
   animation.appendChild(equations.node());

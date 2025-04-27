@@ -729,7 +729,9 @@ function createIsochromaticAnimation() {
  
 
   const div = document.createElement("div");
-  div.appendChild(visualGamut3dGraph);
+  div.style.width = "75%";
+  div.style.margin = "0 auto";
+  //TODO: change style
   const secondColumnDiv = document.createElement("div");
   secondColumnDiv.style.fontSize="80%";
   secondColumnDiv.append(
@@ -739,6 +741,8 @@ function createIsochromaticAnimation() {
     equation.equationContainers.chromCoefDiv.div
   );
   div.appendChild(secondColumnDiv);
+  div.appendChild(visualGamut3dGraph);
+
 
   Object.assign(div.style, {
     display: "flex",

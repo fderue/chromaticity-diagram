@@ -433,7 +433,7 @@ function createTristimulusFormSpdAnimation() {
   cmfGraph.style.justifySelf = "center";
   spdGraph.style.justifySelf = "center";
   spdXCmfGraph.style.justifySelf = "center";
-  animationDiv.style.width = "1000px";
+  animationDiv.style.width = "80%";
   animationDiv.style.margin = "0 auto";
   animationDiv.appendChild(cmfGraph);
   animationDiv.appendChild(spdGraph);

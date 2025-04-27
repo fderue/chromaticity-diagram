@@ -49,13 +49,14 @@
     <script type="module" src="js/anim-rgb2xyz.js"></script>
     <script type="module" src="js/anim-chromdiagram.js"></script>
     <script type="module" src="js/nav-sidebar.js" defer></script>
+    <script src="js/modal.js" defer></script>
   </head>
   <body>
     <nav class="sidebar">
       <ul id="sidebar-menu"></ul>
     </nav>
     <div class="central-content">
-      <h1>Chromaticity Diagram</h1>
+      <h1>The Chromaticity Diagram Explained With Interactive Visuals</h1>
       <div id="anim-main-chromdiagram"></div>
     </div>
     <section id="introduction">
@@ -85,7 +86,6 @@
         <ul>
           <li>What is the chromaticity diagram?</li>
           <li>What is it used for?</li>
-          <li>Where does it come from?</li>
           <li>How was it created?</li>
         </ul>
         Let's dive in!
@@ -93,7 +93,7 @@
     </section>
     <section id="the-short-story">
       <div class="central-content">
-        <h3>The short story</h3>
+        <h3>A quick answer</h3>
         <p>
           What is a chromaticity diagram? I would quickly describe the
           chromaticity diagram as a representation of the
@@ -120,7 +120,7 @@
 
     <section id="what-is-a-color">
       <div class="central-content">
-        <h2>What is a color? Color vs Wavelength</h2>
+        <h2>What is a color? Wavelength and Cones</h2>
 
         <p>
           You've probably learned in physics class that light is an
@@ -164,8 +164,9 @@
           <img
             src="./images/spectralColorGradientPrism.svg"
             alt="a prism decomposes sunlight into its spectral colors"
-            width="300"
+            width="90%"
             style="background: #414141"
+            onclick="popupInModal(this);"
           />
         </div>
       </div>
@@ -683,9 +684,14 @@
           <div class="block-equation">$$ L_C^1 = V(\lambda_C) $$</div>
           Now we can isolate \(v\)
           <div class="block-equation">
-            $$ \begin{equation} \begin{split} L_C^1 = V(\lambda_C) =
-            v(rL_r+gL_g+bL_b)\ v = \frac{V(\lambda_c)}{rL_r+gL_g+bL_b}
-            \end{split} \end{equation} $$
+            $$ \begin{equation}
+            \begin{aligned}
+            L_C^1 = V(\lambda_C) &=
+            v(rL_r+gL_g+bL_b) \\
+            v &= \frac{V(\lambda_c)}{rL_r+gL_g+bL_b}
+            \end{aligned}
+            \label{eq:photopic-equation}
+            \end{equation} $$
           </div>
           <p>
             But what are the luminance of one unit of Red, Green, and Blue:
@@ -693,7 +699,7 @@
             values, just their relative luminance is needed here. Here is what I
             mean. Without modifying the problem, we could have said that the
             factor $v$ could instead be written as \(v = k\frac{1}{L_r}\).
-            Equation (3) becomes
+            Equation \(\eqref{eq:photopic-equation}\) becomes
           </p>
           <div class="block-equation">
             $$ \begin{split} k\frac{1}{L_r} =
@@ -708,8 +714,8 @@
           </div>
           with
           <div class="block-equation">
-            $$ \begin{split} L^r = \frac{L_r}{L_r} = 1\\ L^g = \frac{L_g}{L_r}\\
-            L^b = \frac{L_b}{L_r}\ \end{split} $$
+            $$ \begin{aligned} L^r &= \frac{L_r}{L_r} = 1\\ L^g &= \frac{L_g}{L_r}\\
+            L^b &= \frac{L_b}{L_r}\ \end{aligned} $$
           </div>
           <p>
             This change of variable illustrates that only the relative
@@ -731,8 +737,8 @@
             those coefficients, here is the <a href="TODO">procedure</a>.
           </p>
           <div class="block-equation">
-            $$ \begin{split} L^r = 1 \\ L^g = 4.4036 \\ L^b = 0.0471
-            \end{split}$$
+            $$ \begin{aligned} L^r &= 1 \\ L^g &= 4.4036 \\ L^b &= 0.0471
+            \end{aligned}$$
           </div>
           Let's generalize equation (4) for any spectral color \(\lambda\),
           <div class="block-equation">
@@ -964,14 +970,13 @@
             up by being able to represent the colors by three tristimulus values
             in a 3D in a color space called the CIE1931 RGB color space.
           </p>
-        </div>
-        <div class="image-container full-width-animation">
+        <div class="image-container">
           <img
-            src="images/cmexp-summary.png"
+            src="images/cmexp-summary.svg"
             alt="Color Matching Experiment Summary"
+            onclick="popupInModal(this);"
           />
         </div>
-        <div class="central-content">
           <ol></ol>
           <li>
             <b>Calibration</b>: this step allows to define what is a
@@ -1017,7 +1022,7 @@
 
     <section id="the-chromaticity-diagram-finally">
       <div class="central-content">
-        <h2>The CIE 1931 xy Chromaticity Diagram</h2>
+        <h2>The CIE 1931 xy-Chromaticity Diagram</h2>
         <p>
           So far we've been able to understand that a color can be represented
           by its chromaticity coefficients and its luminance, and all the color
@@ -1338,6 +1343,46 @@
           class="full-width-animation"
         ></div>
       </section>
+    </section>
+    <section id="references">
+      <div class="central-content">
+        <h2>References</h2>
+        <ul>
+          <li>
+            Zhu, Yuhao (2020, August 22), 
+            <a href="https://yuhaozhu.com/blog/cmf.html"
+              >How the CIE 1931 RGB Color Matching Functions Were Developed from
+              the Initial Color Matching Experiments.</a
+            >
+          </li>
+          <li>
+            Fairman, H. S., M. H. Brill, and H. Hemmendinger, 1997, How the CIE
+            1931 Color-Matching Functions Were Derived from Wright-Guild Data,
+            Color Research & Application, CCC, 22 p. 11-23.
+          </li>
+          <li>
+            CIE 2019, Colour-matching functions of CIE 1931 standard colorimetric observer, International Commission on Illumination (CIE), Vienna, AT, DOI: 10.25039/CIE.DS.xvudnb9b
+          </li>
+          <li>
+            CIE 2019, CIE standard illuminant D65, International Commission on Illumination (CIE), Vienna, AT, DOI: 10.25039/CIE.DS.hjfjmt59
+          </li>
+          <li>
+            CIE 2018, CIE standard illuminant A - 1 nm, International Commission on Illumination (CIE), Vienna, AT, DOI: 10.25039/CIE.DS.8jsxjrsn
+          </li>
+          <li>
+            CIE 2019, CIE spectral luminous efficiency for photopic vision, International Commission on Illumination (CIE), Vienna, AT, DOI: 10.25039/CIE.DS.dktna2s3
+          </li>
+          <li>
+            CIE 015:2004. Colorimetry, 3rd edition. 
+          </li>
+          <li>
+            Guild 1931, The colorimetric properties of the spectrum. Philos Trans Roy Soc London Ser. A 1931;230:149-187.
+          </li>
+          <li>
+            Broadbent 2004, A Critical Review of the Development of the CIE1931 RGB Color-Matching Functions. Color Research & Application 29(4):267-272.
+          </li>
+        </ul>
+      </div>
     </section>
   </body>
 </html>

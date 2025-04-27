@@ -26,17 +26,14 @@ h4 {
 
 img {
   max-width: 100%;
-  /* height: auto; */
-  width: auto;
-  max-height: 300px;
   margin: 0 auto;
-  padding: 0.5em;
   display: block;
 }
 
 .image-container {
   /* width:clamp(200px, 25%, 600px); */
   /* height:clamp(50px, 100%, 100px); */
+  cursor:pointer;
 }
 
 .highlight {
@@ -62,7 +59,7 @@ img {
   margin-left: 1em;
   border-right: 1px solid #ccc;
   padding: 1em;
-  z-index: 1000;
+  z-index: 10;
 }
 
 .sidebar li.active a {
@@ -102,7 +99,7 @@ img {
 }
 
 /* Mathjax override */
-mjx-container[jax="SVG"] > svg a {
+.MathJax_ref {
   fill: #414142;
   stroke: #414142;
 }
