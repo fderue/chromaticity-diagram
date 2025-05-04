@@ -1,12 +1,8 @@
 import d3 from "./d3-loader.js"
 import * as util from "./util.mjs"
-
+import {munsellSpdRawData} from "./preloaded-data.js"
 
 const [CMFData, ,] = await util.createCMFs();
-const muller_glossy_data = await util.loadData(
-  "data/munsell_380_780_1_glossy_all.csv"
-);
-
 const illuminantA_data = await util.loadData("data/CIE_std_illum_A_1nm.csv");
 const illuminantD50_data = await util.loadData("data/CIE_std_illum_D50.csv");
 const illuminantD65_data = await util.loadData("data/CIE_std_illum_D65.csv");
@@ -30,9 +26,8 @@ function genGauss(xArray, mu, sigma, magnitude) {
  * @returns
  */
 function findMullerNormalizedFactor() {
-  const muller_data = muller_glossy_data;
-  const lambdaArray = new Array(muller_data.length);
-  muller_data.forEach((e, i) => {
+  const lambdaArray = new Array(munsellSpdRawData.length);
+  munsellSpdRawData.forEach((e, i) => {
     lambdaArray[i] = e.Wavelength;
   });
   const rCMF = util.interpolate(CMFData[0].values, lambdaArray);
@@ -43,11 +38,11 @@ function findMullerNormalizedFactor() {
   let GtMax = 0.0;
   let BtMax = 0.0;
 
-  const powerArray = new Array(muller_data.length);
-  for (const color of Object.keys(muller_data[0]).filter(
+  const powerArray = new Array(munsellSpdRawData.length);
+  for (const color of Object.keys(munsellSpdRawData[0]).filter(
     (k) => k !== "Wavelength"
   )) {
-    muller_data.forEach((e, i) => {
+    munsellSpdRawData.forEach((e, i) => {
       powerArray[i] = e[color];
     });
     const spdXrCMF = util.multiplyArrays(powerArray, rCMF);
@@ -87,20 +82,13 @@ function createSPDyellowDiv() {
     g: CMFData[1].values,
     b: CMFData[2].values,
   };
-  const muller_data = muller_glossy_data;
-  const rawLambdaArray = new Array(muller_data.length);
+  const rawLambdaArray = new Array(munsellSpdRawData.length);
 
-  // Muller SPD
-  const rawPowerArray = new Array(muller_data.length);
-  muller_data.forEach((e, i) => {
+  // Munsel SPD
+  const rawPowerArray = new Array(munsellSpdRawData.length);
+  munsellSpdRawData.forEach((e, i) => {
     rawLambdaArray[i] = e.Wavelength;
-    //rawPowerArray[i] = e["BYY8514"];
-    //rawPowerArray[i] = e["BYY8014"];
-    //rawPowerArray[i] = e["AYY8016"];
     rawPowerArray[i] = e["BRP6012"];
-    //rawPowerArray[i] = e["AYY7010"];
-    //rawPowerArray[i] = e["AYY8016"];
-    //rawPowerArray[i] = e["CYY8512"];
   });
 
   const totalPower = rawPowerArray.reduce((sum, v) => sum + v, 0);
@@ -285,14 +273,13 @@ function cvtSpdToDisplayRgb(rawLambdaArray, rawPowerArray){
 }
 
 function createSpdExamples(){
-  const muller_data = muller_glossy_data;
   const colors = ["BRP6012", "NEUT500", "DBG6008"];
 
   const spdTraces = [];
   colors.forEach((color)=>{
-    const rawLambdaArray = new Array(muller_data.length);
-    const rawPowerArray = new Array(muller_data.length);
-    muller_data.forEach((e, i) => {
+    const rawLambdaArray = new Array(munsellSpdRawData.length);
+    const rawPowerArray = new Array(munsellSpdRawData.length);
+    munsellSpdRawData.forEach((e, i) => {
       rawLambdaArray[i] = e.Wavelength;
       rawPowerArray[i] = e[color];
     });

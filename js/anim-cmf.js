@@ -1,5 +1,8 @@
 import d3 from "./d3-loader.js";
 import * as util from "./util.mjs";
+import { photopicRawData, chromCoefRawData } from "./preloaded-data.js";
+
+
 
 const GRAPH2D_WIDTH = 450;
 const GRAPH2D_HEIGHT = 350;
@@ -7,7 +10,7 @@ const GRAPH2D_HEIGHT = 350;
 function createChromCoefGraph() {
   const chromCoefGraphDiv = document.createElement("div");
   const [lambdas, rCoefs, gCoefs, bCoefs] = util.unzipArrayOfObject(
-    util.rgbChromCoefRawData
+    chromCoefRawData
   );
 
   const rChromCoefTrace = {
@@ -59,12 +62,12 @@ function createChromCoefGraph() {
 
 function createPhotopicGraph(layoutWidth, layoutHeight) {
   const div = document.createElement("div");
-  const [rawLambdas, rawVs] = util.unzipArrayOfObject(util.photopicRawData);
+  const [rawLambdas, rawVs] = util.unzipArrayOfObject(photopicRawData);
 
   // Only select the same lambdas as in the chromaticity coefficients data
   const selectedIndexes = rawLambdas
     .map((l, i) => {
-      return util.rgbChromCoefRawData.find((d) => {
+      return chromCoefRawData.find((d) => {
         return d.Wavelength == l;
       }) !== undefined
         ? i
@@ -99,11 +102,11 @@ function createCmfGraph() {
   const div = document.createElement("div");
   const LumCoef = { r: 1.0, g: 4.5907, b: 0.0601 };
   const [lambdas, rCoefs, gCoefs, bCoefs] = util.unzipArrayOfObject(
-    util.rgbChromCoefRawData
+    chromCoefRawData
   );
 
   const lambdaToVMap = new Map(
-    util.photopicRawData.map((e) => [e.Wavelength, e.V])
+    photopicRawData.map((e) => [e.Wavelength, e.V])
   );
 
   // For each chromaticity coefficients available

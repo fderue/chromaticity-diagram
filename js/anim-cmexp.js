@@ -1,8 +1,8 @@
 import d3 from "./d3-loader.js";
 import * as util from "./util.mjs";
+import { chromCoefRawData } from "./preloaded-data.js";
 
 const [, , lambdaToVMap] = await util.createCMFs();
-const chromCoefRawData = await util.loadData("data/CIE_rgb_coef.csv");
 
 const SCENE_WIDTH = 750;
 const SCENE_HEIGHT = 400;

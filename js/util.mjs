@@ -1,4 +1,5 @@
 import d3 from "./d3-loader.js";
+import { photopicRawData, chromCoefRawData, cieXyzCmfRawData } from "./preloaded-data.js";
 
 // Constants for chart dimensions and margins.
 const CHART_WIDTH = 640;
@@ -9,8 +10,6 @@ const MARGIN = { top: 20, right: 20, bottom: 80, left: 80 };
 const RGBperWavelength = await cmpRGBfromXYZ();
 const LinearRGBperWavelength = await cmptLinearRGBfromXYZ();
 export const xySpectralLocus = await cmpt_xySpectralLocus();
-export const rgbChromCoefRawData = await loadData("data/CIE_rgb_coef.csv");
-export const photopicRawData = await loadData("data/CIE_sle_photopic.csv");
 
 // Load and preprocess the data.
 export async function loadData(url) {
@@ -281,7 +280,7 @@ export function addCheckBox(
 }
 
 export async function cmptLinearRGBfromXYZ() {
-  const CIE_XYZ_CMFs = await loadData("data/CIE_xyz_1931_2deg.csv");
+  const CIE_XYZ_CMFs = cieXyzCmfRawData;
 
   // Normalize so that coefficients are in [0, 1]
   const maxValue = CIE_XYZ_CMFs.reduce((max, obj) => {
@@ -443,7 +442,7 @@ export function cvt_xyYtoRGB({ x, y, Y }) {
 }
 
 async function cmpt_xySpectralLocus() {
-  const CIE_XYZ_CMFs = await loadData("data/CIE_xyz_1931_2deg.csv");
+  const CIE_XYZ_CMFs = cieXyzCmfRawData;
 
   const locus_coord = [];
   CIE_XYZ_CMFs.forEach((d) => {
@@ -456,8 +455,8 @@ async function cmpt_xySpectralLocus() {
 }
 
 export async function createCMFs() {
-  const rgbCoefsData = await loadData("data/CIE_rgb_coef.csv");
-  const VData = await loadData("data/CIE_sle_photopic.csv");
+  const rgbCoefsData = chromCoefRawData;
+  const VData = photopicRawData;
 
   const lambdaToRgbCoefsMap = new Map(
     rgbCoefsData.map((d) => [d.Wavelength, { r: d.r, g: d.g, b: d.b }])

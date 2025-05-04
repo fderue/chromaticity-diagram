@@ -1,13 +1,10 @@
-import d3 from "./d3-loader.js"
+import d3 from "./d3-loader.js";
 import * as util from "./util.mjs";
+import { munsellSpdRawData } from "./preloaded-data.js";
 
 const GRAPH2D_WIDTH = 500;
 const GRAPH2D_HEIGHT = 350;
 
-// Preload data
-const munsellSpdRawData = await util.loadData(
-  "data/munsell_380_780_1_glossy_all.csv"
-);
 const [CMFData, ,] = await util.createCMFs();
 
 const muller_glossy_max_tristimulus = {
@@ -223,8 +220,8 @@ function createSpdGraph(spdData) {
     title: "SPD",
     xaxis: { title: "λ" },
     yaxis: { title: "Φ(λ)" },
-    width:GRAPH2D_WIDTH,
-    height:GRAPH2D_HEIGHT
+    width: GRAPH2D_WIDTH,
+    height: GRAPH2D_HEIGHT,
   };
   const div = document.createElement("div");
   Plotly.newPlot(div, [spdTrace], layout);
@@ -264,8 +261,8 @@ function createCmfGraph() {
     title: "Color Matching Functions",
     xaxis: { title: "λ" },
     yaxis: { title: "Amount of Primary" },
-    width:GRAPH2D_WIDTH,
-    height:GRAPH2D_HEIGHT
+    width: GRAPH2D_WIDTH,
+    height: GRAPH2D_HEIGHT,
   };
 
   const div = document.createElement("div");
@@ -304,8 +301,8 @@ function createSpdXCmfGraph(spdXCmfData) {
     title: "SPD x Color Matching Functions",
     xaxis: { title: "λ" },
     yaxis: { title: "Amount of Primary" },
-    width:GRAPH2D_WIDTH,
-    height:GRAPH2D_HEIGHT
+    width: GRAPH2D_WIDTH,
+    height: GRAPH2D_HEIGHT,
   };
   const div = document.createElement("div");
   Plotly.newPlot(div, [RCmfTrace, GCmfTrace, BCmfTrace], layout);
@@ -396,9 +393,14 @@ function createTristimulusFormSpdAnimation() {
 
   const patchWidth = 50;
   const patchHeight = 50;
-  const patchColorDiv = d3.create("div").style("display", "flex").style("justify-content", "center");
+  const patchColorDiv = d3
+    .create("div")
+    .style("display", "flex")
+    .style("justify-content", "center");
   const patchColor = patchColorDiv
-    .append("svg").attr("width", patchWidth).attr("height", patchHeight)
+    .append("svg")
+    .attr("width", patchWidth)
+    .attr("height", patchHeight)
     .append("svg:rect")
     .attr("x", 0)
     .attr("y", 0)
@@ -439,7 +441,10 @@ function createTristimulusFormSpdAnimation() {
   animationDiv.appendChild(spdGraph);
   animationDiv.appendChild(spdXCmfGraph);
 
-  const eqDiv = d3.create("div").style("display","grid").style("justify-content","center");
+  const eqDiv = d3
+    .create("div")
+    .style("display", "grid")
+    .style("justify-content", "center");
   eqDiv
     .append("h3")
     .text("Tristimulus Values Equations")
