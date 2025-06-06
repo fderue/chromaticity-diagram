@@ -652,11 +652,11 @@ function createCalibButton(rDial, gDial, bDial, position = { x: 0, y: 0 }) {
     const Bc = bDial.value;
 
     const equation = String.raw`$$
-    \begin{align}
+    \begin{split}
     R_c = ${Rc} \\
     G_c = ${Gc} \\
     B_c = ${Bc}
-    \end{align}
+    \end{split}
     $$`;
 
     //calibText.text(equation);
@@ -674,7 +674,6 @@ function createCMCalibration() {
   const sceneWidth = 600;
   const sceneHeight = 400;
   const scene = new Scene(sceneWidth, sceneHeight);
-  const sceneCenter = { x: sceneWidth / 2.0, y: sceneHeight / 2.0 };
   const projectionPos = { x: 0.3 * sceneWidth, y: 0.5 * sceneHeight };
 
   // Place the primaries around the center at -45, 0, 45 degrees at distance d
@@ -831,7 +830,6 @@ function createCMCalibration() {
 function createCMExp() {
   // I want to create a scene where I can place object wherever I want
   const scene = new Scene(SCENE_WIDTH, SCENE_HEIGHT);
-  const sceneCenter = { x: SCENE_WIDTH / 2.0, y: SCENE_HEIGHT / 2.0 };
   const projectionPos = { x: 0.45 * SCENE_WIDTH, y: 0.5 * SCENE_HEIGHT };
 
   // Place the primaries around the center at -45, 0, 45 degrees at distance d
@@ -932,7 +930,7 @@ function createCMExp() {
   const calibratedValue = { R: 60, G: 30, B: 90 };
 
   const testLightDial = new Dial({
-    position: { x: SCENE_WIDTH / 8.0, y: yPosPrimaryDial },
+    position: { x: SCENE_WIDTH / 8.0, y: wPosition.y },
     color: d3.rgb(222, 222, 222),
     unit: { min: 300.0, max: 800.0 },
     name: "λ [nm]",
