@@ -110,6 +110,17 @@ img {
   margin: 1em 0;
 }
 
+@media (max-width: 768px) {
+  .mobile-warning {
+    display: block;
+  }
+}
+
+@media (min-width: 768px) {
+  .mobile-warning {
+    display: none;
+  }
+}
 .central-content a {
   color: #fa6432;
   text-decoration: none;
