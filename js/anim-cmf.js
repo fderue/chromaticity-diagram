@@ -9,7 +9,6 @@ const GRAPH2D_HEIGHT = 350;
 
 function createChromCoefGraph() {
   const chromCoefGraphDiv = document.createElement("div");
-  chromCoefGraphDiv.id = "DivAdded"
   const [lambdas, rCoefs, gCoefs, bCoefs] = util.unzipArrayOfObject(
     chromCoefRawData
   );

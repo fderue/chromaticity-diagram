@@ -432,9 +432,9 @@ function createTristimulusFormSpdAnimation() {
   const animationDiv = document.createElement("div");
   animationDiv.style.display = "grid";
   animationDiv.style.gridTemplateColumns = "repeat(2, 1fr)";
-  cmfGraph.style.justifySelf = "center";
-  spdGraph.style.justifySelf = "center";
-  spdXCmfGraph.style.justifySelf = "center";
+  cmfGraph.style.justifySelf = "right";
+  spdGraph.style.justifySelf = "left";
+  spdXCmfGraph.style.justifySelf = "right";
   animationDiv.style.width = "80%";
   animationDiv.style.margin = "0 auto";
   animationDiv.appendChild(cmfGraph);
@@ -444,7 +444,8 @@ function createTristimulusFormSpdAnimation() {
   const eqDiv = d3
     .create("div")
     .style("display", "grid")
-    .style("justify-content", "center");
+    .style("justify-content", "left")
+    .style("margin-left", "10em");
   eqDiv
     .append("h3")
     .text("Tristimulus Values Equations")
