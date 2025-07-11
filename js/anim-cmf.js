@@ -9,6 +9,7 @@ const GRAPH2D_HEIGHT = 350;
 
 function createChromCoefGraph() {
   const chromCoefGraphDiv = document.createElement("div");
+  chromCoefGraphDiv.id = "DivAdded"
   const [lambdas, rCoefs, gCoefs, bCoefs] = util.unzipArrayOfObject(
     chromCoefRawData
   );
@@ -229,10 +230,14 @@ function createChromCoefToCmfAnimation() {
   animation.style.width = "85%";
   animation.style.margin = "0 auto";
   animation.style.gridTemplateColumns = "repeat(2, 1fr)";
-  chromCoefGraph.style.width = "100%";
-  photopicGraph.style.width = "100%";
-  equations.node().style.width = "100%";
-  CmfGraph.style.width = "100%";
+  animation.style.justifyItems = "center";
+  chromCoefGraph.style.display = "flex";
+  chromCoefGraph.style.justifySelf = "right";
+  photopicGraph.style.display = "flex";
+  photopicGraph.style.justifySelf = "left";
+  equations.node().style.justifySelf = "right";
+  CmfGraph.style.display = "flex";
+  CmfGraph.style.justifySelf = "left";
   animation.appendChild(chromCoefGraph);
   animation.appendChild(photopicGraph);
   animation.appendChild(equations.node());
