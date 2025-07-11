@@ -35,7 +35,7 @@ class Equation {
       justifyContent: "center",
       flexDirection: "column",
       alignItems: "center",
-      marginTop:"1em"
+      marginTop: "1em",
     };
     Object.assign(div.style, commonStyle);
     return { div, eqDiv };
@@ -675,7 +675,7 @@ function addClickAnimation(visualGamut3dDiv, slider, equation) {
   // TODO: double click does not work with scatter3d, so I need a button to reset all the animation
 }
 
-function overlaySpectralLocus(graph3d){
+function overlaySpectralLocus(graph3d) {
   const CMFDataR = util.unzipXY(CMFData[0].values);
   const CMFDataG = util.unzipXY(CMFData[1].values);
   const CMFDataB = util.unzipXY(CMFData[2].values);
@@ -706,11 +706,10 @@ function overlaySpectralLocus(graph3d){
     },
     showlegend: false,
     name: "Spectral colors",
-    hoverinfo:"none"
+    hoverinfo: "none",
   };
 
   Plotly.addTraces(graph3d, traceLocus3D);
-
 }
 
 function createIsochromaticAnimation() {
@@ -726,14 +725,12 @@ function createIsochromaticAnimation() {
   const equation = new Equation();
   addClickAnimation(visualGamut3dGraph, slider, equation);
   overlaySpectralLocus(visualGamut3dGraph);
- 
 
   const div = document.createElement("div");
-  div.style.width = "75%";
-  div.style.margin = "0 auto";
-  //TODO: change style
+  div.style.display = "flex";
+  div.style.justifyContent = "center";
   const secondColumnDiv = document.createElement("div");
-  secondColumnDiv.style.fontSize="80%";
+  secondColumnDiv.style.fontSize = "80%";
   secondColumnDiv.append(
     equation.equationContainers.colorEqDiv.div,
     equation.equationContainers.scaledColorEqDiv.div,
@@ -742,11 +739,6 @@ function createIsochromaticAnimation() {
   );
   div.appendChild(secondColumnDiv);
   div.appendChild(visualGamut3dGraph);
-
-
-  Object.assign(div.style, {
-    display: "flex",
-  });
 
   return div;
 }
